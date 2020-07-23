@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+	<script type="text/javascript" src="import.js"></script>
+<body>
+	<label for="Import">Select a file:</label>
+	<input accept=".json" type="file" id="Import" name="Import"> <!--To .txt sto accept einai gia to testing -->
+	<!-- Events -->
+	<script>
+		document.getElementById('Import').addEventListener('change', function(){import_files(document.getElementById('Import').value)}, false);
+	</script>
+</body>
+</html>
