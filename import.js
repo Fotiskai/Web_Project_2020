@@ -1,3 +1,21 @@
+function import_files(x){
+	console.log(x);
+	var input,file,fr;
+	input = x;
+	file = input.files[0];
+	console.log(file);
+	fr = new FileReader();
+	fr.onload = receive;
+	fr.readAsText(file);
+
+	function receive(e){
+		var newArr = [];
+		let lines = e.target.result;
+		var newArr = JSON.parse(lines);
+		console.log(newArr.name);
+	}
+
+}
 /* gia txt 
 function import_files(e) {
   const reader = new FileReader();
