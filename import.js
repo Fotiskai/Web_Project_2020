@@ -1,3 +1,14 @@
+/*
+$(document).on("change",function(){
+		var x = document.getElementById('Import');
+		console.log(x.files[0]);
+		$.getJSON(JSON.stringify(x.files[0]),function(data){
+			var items = [];
+			console.log(data.locations[0])
+		})
+	});
+*/
+var arr = new Array();
 function import_files(x){
 	console.log(x);
 	var input,file,fr;
@@ -9,13 +20,14 @@ function import_files(x){
 	fr.readAsText(file);
 
 	function receive(e){
-		var filtered_data=[];
+		let filtered_data=[];
 		let lines = e.target.result;
 		var json_data_arr = JSON.parse(lines);
 		var i,len;
 		len = json_data_arr.locations.length;
 		console.log(json_data_arr);
-		for(i=0;i<len;i++){
+		for(i=4000;i<6000;i++){ // mikro sample gia na einai pio elenxomenh h katastash
+			// stou fwth balteto kanonika i=0 < len stou mike afhste to etsi.
 			var tmp;
 			tmp = json_data_arr.locations[i];
 			var dist = cut_distance(tmp.latitudeE7/1e7, tmp.longitudeE7/1e7);
@@ -26,7 +38,20 @@ function import_files(x){
 			}
 		}
 		console.log(filtered_data);
+		arr = filtered_data;
 		console.log('END!');
+		console.log(arr.length);
+		if(arr.length>0){
+			$.ajax({ 
+       			type: "POST", 
+       			url: "conn.php", 
+       			data: { "arr" : JSON.stringify(arr)}, 
+       			success: function() { 
+       					//console.log(data);
+              			alert("Load to DB!"); 
+        		} 
+			});
+		}
 	}
 
 	function cut_distance(la,lo){
@@ -37,16 +62,6 @@ function import_files(x){
 		dist = Math.acos(Math.sin(la) * Math.sin(la_const) + Math.cos(la)*Math.cos(la_const)*Math.cos(lo - lo_const))*10000;
 		return dist;
 
-	}
+	} 
 
 }
-/* gia txt 
-function import_files(e) {
-  const reader = new FileReader();
-  reader.onload = function fileReadCompleted() {
-    // when the reader is done, the content is in reader.result.
-    console.log(reader.result);
-  };
-  reader.readAsText(this.files[0]);
-}
-*/
