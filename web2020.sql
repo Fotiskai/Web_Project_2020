@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Φιλοξενητής: 127.0.0.1
--- Χρόνος δημιουργίας: 25 Ιουλ 2020 στις 00:28:10
+-- Χρόνος δημιουργίας: 25 Ιουλ 2020 στις 16:19:16
 -- Έκδοση διακομιστή: 10.4.13-MariaDB
 -- Έκδοση PHP: 7.4.8
 
@@ -29,9 +29,13 @@ USE `web2020`;
 -- Δομή πίνακα για τον πίνακα `data`
 --
 
-CREATE TABLE `data` (
-  `lan` double NOT NULL,
-  `lon` double NOT NULL
+CREATE TABLE IF NOT EXISTS `data` (
+  `heading` int(11) NOT NULL AUTO_INCREMENT,
+  `timestampMs` text NOT NULL,
+  `latitude` double NOT NULL,
+  `longitude` double NOT NULL,
+  `accuracy` int(11) NOT NULL,
+  PRIMARY KEY (`heading`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 COMMIT;
 

@@ -11,9 +11,8 @@ $(document).on("change",function(){
 var arr = new Array();
 function import_files(x){
 	console.log(x);
-	var input,file,fr;
-	input = x;
-	file = input.files[0];
+	var file,fr;
+	file = x.files[0];
 	console.log(file);
 	fr = new FileReader();
 	fr.onload = receive;
@@ -25,15 +24,16 @@ function import_files(x){
 		var json_data_arr = JSON.parse(lines);
 		var i,len;
 		len = json_data_arr.locations.length;
-		console.log(json_data_arr);
-		for(i=4000;i<6000;i++){ // mikro sample gia na einai pio elenxomenh h katastash
+		console.log("JSON data: ",json_data_arr);
+		console.log("JSON length: ",len);
+		for(i=0;i<len;i++){ // mikro sample gia na einai pio elenxomenh h katastash
 			// stou fwth balteto kanonika i=0 < len stou mike afhste to etsi.
 			var tmp;
 			tmp = json_data_arr.locations[i];
 			var dist = cut_distance(tmp.latitudeE7/1e7, tmp.longitudeE7/1e7);
 			//console.log('dist is:',dist);
 			if(dist <= 10000){ // filtrarw ta dedomena kai pairnw mono auta p einai katw apo 10km
-				console.log(i)
+				//console.log(i)
 				filtered_data.push(tmp);
 			}
 		}
