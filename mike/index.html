@@ -3,26 +3,37 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=no">
+	<script type="text/javascript" src="libs/jquery-3.5.1.js"></script>
+	<script type="text/javascript" src="import.js?newversion"></script>
 <title>Web 2020</title>
 </head>
 <body>
 
-<p>Είσοδος Στο σύστημα</p>
+    <p>Είσοδος Στο σύστημα</p>
 
-<label for="form1">Είσοδος Διαχειριστή</label><br>
-<form action="dbh.php" method="post" id="form1">
-Username: <input type="text" name="un"><br>
-Password: <input type="password" name="pwd"><br>
-<input type="submit" value="Login">
-</form>
-<br>
-<br>
-<label for="form2">Είσοδος Χρήστη</label><br>
-<form action="dbh.php" method="post" id="form2">
-Username: <input type="text" name="un"><br>
-Password: <input type="password" name="pwd"><br>
-<input type="submit" value="Login">
-</form>
+    <label for="form1">Είσοδος Διαχειριστή</label><br>
+    <form action="dbh.php" method="post" id="form1">
+    Username: <input type="text" name="un"><br>
+    Password: <input type="password" name="pwd"><br>
+    <input type="submit" name="f1" value="Login">
+    </form>
+    <br>
+    <br>
+    <label for="form2">Εγγραφή και Είσοδος Χρήστη</label><br>
+    <form action="dbh.php" method="post" id="form2">
+    Username: <input type="text" name="un"><br>
+    Password: <input type="password" name="pwd"><br>
+    E-mail:   <input type="text" name="em"><br>
+    <input type="submit" name="f3" value="Login">
+    <input type="submit" name="f2" value="Register">
+    </form>
+
+    <label for="Import">Select a file:</label>
+    <input accept=".json" type="file" id="Import" name="Import"> <!--To .txt sto accept einai gia to testing -->
+    <!-- Events -->
+    <script>
+		document.getElementById('Import').addEventListener('change', function(){import_files(document.getElementById('Import'))}, false);
+    </script>
 
 </body>
 </html>
