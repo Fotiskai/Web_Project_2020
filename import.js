@@ -46,9 +46,9 @@ function import_files(x){
        			type: "POST", 
        			url: "conn.php", 
        			data: { "arr" : JSON.stringify(arr)}, 
-       			success: function() { 
-       					//console.log(data);
-              			alert("Load to DB!"); 
+       			success: function(data) { 
+       					console.log('PHP:',data);
+              			//alert("Load to DB!"); 
         		} 
 			});
 		}
