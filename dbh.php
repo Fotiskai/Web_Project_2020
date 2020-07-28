@@ -2,9 +2,9 @@
 if (isset($_POST["f2"])){
    $check=preg_match('/^\S*(?=\S{8,})(?=\S*[A-Z])(?=\S*[\d])\S*$/',$_POST["pwd"]);
    if(!$check){
-   		header('Location: index.html');
+   		header('Location: index.html');// lathos password
 	    exit;
-   }
+   }  
 }    
 
 
@@ -13,24 +13,8 @@ if (!$conn) {
   die("Connection failed: " . mysqli_connect_error());
 }
 
-if (isset($_POST["f1"])){
-  $sql="SELECT username,password FROM admincred";
-  $result = mysqli_query($conn, $sql);
 
-  if(mysqli_num_rows($result)>0){
-	while($row = mysqli_fetch_assoc($result)){
-		if ($_POST["un"]==$row["username"] && $_POST["pwd"]==$row["password"]){
-			header('Location: map.html');
-			exit;
-		}
-		else{
-			header('Location: index.html');
-			exit;
-		}
-	}
-  }
-}
-else if(isset($_POST["f2"])){
+if(isset($_POST["f2"])){
 	$username=$_POST["un"];
 	$iv="1234567890123456";
 	$userid=openssl_encrypt($_POST["em"],"AES-256-CBC", $_POST["pwd"],OPENSSL_RAW_DATA,$iv);
@@ -38,16 +22,25 @@ else if(isset($_POST["f2"])){
 	$password=md5($_POST["pwd"]);
 	$sql = "INSERT INTO usercred (username,userid,password) VALUES ('$username','$userid','$password')";
     if (mysqli_query($conn, $sql)) {
-        echo "New record created successfully";
-    } else {
-        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+        header('Location: index.html');
     }
 }
-else{	
-  $password=md5($_POST["pwd"]);
-  echo $password;
+else{
+  if($_POST["pwd"]!="admin") $password=md5($_POST["pwd"]);
+  else $password=$_POST["pwd"];
   $sql="SELECT userid,username,password FROM usercred";
+  $sql1="SELECT Username,Password FROM admincred";
   $result = mysqli_query($conn, $sql);
+  $result1 = mysqli_query($conn, $sql1);
+
+  if(mysqli_num_rows($result1)>0){
+  	while($row = mysqli_fetch_assoc($result1)){
+  		if ($_POST["un"]==$row["Username"] && $password==$row["Password"]){
+  			header('Location: map.html');
+  			exit;
+  		}
+  	}
+  }
 
   if(mysqli_num_rows($result)>0){
 	while($row = mysqli_fetch_assoc($result)){
@@ -62,8 +55,7 @@ else{
 			exit;		
 		}
 	}
-	echo 'Wrong';
-	exit;
+
   }
 }
     
