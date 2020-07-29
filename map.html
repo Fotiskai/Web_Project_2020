@@ -11,20 +11,17 @@
    crossorigin=""></script>
    <script src="https://cdn.jsdelivr.net/npm/heatmapjs@2.0.2/heatmap.js"> </script>
    <script src="https:///cdn.rawgit.com/pa7/heatmap.js/develop/plugins/leaflet-heatmap/leaflet-heatmap.js"></script>
-   <script type="text/javascript" src="libs/jquery-3.5.1.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
    <script type="text/javascript" src="import.js?newversion"></script>
 <title>Web 2020</title>
 </head>
 <body>
 
 <p>Χάρτης</p>
-<div id="mapid" style="height: 360px;"></div>
+<div id="mapid" style="height: 800px; width: 700px;"></div>
 
 <script>
-let mymap=L.map('mapid');
-let tiles=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
-mymap.addLayer(tiles);
-mymap.setView([38.2462420, 21.7350847],16);
+	loadMap(document.getElementById('mapid')); // sunarthsh pou emfanizei to map
 </script>
 
 <label for="Import">Select a file:</label>
@@ -32,7 +29,9 @@ mymap.setView([38.2462420, 21.7350847],16);
 <!-- Events -->
 <script>
 document.getElementById('Import').addEventListener('change', function(){import_files(document.getElementById('Import'))}, false);
-</script>	
+</script>
+<br>	
+<input type="button" onclick="upload()" value="Submit">
 
 </body>
 </html>
