@@ -11,6 +11,8 @@
 	$sql_act = '';
 	$usrid_test=file_get_contents('userid.txt'); // anti gia to userid pou tha paragetai mesw tou reg form
 	$conn = mysqli_connect($servername,$username,$password,$DB);
+	$id=1;
+	$id1=0;
 	if(!$conn){
 		die("Connection Failed: " . mysqli_connect_error());
 	}
@@ -42,16 +44,17 @@
 			//$DB_fields[3] = ", verticalAccuracy";
 			$DB_fields[3] = "$verticalAccuracy";
 		}
-		$sql .= "('$timestampMs', $latitude, $longitude, $accuracy, ".$DB_fields[0].", ".$DB_fields[1].", ".$DB_fields[2].", ".$DB_fields[3].", '".$usrid_test."'), ";
+		$sql .= "('$id','$timestampMs', $latitude, $longitude, $accuracy, ".$DB_fields[0].", ".$DB_fields[1].", ".$DB_fields[2].", ".$DB_fields[3].", '".$usrid_test."'), ";
 		/*
 		$sql .="INSERT INTO data (timestampMs, latitude, longitude, accuracy".$DB_fields[0].$DB_fields[1].$DB_fields[2].$DB_fields[3].") VALUES ('$timestampMs', $latitude, $longitude, $accuracy".$DB_fields[4].$DB_fields[5].$DB_fields[6].$DB_fields[7].");";*/
 		$DB_fields = array_fill(0,4,"NULL");
+		$id+=1;
 		// https://stackoverflow.com/questions/18171615/why-we-need-to-include-quotation-mark-when-inserting-string-variable-to-mysql-da#:~:text=PHP%20is%20merely%20constructing%20the%20query%20for%20you.&text=which%20is%20invalid%20syntax.,marks%20need%20to%20be%20added.
 	}
 	//echo $sql;
 	$len_str = strlen($sql);
 	$sql[$len_str-2] = ';';
-	$sql_d = "INSERT INTO data (timestampMs, latitude, longitude, accuracy, heading, velocity, altitude, verticalAccuracy, userid) VALUES".$sql;
+	$sql_d = "INSERT INTO data (id,timestampMs, latitude, longitude, accuracy, heading, velocity, altitude, verticalAccuracy, userid) VALUES".$sql;
 	if(mysqli_query($conn,$sql_d)){
 		echo "Done Data\n";
 	}else{
@@ -61,6 +64,7 @@
 	$conn = mysqli_connect($servername,$username,$password,$DB);
 	for($i=0;$i<$len;$i++){
 		if(array_key_exists('activity', $myArr[$i])){
+			$id1+=1;
 			$activity_array = $myArr[$i]->activity;
 			$activity_array_len = count($activity_array);
 			for($j=0;$j<$activity_array_len;$j++){
@@ -73,14 +77,14 @@
 					//echo "data type:".$type."<br>";
 					$confidence = $activity_sub_array[$k]->confidence;
 					//echo "Type:".$type.",,,,".$confidence."\n"; 
-					$sql_act .="('$type', $confidence, '$act_timestampMs', '$usrid_test'), ";
+					$sql_act .="('$type', $confidence, '$act_timestampMs', '$usrid_test','$id1'), ";
 				}
 			}
 		}
 	}
 	$len_str = strlen($sql_act);
 	$sql_act[$len_str-2] = ';';
-	$sql_t = "INSERT INTO activities (type, confidence, timestampMs, userid) VALUES".$sql_act;
+	$sql_t = "INSERT INTO activities (type, confidence, timestampMs, userid,id) VALUES".$sql_act;
 	//echo $sql_t;
 	if(mysqli_query($conn,$sql_t)===TRUE){ // na to 3anaprospa8hsw me multi query alla an thesh pinaka kai meta na apaloifw to variable
 		echo "Done Act\n";
