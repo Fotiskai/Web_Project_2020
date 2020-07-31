@@ -6,7 +6,7 @@ if (!$conn) {
 
 
 if(isset($_POST["em"])){
-  $check=preg_match('/^\S*(?=\S{8,})(?=\S*[A-Z])(?=\S*[\d])\S*$/',$_POST["pwd"]);
+  $check=preg_match('/^\S*(?=\S{8,})(?=\S*[A-Z])(?=\S*[\d])(?=\S*[#?!@$%^&*~])\S*$/',$_POST["pwd"]);
     if(!$check){
       echo 'Εισάγετε σωστή μορφή κωδικού';
       exit;
