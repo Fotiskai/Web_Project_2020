@@ -54,7 +54,6 @@ function datahandle(){
 
   if(select.length==0 || select1.length==0 || select2.length==0 || select3.length==0 || select4.length==0 ) {window.alert("Παρακαλώ εισάγετε δραστηριότητες και ημ/νια-ώρα");}
   else{
-          console.log("kek");
           $.ajax({ 
           type: "POST", 
           url: "getdata.php", 
@@ -100,4 +99,41 @@ function data_delete(){
           }     
         });
 }
-}       
+}
+
+function export_data(){
+  select=$('#act').val();
+  select1=$('#year').val();
+  select2=$('#month').val();
+  select3=$('#day').val();
+  select4=$('#hour').val();
+  if(select.includes("all")) select=["IN_VEHICLE", "ON_BICYCLE", "ON_FOOT", "RUNNING", "STILL", "TILTING", "UNKNOWN", "WALKING","IN_ROAD_VEHICLE","IN_RAIL_VEHICLE", "IN_FOUR_WHEELER_VEHICLE","IN_CAR","IN_BUS","EXITING_VEHICLE","IN_TWO_WHEELER_VEHICLE"];
+  if(select1.includes("all")) select1=[ "2014", "2015", "2016", "2017", "2018", "2019", "2020" ];
+  if(select2.includes("all")) select2=[ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  if(select3.includes("all")) select3=[ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ];
+  if(select4.includes("all")) select4=[ "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" ];   
+
+  sel=document.getElementById("exp").value;
+  if(select.length==0 || select1.length==0 || select2.length==0 || select3.length==0 || select4.length==0 ) {window.alert("Παρακαλώ εισάγετε δραστηριότητες και ημ/νια-ώρα");}
+  else{
+  	    if(sel=="XML"){
+          $.ajax({ 
+          type: "POST", 
+          url: "export_xml.php", 
+          data: { act:select, year:select1, month:select2, day:select3, hour:select4}, 
+          success: function(data) {
+            window.alert(data);
+          } 
+          });
+        }else{
+          $.ajax({ 
+          type: "POST", 
+          url: "export_data.php", 
+          data: { act:select, year:select1, month:select2, day:select3, hour:select4, type:sel }, 
+          success: function(data) {
+            window.alert(data);
+          } 
+          });
+        }
+  }
+}         

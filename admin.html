@@ -117,10 +117,20 @@
      <option value="IN_TWO_WHEELER_VEHICLE">IN_TWO_WHEELER_VEHICLE</option>
      <option value="all">Όλα</option>     
      </select>
+     
      <br>
      <input type="button" onclick="datahandle()" value="Υποβολή">
      <br>
+
+     <label>Εξαγωγή Δεδομένων</label><br>
+     <select  id="exp">
+     <option value="CSV">CSV</option>
+     <option value="JSON">JSON</option>
+     <option value="XML">XML</option>
+     </select>
+     <input type="button" onclick="export_data()" value="Εξαγωγή δεδομένων"></input><br>     
      <input type="button" onclick="data_delete()" value="Διαγραφή δεδομένων"></input>
+
 
 
 </body>
