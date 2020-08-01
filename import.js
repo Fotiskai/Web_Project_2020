@@ -1,6 +1,7 @@
 var filtered_map_data_json = new Array(); // μεταβλητη που αποθηκευει μονο τα δεδομενα που αφορουν Πατρα, απο το json file.
 var features_Geojson = []; // μεταβλητη που αποθηκευει coords σε geoJSON.
 let mymap; // metablhth gia to map
+
 function loadMap(map){
 	mymap=L.map(map,{
     	preferCanvas: true
@@ -114,7 +115,7 @@ function upload(){
        		type: "POST", 
        		url: "conn.php", 
        		data: { "arr" : JSON.stringify(filtered_map_data_json)}, 
-       		success: function(data) { 
+       		success: function(data) {     		       			
        			console.log('PHP:',data);
               	//alert("Load to DB!"); 
         	} 
@@ -122,4 +123,73 @@ function upload(){
 	}else{
 		window.alert('No data found!');
 	}
+}
+
+function show_data(){
+			$.ajax({ 
+       		type: "POST", 
+       		url: "getusrdata.php",
+       		dataType:"json", 
+       		success: function(data) {
+       		    console.log(data);
+       			document.getElementById("score").innerHTML=data[0][12] + '%';
+       			graph(data[0],data[1]);
+       			document.getElementById("period").innerHTML=data[2]+ "\t"+ "-" + "\t" +data[3];
+       			document.getElementById("date").innerHTML=data[4];
+       			leaderboard(data[0][12],data[5],data[6],data[7]);
+        	}
+		});
+
+}
+
+function graph(data,labels){
+    let myChart=document.getElementById("myChart").getContext("2d");
+    let barchart=new Chart(myChart,{
+    	type:'bar',
+    	data:{
+    		labels:labels,
+    		datasets: [{
+    			label:'Ποσοστό οικολογικής κίνησης (%)',
+    			data: data
+    		}]
+    	},
+    	options:{}
+    });
+}
+
+function leaderboard(current,top3,names,rank){
+	document.getElementById("r1").innerHTML="1";
+    document.getElementById("r2").innerHTML="2";
+    document.getElementById("r3").innerHTML="3";
+    document.getElementById("r4").innerHTML=rank;
+    document.getElementById("n1").innerHTML=names[0];
+    document.getElementById("n2").innerHTML=names[1];
+    document.getElementById("n3").innerHTML=names[2];
+    document.getElementById("n4").innerHTML=names[3];
+    document.getElementById("s1").innerHTML=top3[0] + "%";
+    document.getElementById("s2").innerHTML=top3[1] + "%";
+    document.getElementById("s3").innerHTML=top3[2] + "%";
+    document.getElementById("s4").innerHTML=current + "%";
+/*
+    top3[3]=current;
+	table=document.getElementById("tb");
+	th=document.createElement("th");
+	th.appendChild(document.createTextNode('Username'));
+	table.appendChild(th);
+	th=document.createElement("th");
+	th.appendChild(document.createTextNode('Score'));
+	table.appendChild(th);
+	for(i=0;i<4;i++){
+		tr=document.createElement("tr");
+		td1=document.createElement("td");
+		td2=document.createElement("td2");
+		datatd1=document.createTextNode(names[i]);
+		datatd2=document.createTextNode(top3[i]);
+		td1.appendChild(datatd1);
+        td2.appendChild(datatd2);
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        table.appendChild(tr);
+	}
+*/	
 }

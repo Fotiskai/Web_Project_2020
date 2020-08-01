@@ -10,11 +10,12 @@
 	$sql = '';
 	$sql_act = '';
 	$usrid_test=file_get_contents('userid.txt'); // anti gia to userid pou tha paragetai mesw tou reg form
-	$conn = mysqli_connect($servername,$username,$password,$DB);
+    $conn = mysqli_connect($servername,$username,$password,$DB);
 	if(!$conn){
 		die("Connection Failed: " . mysqli_connect_error());
 	}
-
+	mysqli_set_charset($conn,'utf8');
+	
 	$len = count($myArr);
 	for($i=0;$i<$len;$i++){
 		$timestampMs = (int)$myArr[$i]->timestampMs/1000; // Date object expects the number of milliseconds since the epoch, hence the 1000-fold difference
@@ -87,7 +88,28 @@
 	}else{
 		echo "\n [+]act sql Error ".mysqli_error($conn)."<br>";
 	}
+    $lastUpload=date('Y-m-d');
+	$sql="UPDATE usercred SET lastUpload='$lastUpload' WHERE userid='$usrid_test'";
+	mysqli_query($conn,$sql);
+	countscore();
 	echo "done";
 	mysqli_close($conn);
 	//echo "Done!";
+
+
+function countscore(){
+	global $conn;
+	global $usrid_test;
+    $sql="SELECT COUNT(DISTINCT(id)) as vehicle FROM activities WHERE MONTH(timestampMs) = MONTH(CURRENT_DATE()) AND YEAR(timestampMs) = YEAR(CURRENT_DATE()) AND type IN('IN_VEHICLE','IN_RAIL_VEHICLE','IN_ROAD_VEHICLE','IN_FOUR_WHEELER_VEHICLE','IN_CAR','IN_TWO_WHEELER_VEHICLE','IN_BUS')";
+    $result=mysqli_query($conn,$sql);
+    $veh_count=mysqli_fetch_assoc($result);
+    $sql="SELECT COUNT(DISTINCT(id)) as walk FROM activities WHERE MONTH(timestampMs) = MONTH(CURRENT_DATE()) AND YEAR(timestampMs) = YEAR(CURRENT_DATE()) AND type IN('ON_BICYCLE','ON_FOOT','WALKING','RUNNING')";
+    $result=mysqli_query($conn,$sql);
+    $walk_count=mysqli_fetch_assoc($result);
+    if($veh_count["vehicle"]==0 and $walk_count["walk"]==0) $score=0;
+    else if($veh_count["vehicle"]==0) $score=100;
+    else $score=intval(($walk_count["walk"]/($veh_count["vehicle"]+$walk_count["walk"]))*100);
+	$sql="UPDATE usercred SET currentScore=$score WHERE userid='$usrid_test'";
+	mysqli_query($conn,$sql); 
+}	
 ?>

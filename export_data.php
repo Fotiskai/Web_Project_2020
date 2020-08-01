@@ -3,7 +3,7 @@ $conn=mysqli_connect("localhost","root","root","web2020");
 if (!$conn) {
   die("Connection failed: " . mysqli_connect_error());
 }
-
+mysqli_set_charset($conn,'utf8');
 $count=0;
 $year=$_POST["year"];
 $month=$_POST["month"];
@@ -27,8 +27,8 @@ if(mysqli_num_rows($result)>0){
       $accuracy=$row["accuracy"];
       $longitude=$row["longitude"]*1e7;
       $latitude=$row["latitude"]*1e7;      
-      $altitude=$row["altitude"];      
-      $timestampMs=strtotime($row["timestampMs"]);
+      $altitude=$row["altitude"];
+      $timestampMs=strtotime($row["timestampMs"])*1000;
       $userid=$row["userid"];
       $id=$row["id"];
       $sql="SELECT type,confidence,timestampMs FROM activities WHERE id=$id";
@@ -36,7 +36,7 @@ if(mysqli_num_rows($result)>0){
       while($row1=mysqli_fetch_assoc($result1)){
       	$type=$row1["type"];
       	$confidence=$row1["confidence"];
-      	$a_timestampMs=strtotime($row1["timestampMs"]);
+      	$a_timestampMs=strtotime($row1["timestampMs"])*1000;
       	$list[$count]=[$heading,$type,$confidence,$a_timestampMs,$verticalAccuracy,$velocity,$accuracy,$longitude,$latitude,$altitude,$timestampMs,$userid];
       }
       $count+=1;

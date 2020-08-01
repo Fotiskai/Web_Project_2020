@@ -3,7 +3,7 @@ $conn=mysqli_connect("localhost","root","root","web2020");
 if (!$conn) {
   die("Connection failed: " . mysqli_connect_error());
 }
-
+mysqli_set_charset($conn,'utf8');
 $arg_list=[];
 $keys=["heading","activity.type","activity.confidence","activity.timestampMs","verticalAccuracy","velocity","accuracy","longitude","latitude","altitude","timestampMs","userid"];
 
@@ -32,11 +32,11 @@ if(mysqli_num_rows($result)>0){
       $id=$row["id"];
       $row["longitude"]=$row["longitude"]*1e7;
       $row["latitude"]=$row["latitude"]*1e7;
-      $row["timestampMs"]=strtotime($row["timestampMs"]);
+      $row["timestampMs"]=strtotime($row["timestampMs"])*1000;
       $sql="SELECT type,confidence,timestampMs FROM activities WHERE id=$id";
       $result1=mysqli_query($conn, $sql);
       while($row1=mysqli_fetch_assoc($result1)){
-      	$row1["timestampMs"]=strtotime($row1["timestampMs"]);
+      	$row1["timestampMs"]=strtotime($row1["timestampMs"])*1000;
       	$node=$dom->createElement('location');
         $values=[$row[$keys[0]],$row1["type"],$row1["confidence"],$row1["timestampMs"],$row[$keys[4]],$row[$keys[5]],$row[$keys[6]],$row[$keys[7]],$row[$keys[8]],$row[$keys[9]],$row[$keys[10]],$row[$keys[11]]]; 
         for($i=0;$i<12;$i++){

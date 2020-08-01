@@ -3,7 +3,7 @@ $conn=mysqli_connect("localhost","root","root","web2020");
 if (!$conn) {
   die("Connection failed: " . mysqli_connect_error());
 }
-
+mysqli_set_charset($conn,'utf8');
 
 if(isset($_POST["em"])){
   $check=preg_match('/^\S*(?=\S{8,})(?=\S*[A-Z])(?=\S*[\d])(?=\S*[#?!@$%^&*~])\S*$/',$_POST["pwd"]);
