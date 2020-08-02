@@ -4,6 +4,7 @@ function (activities)
   var x =[];
   var n =[];
   var v =[];
+
   x=JSON.parse(activities);
   console.log(x);
 
@@ -42,6 +43,7 @@ function (activities)
     th.appendChild(document.createTextNode(item));
     tableRef.appendChild(th);
   });
+  n=[];
   newRow=tableRef.insertRow();
   for (var i=0; i<z.length;i++){
     newCell  = newRow.insertCell(-1);
@@ -59,9 +61,9 @@ function (activities)
   }
   newRow   = tableRef.insertRow();
   for (var i=0; i<z.length;i++){
-  newCell  = newRow.insertCell(-1);
-  val  = document.createTextNode(z[i] +'%');
-  newCell.appendChild(val);
+    newCell  = newRow.insertCell(-1);
+    val  = document.createTextNode(z[i] +'%');
+    newCell.appendChild(val);
   }
   var tableRef = document.getElementById('d').getElementsByTagName('tbody')[0];
   var newRow = [];
@@ -100,8 +102,14 @@ function (activities)
   var z=[];
   var m=[];
   for (var key in v[5]){
+    n.push(key);
     z.push(v[5][key]);
   }
+  n.forEach(function(item,index){
+    th=document.createElement("th");
+    th.appendChild(document.createTextNode(item));
+    tableRef.appendChild(th);
+  });
   newRow=tableRef.insertRow();
   for (var i=0; i<z.length;i++){
      newCell  = newRow.insertCell(-1);

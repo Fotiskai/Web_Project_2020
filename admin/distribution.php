@@ -192,26 +192,21 @@ for($i=0;$i<=23;$i++){
     $h_count[$i]=round(($res["hourcount"]/$total)*100,2);    	
 }
 
-$tmp=2014;
-for($i=0;$i<=6;$i++){
-    $sql="SELECT COUNT(*) as yearcount FROM data WHERE YEAR(timestampMs)='$tmp'";
+$sql="SELECT MIN(YEAR(timestampMs)) as minumum, MAX(YEAR(timestampMs)) as maximum FROM data";
+$result=mysqli_query($conn,$sql);
+$result=mysqli_fetch_assoc($result);
+$mindate=$result["minumum"];
+$maxdate=$result["maximum"];
+
+for($i=$mindate;$i<=$maxdate;$i++){
+    $sql="SELECT COUNT(*) as yearcount FROM data WHERE YEAR(timestampMs)='$i'";
     $res=mysqli_query($conn,$sql);
     $res=mysqli_fetch_assoc($res);
-    $y_count[$i]=round(($res["yearcount"]/$total)*100,2);
-    $tmp+=1;	
+    $y_count[$i]=round(($res["yearcount"]/$total)*100,2);	
 }
 
-$count_per_year=array(
-"2014" => $y_count[0],
-"2015" => $y_count[1],
-"2016" => $y_count[2],
-"2017" => $y_count[3],
-"2018" => $y_count[4],
-"2019" => $y_count[5],
-"2020" => $y_count[6],
-);
 
-$r = array($dataPoints,$u_r_count,$count_per_month,$count_per_day,$h_count,$count_per_year);
+$r = array($dataPoints,$u_r_count,$count_per_month,$count_per_day,$h_count,$y_count);
 echo json_encode($r);
 
 mysqli_close($conn);
