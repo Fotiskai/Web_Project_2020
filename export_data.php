@@ -5,19 +5,23 @@ if (!$conn) {
 }
 mysqli_set_charset($conn,'utf8');
 $count=0;
+$list[0]=[];
+
 $year=$_POST["year"];
 $month=$_POST["month"];
 $day=$_POST["day"];
 $hour=$_POST["hour"];
+$minutes=$_POST["minutes"];
 $activ=$_POST["act"];
 
 $y="'".implode("','",$year)."'";
 $m="'".implode("','",$month)."'";
 $d="'".implode("','",$day)."'";
 $h="'".implode("','",$hour)."'";
+$min="'".implode("','",$minutes)."'";
 $a="'".implode("','",$activ)."'";
 
-$sql="SELECT heading,velocity,accuracy,verticalAccuracy,longitude,latitude,altitude,timestampMs,userid,id FROM data WHERE LEFT(timestampMs, 4) IN ($y) AND MONTHNAME(timestampMs) IN ($m) AND DAYNAME(timestampMs) IN ($d) AND SUBSTRING(timestampMs,12,2) IN ($h)";
+$sql="SELECT heading,velocity,accuracy,verticalAccuracy,longitude,latitude,altitude,timestampMs,userid,id FROM data WHERE YEAR(timestampMs) IN ($y) AND MONTHNAME(timestampMs) IN ($m) AND DAYNAME(timestampMs) IN ($d) AND HOUR(timestampMs) IN ($h) AND MINUTE(timestampMs) IN ($min)";
 $result = mysqli_query($conn, $sql);
 if(mysqli_num_rows($result)>0){
   	while($row = mysqli_fetch_assoc($result)){	
@@ -31,6 +35,7 @@ if(mysqli_num_rows($result)>0){
       $timestampMs=strtotime($row["timestampMs"])*1000;
       $userid=$row["userid"];
       $id=$row["id"];
+      $list[$count]=[$heading,"","","",$verticalAccuracy,$velocity,$accuracy,$longitude,$latitude,$altitude,$timestampMs,$userid];
       $sql="SELECT type,confidence,timestampMs FROM activities WHERE id=$id";
       $result1=mysqli_query($conn, $sql);
       while($row1=mysqli_fetch_assoc($result1)){

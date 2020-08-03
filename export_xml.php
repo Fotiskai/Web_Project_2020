@@ -17,15 +17,17 @@ $year=$_POST["year"];
 $month=$_POST["month"];
 $day=$_POST["day"];
 $hour=$_POST["hour"];
+$minutes=$_POST["minutes"];
 $activ=$_POST["act"];
 
 $y="'".implode("','",$year)."'";
 $m="'".implode("','",$month)."'";
 $d="'".implode("','",$day)."'";
 $h="'".implode("','",$hour)."'";
+$min="'".implode("','",$minutes)."'";
 $a="'".implode("','",$activ)."'";
 
-$sql="SELECT heading,velocity,accuracy,verticalAccuracy,longitude,latitude,altitude,timestampMs,userid,id FROM data WHERE LEFT(timestampMs, 4) IN ($y) AND MONTHNAME(timestampMs) IN ($m) AND DAYNAME(timestampMs) IN ($d) AND SUBSTRING(timestampMs,12,2) IN ($h)";
+$sql="SELECT heading,velocity,accuracy,verticalAccuracy,longitude,latitude,altitude,timestampMs,userid,id FROM data WHERE YEAR(timestampMs) IN ($y) AND MONTHNAME(timestampMs) IN ($m) AND DAYNAME(timestampMs) IN ($d) AND HOUR(timestampMs) IN ($h) AND MINUTE(timestampMs) IN ($min)";
 $result = mysqli_query($conn, $sql);
 if(mysqli_num_rows($result)>0){
   	while($row = mysqli_fetch_assoc($result)){	

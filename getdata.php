@@ -18,17 +18,19 @@ $year=$_POST["year"];
 $month=$_POST["month"];
 $day=$_POST["day"];
 $hour=$_POST["hour"];
+$minutes=$_POST["minutes"];
 $activ=$_POST["act"];
 
 $y="'".implode("','",$year)."'";
 $m="'".implode("','",$month)."'";
 $d="'".implode("','",$day)."'";
 $h="'".implode("','",$hour)."'";
+$min="'".implode("','",$minutes)."'";
 $a="'".implode("','",$activ)."'";
 
 //echo $y. "\n" .$m. "\n".  $d. "\n" .$h. "\n".  $a;
 
-$sql="SELECT id FROM activities WHERE LEFT(timestampMs, 4) IN ($y) AND MONTHNAME(timestampMs) IN ($m) AND DAYNAME(timestampMs) IN ($d) AND SUBSTRING(timestampMs,12,2) IN ($h) AND type IN ($a)";
+$sql="SELECT id FROM activities WHERE YEAR(timestampMs) IN ($y) AND MONTHNAME(timestampMs) IN ($m) AND DAYNAME(timestampMs) IN ($d) AND HOUR(timestampMs) IN ($h) AND MINUTE(timestampMs) IN ($min) AND type IN ($a)";
 $result = mysqli_query($conn, $sql);
   if(mysqli_num_rows($result)>0){
   	while($row = mysqli_fetch_assoc($result)){

@@ -1,4 +1,5 @@
 <?php
+    session_start();
 	$servername = "localhost";
 	$username = "root";
 	$password = "root";
@@ -9,7 +10,7 @@
 	$myArr = json_decode($_POST['arr']);
 	$sql = '';
 	$sql_act = '';
-	$usrid_test=file_get_contents('userid.txt'); // anti gia to userid pou tha paragetai mesw tou reg form
+	$usrid_test=$_SESSION["uid"]; // anti gia to userid pou tha paragetai mesw tou reg form
     $conn = mysqli_connect($servername,$username,$password,$DB);
 	if(!$conn){
 		die("Connection Failed: " . mysqli_connect_error());
@@ -67,18 +68,26 @@
 			for($j=0;$j<$activity_array_len;$j++){
 				$act_timestampMs = (int)$activity_array[$j]->timestampMs/1000; // Date object expects the number of milliseconds since the epoch, hence the 1000-fold difference
 				$act_timestampMs = date('Y-m-d H:i:s',$act_timestampMs);
-				$activity_sub_array = $activity_array[$j]->activity;
+				$activity_sub_array = $activity_array[$j]->activity;				
 				//$activity_sub_array_len = count($activity_sub_array);
 				for($k=0;$k<count($activity_sub_array);$k++){
-					$type = $activity_sub_array[$k]->type;
-					//echo "data type:".$type."<br>";
-					$confidence = $activity_sub_array[$k]->confidence;
-					//echo "Type:".$type.",,,,".$confidence."\n"; 
-					$sql_act .="('$type', $confidence, '$act_timestampMs', '$usrid_test','$i'), ";
+					if($k==0){
+					   $type = $activity_sub_array[$k]->type;
+					   //echo "data type:".$type."<br>";
+					   $confidence = $activity_sub_array[$k]->confidence;
+					   //echo "Type:".$type.",,,,".$confidence."\n";
+					}
+					if($k>=1 && $activity_sub_array[$k]->confidence>$confidence){
+					   $type = $activity_sub_array[$k]->type;
+					   //echo "data type:".$type."<br>";
+					   $confidence = $activity_sub_array[$k]->confidence;
+					   //echo "Type:".$type.",,,,".$confidence."\n";					   
+					}
 				}
 			}
-		}
-	}
+		    $sql_act .="('$type', $confidence, '$act_timestampMs', '$usrid_test','$i'), ";
+		}		
+	}	
 	$len_str = strlen($sql_act);
 	$sql_act[$len_str-2] = ';';
 	$sql_t = "INSERT INTO activities (type, confidence, timestampMs, userid,id) VALUES".$sql_act;
@@ -108,7 +117,7 @@ function countscore(){
     $walk_count=mysqli_fetch_assoc($result);
     if($veh_count["vehicle"]==0 and $walk_count["walk"]==0) $score=0;
     else if($veh_count["vehicle"]==0) $score=100;
-    else $score=intval(($walk_count["walk"]/($veh_count["vehicle"]+$walk_count["walk"]))*100);
+    else $score=round(($walk_count["walk"]/($veh_count["vehicle"]+$walk_count["walk"]))*100,2);
 	$sql="UPDATE usercred SET currentScore=$score WHERE userid='$usrid_test'";
 	mysqli_query($conn,$sql); 
 }	

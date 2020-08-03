@@ -158,6 +158,7 @@ function graph(data,labels){
 }
 
 function leaderboard(current,top3,names,rank){
+	
 	document.getElementById("r1").innerHTML="1";
     document.getElementById("r2").innerHTML="2";
     document.getElementById("r3").innerHTML="3";
@@ -170,9 +171,14 @@ function leaderboard(current,top3,names,rank){
     document.getElementById("s2").innerHTML=top3[1] + "%";
     document.getElementById("s3").innerHTML=top3[2] + "%";
     document.getElementById("s4").innerHTML=current + "%";
+   
 /*
+    ranks=["1","2","3",rank];
     top3[3]=current;
 	table=document.getElementById("tb");
+    th=document.createElement("th");
+	th.appendChild(document.createTextNode('Rank'));
+	table.appendChild(th);
 	th=document.createElement("th");
 	th.appendChild(document.createTextNode('Username'));
 	table.appendChild(th);
@@ -183,13 +189,17 @@ function leaderboard(current,top3,names,rank){
 		tr=document.createElement("tr");
 		td1=document.createElement("td");
 		td2=document.createElement("td2");
-		datatd1=document.createTextNode(names[i]);
-		datatd2=document.createTextNode(top3[i]);
+		td3=document.createElement("td3");
+		datatd1=document.createTextNode(ranks[i]);
+		datatd2=document.createTextNode(names[i]);
+		datatd3=document.createTextNode(top3[i]);
 		td1.appendChild(datatd1);
         td2.appendChild(datatd2);
+        td3.appendChild(datatd3);
         tr.appendChild(td1);
         tr.appendChild(td2);
+        tr.appendChild(td3);
         table.appendChild(tr);
 	}
-*/	
+	*/	
 }

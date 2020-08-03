@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+    <script type="text/javascript" src="dashboard.js" charset="utf-8"></script>
+    <title>Tables</title>
+  </head>
+  <body>
+      <table id="a" border="1"  align="center">
+          <thead>
+              <tr>
+                  <th>IN_VEHICLE</th>
+                  <th>ON_BICYCLE</th>
+                  <th>ON_FOOT</th>
+                  <th>RUNNING</th>
+                  <th>STILL</th>
+                  <th>TILTING</th>
+                  <th>UNKNOWN</th>
+                  <th>WALKING</th>
+                  <th>IN_RAIL_VEHICLE</th>
+                  <th>IN_ROAD_VEHICLE</th>
+                  <th>IN_FOUR_WHEELER_VEHICLE</th>
+                  <th>IN_CAR</th>
+                  <th>IN_BUS</th>
+                  <th>EXITING_VEHICLE</th>
+                  <th>IN_TWO_WHEELER_VEHICLE</th>
+
+              </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+      </table>
+      <table id="b" border="1"  align="center">
+        <thead>
+          <tr>
+          </tr>
+        </thead>
+        <tbody>
+          -
+        </tbody>
+      </table>
+      <table id="c" border="1"  align="center">
+        <thead>
+          <tr>
+            <th>Ιανουάριος</th>
+            <th>Φεβρουάριος</th>
+            <th>Μαρτιος</th>
+            <th>Απρίλης</th>
+            <th>Μάιος</th>
+            <th>Ιούνιος</th>
+            <th>Ιούλιος</th>
+            <th>Αύγουστος</th>
+            <th>Σεμπτέμβρης</th>
+            <th>Οκτόβρης</th>
+            <th>Νοέμβρης</th>
+            <th>Δεκέμβρης</th>
+          </tr>
+        </thead>
+        <tbody>
+          -
+        </tbody>
+      </table>
+      <table id="d" border="1"  align="center">
+        <thead>
+          <tr>
+            <th>Δευτέρα</th>
+            <th>Τρίτη</th>
+            <th>Τετάρτη</th>
+            <th>Πέμπτη</th>
+            <th>Παρασκευή</th>
+            <th>Σάββατο</th>
+            <th>Κυριακή</th>
+          </tr>
+        </thead>
+        <tbody>
+          -
+        </tbody>
+       </table>
+       <table id="e" border="1"  align="center">
+        <thead>
+          <tr>
+            <th>0</th>
+            <th>1</th>
+            <th>2</th>
+            <th>3</th>
+            <th>4</th>
+            <th>5</th>
+            <th>6</th>
+            <th>7</th>
+            <th>8</th>
+            <th>9</th>
+            <th>10</th>
+            <th>11</th>
+            <th>12</th>
+            <th>13</th>
+            <th>14</th>
+            <th>15</th>
+            <th>16</th>
+            <th>17</th>
+            <th>18</th>
+            <th>19</th>
+            <th>20</th>
+            <th>21</th>
+            <th>22</th>
+            <th>23</th>                                                                       
+          </tr>
+        </thead>
+        <tbody>
+          -
+        </tbody>
+       </table>
+       <table id="f" border="1"  align="center">
+        <thead>
+          <tr>
+          </tr>
+        </thead>
+        <tbody>
+          -
+        </tbody>
+       </table> 
+       <div id="chartContainer" style="height: 50px; width: 50%;">
+          <canvas id="graphCanvas1"></canvas>
+          <canvas id="graphCanvas2"></canvas>
+          <canvas id="graphCanvas3"></canvas>
+          <canvas id="graphCanvas4"></canvas>
+          <canvas id="graphCanvas5"></canvas>
+          <canvas id="graphCanvas6"></canvas>
+       </div>
+       <button onclick="redirect()">Λειτουργίες Διαχειρηστή</button>           
+    </body>
+    
+    <script>
+          var x = document.referrer;
+          if(!x.includes("index.html")){window.location.href="index.html";} 
+    </script>
+    
+    <script type="text/javascript">
+	    function redirect(){window.location.href='admin.html';}
+    </script>
+</html>

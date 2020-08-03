@@ -33,8 +33,8 @@
      <option value="2018">2018</option>
      <option value="2019">2019</option>
      <option value="2020">2020</option>
-     <option value="all">Όλα</option>
      </select>
+     <button onClick="selectAll(document.getElementById('year'))">Επιλογή όλων</button> 
      <br>
      <br>
      <label>Μήνας</label><br>
@@ -51,8 +51,8 @@
      <option value="October">Οκτόβρης</option>
      <option value="November">Νοέμβρης</option>
      <option value="December">Δεκέμβρης</option>
-     <option value="all">Όλα</option>
      </select>
+     <button onClick="selectAll(document.getElementById('month'))">Επιλογή όλων</button> 
      <br>
      <br>     
      <label>Ημέρα</label><br>
@@ -64,8 +64,8 @@
      <option value="Friday">Παρασκευή</option>
      <option value="Saturday">Σάββατο</option>
      <option value="Sunday">Κυριακή</option>
-     <option value="all">Όλα</option>
      </select>
+     <button onClick="selectAll(document.getElementById('day'))">Επιλογή όλων</button> 
      <br>
      <br>      
      <label>Ώρα</label><br>
@@ -94,8 +94,27 @@
      <option value="21">21</option>
      <option value="22">22</option>
      <option value="23">23</option>     
-     <option value="all">Όλα</option>
      </select>
+     <button onClick="selectAll(document.getElementById('hour'))">Επιλογή όλων</button> 
+     <br>
+     <br> 
+     <label>Λεπτά</label><br>     
+     <select id="minutes" multiple>
+     </select>
+     <script>
+        sel=document.getElementById("minutes");
+        for(i=1;i<=60;i++){
+            option=document.createElement("option");
+            option.text=i;
+            option.value=i;
+            sel.add(option);
+        } 
+        option=document.createElement("option");
+        option.text="όλα";
+        option.value="all";
+        sel.add(option);
+     </script>
+     <button onClick="selectAll(document.getElementById('minutes'))">Επιλογή όλων</button>      
      <br>
      <br>     
      <label>Activities</label><br>
@@ -114,9 +133,9 @@
      <option value="IN_CAR">IN_CAR</option>
      <option value="IN_BUS">IN_BUS</option>
      <option value="EXITING_VEHICLE">EXITING_VEHICLE</option>
-     <option value="IN_TWO_WHEELER_VEHICLE">IN_TWO_WHEELER_VEHICLE</option>
-     <option value="all">Όλα</option>     
+     <option value="IN_TWO_WHEELER_VEHICLE">IN_TWO_WHEELER_VEHICLE</option>     
      </select>
+     <button onClick="selectAll(document.getElementById('act'))">Επιλογή όλων</button> 
      
      <br>
      <input type="button" onclick="datahandle()" value="Υποβολή">
@@ -130,8 +149,9 @@
      </select>
      <input type="button" onclick="export_data()" value="Εξαγωγή δεδομένων"></input><br>     
      <input type="button" onclick="data_delete()" value="Διαγραφή δεδομένων"></input>
-
-
-
 </body>
+<script>
+     var x = document.referrer;
+     if(!x.includes("dashboard.html")){window.location.href="index.html";} 
+</script>
 </html>

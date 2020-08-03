@@ -1,4 +1,5 @@
 <?php 
+session_start();
 $conn=mysqli_connect("localhost","root","root","web2020");
 if (!$conn) {
   die("Connection failed: " . mysqli_connect_error());
@@ -41,13 +42,9 @@ else{
   if(mysqli_num_rows($result)>0){
 	  while($row = mysqli_fetch_assoc($result)){
 		  if ($_POST["un"]==$row["username"] && $password==$row["password"]){
-			      $uid=$row["userid"];  
-            $file = fopen('userid.txt', "w+"); 
-            $size = filesize($fn); 
-            $text = fread($file, $size); 
-            fwrite($file, $uid); 
-            fclose($file);     
-			      exit;		
+			$uid=$row["userid"];
+			$_SESSION["uid"]=$uid;    
+			exit;		
 		  }
 	  }
     echo 'Λάθος Στοιχεία';

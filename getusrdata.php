@@ -1,10 +1,14 @@
 <?php
+session_start();
 $conn=mysqli_connect("localhost","root","root","web2020");
 if (!$conn) {
   die("Connection failed: " . mysqli_connect_error());
 }
 mysqli_set_charset($conn,'utf8');
-$uid =file_get_contents('userid.txt');
+$sql="SET lc_time_names = 'el_GR'";
+mysqli_query($conn, $sql);
+
+$uid=$_SESSION["uid"];
 $tmp=12;
 for($i=0;$i<13;$i++){
 	$sql="SELECT MONTHNAME(DATE_SUB(curdate(), INTERVAL $tmp MONTH)) as month ,YEAR(DATE_SUB(curdate(), INTERVAL $tmp MONTH)) as year";
@@ -19,7 +23,7 @@ for($i=0;$i<13;$i++){
 	$c=mysqli_fetch_assoc($result);
     if($veh_c["vehicle"]==0 and $c["walk"]==0) $lscore[$i]=0;
     elseif($veh_c["vehicle"]==0) $lscore[$i]=100;
-    else $lscore[$i]=intval(($c["walk"]/($veh_c["vehicle"]+$c["walk"]))*100);
+    else $lscore[$i]=round(($c["walk"]/($veh_c["vehicle"]+$c["walk"]))*100,2);
     $tmp-=1;	
 }
 
@@ -60,12 +64,14 @@ $username=$temp[0]. " " . mb_substr($temp[1],0,1) . ".";
 array_push($names,$username);
 $sql="SET @rank:=0";
 $result=mysqli_query($conn, $sql);
-$sql="SELECT @rank as rank FROM (SELECT userid,@rank := @rank + 1 FROM usercred ORDER BY currentScore DESC)sub WHERE sub.`userid`='$uid'";
+$sql="SELECT @rank as ranking FROM (SELECT userid,@rank := @rank + 1 FROM usercred ORDER BY currentScore DESC)sub WHERE sub.`userid`='$uid'";
 $result=mysqli_query($conn, $sql);
 $result=mysqli_fetch_assoc($result);
-$usr_rank=$result["rank"];
+$usr_rank=$result["ranking"];
 
 $out=[$lscore,$mon_year,$mindate,$maxdate,$lastdate,$scores,$names,$usr_rank];
 echo json_encode($out);
+$sql="SET lc_time_names = 'en_US'";
+mysqli_query($conn, $sql);
 mysqli_close($conn);
 ?>
