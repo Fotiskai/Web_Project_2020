@@ -26,12 +26,12 @@ $cnt_IN_BUS=0;
 $cnt_EXITING_VEHICLE=0;
 $cnt_IN_TWO_WHEELER_VEHICLE=0;
 
-$sql="SELECT COUNT(*) as total FROM activities";
+$sql="SELECT COUNT(*) as total FROM data WHERE type IN('IN_VEHICLE','ON_BICYCLE','ON_FOOT','RUNNING','STILL','TILTING','UNKNOWN','WALKING','IN_RAIL_VEHICLE','IN_ROAD_VEHICLE','IN_FOUR_WHEELER_VEHICLE','IN_CAR','IN_BUS','EXITING_VEHICLE','IN_TWO_WHEELER_VEHICLE')";
 $result=mysqli_query($conn,$sql);
 $result=mysqli_fetch_assoc($result);
 $totalact=$result["total"];
 
-$query="SELECT type FROM activities";
+$query="SELECT type FROM data";
 $result = mysqli_query($conn, $query);
 if (mysqli_num_rows($result) > 0) {
      // output data of each row

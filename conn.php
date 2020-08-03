@@ -19,6 +19,10 @@
 	
 	$len = count($myArr);
 	for($i=0;$i<$len;$i++){
+		$act_timestampMs=null;
+	    $type=null;
+	    $act_timestampMs=null;
+	    $confidence=null;
 		$timestampMs = (int)$myArr[$i]->timestampMs/1000; // Date object expects the number of milliseconds since the epoch, hence the 1000-fold difference
 		$timestampMs = date('Y-m-d H:i:s',$timestampMs);
 		$latitude = $myArr[$i]->latitudeE7/1e7;
@@ -44,24 +48,6 @@
 			//$DB_fields[3] = ", verticalAccuracy";
 			$DB_fields[3] = "$verticalAccuracy";
 		}
-		$sql .= "('$i','$timestampMs', $latitude, $longitude, $accuracy, ".$DB_fields[0].", ".$DB_fields[1].", ".$DB_fields[2].", ".$DB_fields[3].", '".$usrid_test."'), ";
-		/*
-		$sql .="INSERT INTO data (timestampMs, latitude, longitude, accuracy".$DB_fields[0].$DB_fields[1].$DB_fields[2].$DB_fields[3].") VALUES ('$timestampMs', $latitude, $longitude, $accuracy".$DB_fields[4].$DB_fields[5].$DB_fields[6].$DB_fields[7].");";*/
-		$DB_fields = array_fill(0,4,"NULL");
-		// https://stackoverflow.com/questions/18171615/why-we-need-to-include-quotation-mark-when-inserting-string-variable-to-mysql-da#:~:text=PHP%20is%20merely%20constructing%20the%20query%20for%20you.&text=which%20is%20invalid%20syntax.,marks%20need%20to%20be%20added.
-	}
-	//echo $sql;
-	$len_str = strlen($sql);
-	$sql[$len_str-2] = ';';
-	$sql_d = "INSERT INTO data (id,timestampMs, latitude, longitude, accuracy, heading, velocity, altitude, verticalAccuracy, userid) VALUES".$sql;
-	if(mysqli_query($conn,$sql_d)){
-		echo "Done Data\n";
-	}else{
-		echo "\n [+]sql Error".mysqli_error($conn)."<br>";
-	}
-	mysqli_close($conn);
-	$conn = mysqli_connect($servername,$username,$password,$DB);
-	for($i=0;$i<$len;$i++){
 		if(array_key_exists('activity', $myArr[$i])){
 			$activity_array = $myArr[$i]->activity;
 			$activity_array_len = count($activity_array);
@@ -85,17 +71,20 @@
 					}
 				}
 			}
-		    $sql_act .="('$type', $confidence, '$act_timestampMs', '$usrid_test','$i'), ";
-		}		
+		}	
+		$sql .= "('$i','$timestampMs', $latitude, $longitude, $accuracy, ".$DB_fields[0].", ".$DB_fields[1].", ".$DB_fields[2].", ".$DB_fields[3].", '$type','$confidence','$act_timestampMs','".$usrid_test."'), ";
+		/*
+		$sql .="INSERT INTO data (timestampMs, latitude, longitude, accuracy".$DB_fields[0].$DB_fields[1].$DB_fields[2].$DB_fields[3].") VALUES ('$timestampMs', $latitude, $longitude, $accuracy".$DB_fields[4].$DB_fields[5].$DB_fields[6].$DB_fields[7].");";*/
+		// https://stackoverflow.com/questions/18171615/why-we-need-to-include-quotation-mark-when-inserting-string-variable-to-mysql-da#:~:text=PHP%20is%20merely%20constructing%20the%20query%20for%20you.&text=which%20is%20invalid%20syntax.,marks%20need%20to%20be%20added.
 	}	
-	$len_str = strlen($sql_act);
-	$sql_act[$len_str-2] = ';';
-	$sql_t = "INSERT INTO activities (type, confidence, timestampMs, userid,id) VALUES".$sql_act;
-	//echo $sql_t;
-	if(mysqli_query($conn,$sql_t)===TRUE){ // na to 3anaprospa8hsw me multi query alla an thesh pinaka kai meta na apaloifw to variable
-		echo "Done Act\n";
+	//echo $sql;
+	$len_str = strlen($sql);
+	$sql[$len_str-2] = ';';
+	$sql_d = "INSERT INTO data (id,timestampMs, latitude, longitude, accuracy, heading, velocity, altitude, verticalAccuracy,type,confidence,act_timestampMs ,userid) VALUES".$sql;
+	if(mysqli_query($conn,$sql_d)){
+		echo "Done Data\n";
 	}else{
-		echo "\n [+]act sql Error ".mysqli_error($conn)."<br>";
+		echo "\n [+]sql Error".mysqli_error($conn)."<br>";
 	}
     $lastUpload=date('Y-m-d');
 	$sql="UPDATE usercred SET lastUpload='$lastUpload' WHERE userid='$usrid_test'";
@@ -109,10 +98,10 @@
 function countscore(){
 	global $conn;
 	global $usrid_test;
-    $sql="SELECT COUNT(DISTINCT(id)) as vehicle FROM activities WHERE MONTH(timestampMs) = MONTH(CURRENT_DATE()) AND YEAR(timestampMs) = YEAR(CURRENT_DATE()) AND type IN('IN_VEHICLE','IN_RAIL_VEHICLE','IN_ROAD_VEHICLE','IN_FOUR_WHEELER_VEHICLE','IN_CAR','IN_TWO_WHEELER_VEHICLE','IN_BUS')";
+    $sql="SELECT COUNT(DISTINCT(id)) as vehicle FROM data WHERE MONTH(timestampMs) = MONTH(CURRENT_DATE()) AND YEAR(timestampMs) = YEAR(CURRENT_DATE()) AND type IN('IN_VEHICLE','IN_RAIL_VEHICLE','IN_ROAD_VEHICLE','IN_FOUR_WHEELER_VEHICLE','IN_CAR','IN_TWO_WHEELER_VEHICLE','IN_BUS')";
     $result=mysqli_query($conn,$sql);
     $veh_count=mysqli_fetch_assoc($result);
-    $sql="SELECT COUNT(DISTINCT(id)) as walk FROM activities WHERE MONTH(timestampMs) = MONTH(CURRENT_DATE()) AND YEAR(timestampMs) = YEAR(CURRENT_DATE()) AND type IN('ON_BICYCLE','ON_FOOT','WALKING','RUNNING')";
+    $sql="SELECT COUNT(DISTINCT(id)) as walk FROM data WHERE MONTH(timestampMs) = MONTH(CURRENT_DATE()) AND YEAR(timestampMs) = YEAR(CURRENT_DATE()) AND type IN('ON_BICYCLE','ON_FOOT','WALKING','RUNNING')";
     $result=mysqli_query($conn,$sql);
     $walk_count=mysqli_fetch_assoc($result);
     if($veh_count["vehicle"]==0 and $walk_count["walk"]==0) $score=0;

@@ -30,40 +30,27 @@ $a="'".implode("','",$activ)."'";
 
 //echo $y. "\n" .$m. "\n".  $d. "\n" .$h. "\n".  $a;
 
-$sql="SELECT id FROM activities WHERE YEAR(timestampMs) IN ($y) AND MONTHNAME(timestampMs) IN ($m) AND DAYNAME(timestampMs) IN ($d) AND HOUR(timestampMs) IN ($h) AND MINUTE(timestampMs) IN ($min) AND type IN ($a)";
+$sql="SELECT COUNT(*) as count,latitude,longitude FROM(SELECT latitude,longitude FROM data WHERE YEAR(timestampMs) IN ($y) AND MONTHNAME(timestampMs) IN ($m) AND DAYNAME(timestampMs) IN ($d) AND HOUR(timestampMs) IN ($h) AND MINUTE(timestampMs) IN ($min) AND type IN ($a))sub GROUP BY sub.latitude,sub.longitude";
 $result = mysqli_query($conn, $sql);
   if(mysqli_num_rows($result)>0){
   	while($row = mysqli_fetch_assoc($result)){
-      $idd[$count]=$row["id"];
+      $lat[$count]=$row["latitude"];
+      $long[$count]=$row["longitude"];
+      $c_arr[$count]=$row["count"];
       $count+=1;
   	  }
   	}    
 
-$c_arr=array_count_values($idd);
 foreach($c_arr as $value){
   if($value>$max) $max=$value;
 }
 
-$d_id=array_unique($idd);
-$count=0;
-foreach($d_id as $value){
-  $index[$count]=$value;
-	$sql="SELECT latitude,longitude FROM data where id=$value";
-	$result = mysqli_query($conn, $sql);
-    if(mysqli_num_rows($result)>0){
-  	  while($row = mysqli_fetch_assoc($result)){
-         array_push($lat,$row["latitude"]);
-         array_push($long,$row["longitude"]);
-  	  }
-  	}
-    $count+=1;
-}
-
 
 for($i=0;$i<count($lat);$i++){
-$dat.="{lat: " .$lat[$i]. ", lng: " . $long[$i]. ", count:" .$c_arr[$index[$i]] . "}," ;
+$dat.="{lat: " .$lat[$i]. ", lng: " . $long[$i]. ", count:" .$c_arr[$i] . "}," ;
 }
 $dat.="]";
 echo $dat. "|". $max;
+
 mysqli_close($conn);
 ?>

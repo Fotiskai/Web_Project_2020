@@ -4,8 +4,6 @@ if (!$conn) {
   die("Connection failed: " . mysqli_connect_error());
 }
 
-$sql="DELETE FROM activities";
-mysqli_query($conn,$sql);
 $sql="DELETE FROM data";
 mysqli_query($conn,$sql);
 //$sql="DELETE FROM usercred";

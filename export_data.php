@@ -21,7 +21,7 @@ $h="'".implode("','",$hour)."'";
 $min="'".implode("','",$minutes)."'";
 $a="'".implode("','",$activ)."'";
 
-$sql="SELECT heading,velocity,accuracy,verticalAccuracy,longitude,latitude,altitude,timestampMs,userid,id FROM data WHERE YEAR(timestampMs) IN ($y) AND MONTHNAME(timestampMs) IN ($m) AND DAYNAME(timestampMs) IN ($d) AND HOUR(timestampMs) IN ($h) AND MINUTE(timestampMs) IN ($min)";
+$sql="SELECT heading,velocity,accuracy,verticalAccuracy,longitude,latitude,altitude,timestampMs,type,confidence,act_timestampMs,userid FROM data WHERE YEAR(timestampMs) IN ($y) AND MONTHNAME(timestampMs) IN ($m) AND DAYNAME(timestampMs) IN ($d) AND HOUR(timestampMs) IN ($h) AND MINUTE(timestampMs) IN ($min) AND type IN ($a)";
 $result = mysqli_query($conn, $sql);
 if(mysqli_num_rows($result)>0){
   	while($row = mysqli_fetch_assoc($result)){	
@@ -34,16 +34,10 @@ if(mysqli_num_rows($result)>0){
       $altitude=$row["altitude"];
       $timestampMs=strtotime($row["timestampMs"])*1000;
       $userid=$row["userid"];
-      $id=$row["id"];
-      $list[$count]=[$heading,"","","",$verticalAccuracy,$velocity,$accuracy,$longitude,$latitude,$altitude,$timestampMs,$userid];
-      $sql="SELECT type,confidence,timestampMs FROM activities WHERE id=$id";
-      $result1=mysqli_query($conn, $sql);
-      while($row1=mysqli_fetch_assoc($result1)){
-      	$type=$row1["type"];
-      	$confidence=$row1["confidence"];
-      	$a_timestampMs=strtotime($row1["timestampMs"])*1000;
-      	$list[$count]=[$heading,$type,$confidence,$a_timestampMs,$verticalAccuracy,$velocity,$accuracy,$longitude,$latitude,$altitude,$timestampMs,$userid];
-      }
+      $type=$row["type"];
+      $confidence=$row["confidence"];
+      $act_timestampMs=strtotime($row["timestampMs"])*1000;
+      $list[$count]=[$heading,$type,$confidence,$act_timestampMs,$verticalAccuracy,$velocity,$accuracy,$longitude,$latitude,$altitude,$timestampMs,$userid];
       $count+=1;
   	  }	  
 }
