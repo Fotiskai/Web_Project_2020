@@ -1,6 +1,6 @@
 var x = document.referrer;
 console.log(x);
-if(!x.includes("index.html") && !x.includes("/",24) ){window.location.href="index.html";} 
+if((!x.includes("index.html") && !x.includes("/",24))){window.location.href="index.html";} 
 
 function redirect(){window.location.href='admin.html';}
 

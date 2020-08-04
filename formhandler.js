@@ -1,44 +1,40 @@
 heatmapLayer=null;
 
-function register(){
-        user=document.getElementById("un").value;
-        pass=document.getElementById("pwd").value;
-        email=document.getElementById("em").value;
-        if(user!==null && user!=="", pass!==null && pass!=="", email!==null && email!==""){
-          $.ajax({ 
-          type: "POST", 
-          url: "dbh.php", 
-          data: { "un":user, "pwd":pass, "em":email }, 
-          success: function(data) { 
-            window.alert(data);
-          } 
-         });
-        }else{
-           window.alert("Για την εγγραφή συμπληρώστε όλα τα πεδία");
-     }   
+function minutes_selector(){
+  sel=document.getElementById("minutes");
+  for(i=1;i<=60;i++){
+      option=document.createElement("option");
+      option.text=i;
+      option.value=i;
+      sel.add(option);
+  }
 }
 
-
-function login(){
-        user=document.getElementById("un").value;
-        pass=document.getElementById("pwd").value;
-        if(user!==null && user!=="", pass!==null && pass!==""){    
-          $.ajax({ 
-          type: "POST", 
-          url: "dbh.php", 
-          data: { "un":user, "pwd":pass }, 
-          success: function(data) { 
-            if(data==="Λάθος Στοιχεία") window.alert(data);
-            else{
-              if(pass==="admin") window.location.href="dashboard.html";
-              else window.location.href="user.html";
-            }
-          } 
-        });
-    }else{
-      window.alert("Για την σύνδεση εισάγετε username και password");
-    }    
+function year_n_activites_selector(){
+    sel=document.getElementById("year");
+    sel1=document.getElementById("act");
+    $.ajax({ 
+    type: "POST", 
+    url: "selector.php", 
+    dataType:"json",
+    success: function(data){
+      console.log(data);
+      for(i=parseInt(data[0]);i<=parseInt(data[1]);i++){
+        option=document.createElement("option");
+        option.text=i;
+        option.value=i;
+        sel.add(option);
+      }
+      data[2].forEach(function(item,index){
+        option=document.createElement("option");
+        option.text=item;
+        option.value=item;
+        sel1.add(option);
+      });
+    }
+  });
 }
+
 
 function selectAll(id){
   options = id.getElementsByTagName('option');

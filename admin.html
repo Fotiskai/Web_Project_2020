@@ -17,6 +17,12 @@
 <title>Web 2020</title>
 </head>
 <body>
+     <script>
+        window.onload=function(){
+        minutes_selector();
+        year_n_activites_selector();
+        }
+     </script>  
      <p>Λειτουργίες Διαχειρηστή</p>
      <br>
      <div id="mapid" style="height: 360px;"></div>
@@ -27,13 +33,6 @@
 
      <label>Έτος</label><br>
      <select id="year" multiple>
-     <option value="2014">2014</option>
-     <option value="2015">2015</option>
-     <option value="2016">2016</option>
-     <option value="2017">2017</option>
-     <option value="2018">2018</option>
-     <option value="2019">2019</option>
-     <option value="2020">2020</option>
      </select>
      <button onClick="selectAll(document.getElementById('year'))">Επιλογή όλων</button> 
      <br>
@@ -102,39 +101,11 @@
      <label>Λεπτά</label><br>     
      <select id="minutes" multiple>
      </select>
-     <script>
-        sel=document.getElementById("minutes");
-        for(i=1;i<=60;i++){
-            option=document.createElement("option");
-            option.text=i;
-            option.value=i;
-            sel.add(option);
-        } 
-        option=document.createElement("option");
-        option.text="όλα";
-        option.value="all";
-        sel.add(option);
-     </script>
      <button onClick="selectAll(document.getElementById('minutes'))">Επιλογή όλων</button>      
      <br>
      <br>     
      <label>Activities</label><br>
-     <select name="activ" id="act" multiple>
-     <option value="IN_VEHICLE">IN_VEHICLE</option>
-     <option value="ON_BICYCLE">ON_BICYCLE</option>
-     <option value="ON_FOOT">ON_FOOT</option>
-     <option value="RUNNING">RUNNING</option>
-     <option value="STILL">STILL</option>
-     <option value="TILTING">TILTING</option>
-     <option value="UNKNOWN">UNKNOWN</option>
-     <option value="WALKING">WALKING</option>
-     <option value="IN_ROAD_VEHICLE">IN_ROAD_VEHICLE</option>
-     <option value="IN_RAIL_VEHICLE">IN_RAIL_VEHICLE</option>
-     <option value="IN_FOUR_WHEELER_VEHICLE">IN_FOUR_WHEELER_VEHICLE</option>
-     <option value="IN_CAR">IN_CAR</option>
-     <option value="IN_BUS">IN_BUS</option>
-     <option value="EXITING_VEHICLE">EXITING_VEHICLE</option>
-     <option value="IN_TWO_WHEELER_VEHICLE">IN_TWO_WHEELER_VEHICLE</option>     
+     <select id="act" multiple>   
      </select>
      <button onClick="selectAll(document.getElementById('act'))">Επιλογή όλων</button> 
      
