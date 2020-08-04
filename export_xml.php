@@ -52,6 +52,9 @@ if(mysqli_num_rows($result)>0){
       }
       $root->appendChild($node);     	  
     }
+}else{
+  echo 'Δεν βρέθηκαν εγγραφές';
+  exit;
 }
 $dom->save('export.xml');
 echo 'Εξαγωγή Ολοκληρώθηκε';

@@ -39,7 +39,10 @@ $result = mysqli_query($conn, $sql);
       $c_arr[$count]=$row["count"];
       $count+=1;
   	  }
-  	}    
+  	}else{
+      echo "Δεν υπάρχουν εγγραφές";
+      exit;
+    }    
 
 foreach($c_arr as $value){
   if($value>$max) $max=$value;

@@ -67,11 +67,14 @@ function datahandle(){
           url: "getdata.php", 
           data: { act:select, year:select1, month:select2, day:select3, hour:select4, minutes:select5 }, 
           success: function(data) {
+            if(data=='Δεν υπάρχουν εγγραφές') window.alert(data);
+            else{
             res=data.split("|");
             coords=res[0];
             max=res[1];
             res1=eval('(' + coords + ')');
             create_heatMap(res1,max);
+            }
           } 
         });
   }

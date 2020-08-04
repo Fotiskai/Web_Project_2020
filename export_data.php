@@ -40,6 +40,9 @@ if(mysqli_num_rows($result)>0){
       $list[$count]=[$heading,$type,$confidence,$act_timestampMs,$verticalAccuracy,$velocity,$accuracy,$longitude,$latitude,$altitude,$timestampMs,$userid];
       $count+=1;
   	  }	  
+}else{
+	echo 'Δεν βρέθηκαν εγγραφές';
+	exit;
 }
 
 if($_POST["type"]=="CSV"){
