@@ -2,22 +2,21 @@
 <html>
 <head>
 	<meta charset="utf-8">
+	<meta name="referrer" content="same-origin">
 	<meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=no">
-	<script type="text/javascript" src="libs/jquery-3.5.1.js"></script>
-	<script type="text/javascript" src="import.js?newversion"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript" src="formhandler.js" charset="utf-8"></script>
 <title>Web 2020</title>
 </head>
 <body>
 
     <p>Είσοδος Στο σύστημα</p>
-    <label for="form2">Εγγραφή και Είσοδος Χρήστη</label><br>
-    <form action="dbh.php" method="post" id="form2">
-    Username: <input type="text" name="un"><br>
-    Password: <input type="password" name="pwd"><br>
-    E-mail:   <input type="text" name="em"><br>
-    <input type="submit" name="f3" value="Login">
-    <input type="submit" name="f2" value="Register">
-    </form>
+    <label>Εγγραφή και Είσοδος Χρήστη</label><br>
+    Username: <input type="text" id="un" ><br>
+    Password: <input type="password" id="pwd"><br>
+    E-mail:   <input type="text" id="em"><br>
+    <input type="button" onclick="login()" name="f3" value="Login">
+    <input type="button" onclick="register()" name="f2" value="Register">
 
 </body>
 </html>
