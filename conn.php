@@ -6,6 +6,7 @@
 	$DB = "web2020";
 
 	$DB_fields = array_fill(0,4,"NULL");
+	date_default_timezone_set('Europe/Athens');
 
 	$myArr = json_decode($_POST['arr']);
 	$sql = '';
@@ -16,7 +17,14 @@
 		die("Connection Failed: " . mysqli_connect_error());
 	}
 	mysqli_set_charset($conn,'utf8');
-	
+
+	$max_id_q = "SELECT MAX(id) as max FROM data";
+	$id_res = mysqli_query($conn,$max_id_q);
+	$id_max = mysqli_fetch_assoc($id_res);
+
+	$max_conf = null;
+	$max_type = null;
+	$max_time = null;
 	$len = count($myArr);
 	for($i=0;$i<$len;$i++){
 		$act_timestampMs=null;
@@ -57,22 +65,46 @@
 				$activity_sub_array = $activity_array[$j]->activity;				
 				//$activity_sub_array_len = count($activity_sub_array);
 				for($k=0;$k<count($activity_sub_array);$k++){
-					if($k==0){
+					if($k==0 and $max_conf==null){
 					   $type = $activity_sub_array[$k]->type;
 					   //echo "data type:".$type."<br>";
 					   $confidence = $activity_sub_array[$k]->confidence;
+					   $max_conf = $confidence;
+					   $max_type = $type;
+					   $max_time = $act_timestampMs;
 					   //echo "Type:".$type.",,,,".$confidence."\n";
+					}else if($k==0 and $max_conf!=null and $activity_sub_array[$k]->confidence>=$max_conf){
+						$type = $activity_sub_array[$k]->type;
+					   	//echo "data type:".$type."<br>";
+					   	$confidence = $activity_sub_array[$k]->confidence;
+					   	$max_conf = $confidence;
+					   	$max_type = $type;
+					   	$max_time = $act_timestampMs;
+					}else if($k==0 and $max_conf!=null and $activity_sub_array[$k]->confidence<$max_conf){
+						$type = $activity_sub_array[$k]->type;
+					   	$confidence = $activity_sub_array[$k]->confidence;
 					}
-					if($k>=1 && $activity_sub_array[$k]->confidence>$confidence){
+					if($k>=1 && $activity_sub_array[$k]->confidence>$max_conf){
 					   $type = $activity_sub_array[$k]->type;
 					   //echo "data type:".$type."<br>";
 					   $confidence = $activity_sub_array[$k]->confidence;
+					   $max_conf = $confidence;
+					   $max_type = $type;
+					   $max_time = $act_timestampMs;
 					   //echo "Type:".$type.",,,,".$confidence."\n";					   
 					}
 				}
 			}
-		}	
-		$sql .= "('$i','$timestampMs', $latitude, $longitude, $accuracy, ".$DB_fields[0].", ".$DB_fields[1].", ".$DB_fields[2].", ".$DB_fields[3].", '$type','$confidence','$act_timestampMs','".$usrid_test."'), ";
+		}//else{ $max_conf=null; }
+		if($id_max==null){
+			$idq = $i;
+		}else{
+			$idq = $id_max['max'] + $i + 1;
+		}
+		$sql .= "('$idq','$timestampMs', $latitude, $longitude, $accuracy, ".$DB_fields[0].", ".$DB_fields[1].", ".$DB_fields[2].", ".$DB_fields[3].", '$max_type','$max_conf','$max_time','".$usrid_test."'), ";
+		$max_conf=null;
+		$max_type=null;
+		$max_time = null;
 		/*
 		$sql .="INSERT INTO data (timestampMs, latitude, longitude, accuracy".$DB_fields[0].$DB_fields[1].$DB_fields[2].$DB_fields[3].") VALUES ('$timestampMs', $latitude, $longitude, $accuracy".$DB_fields[4].$DB_fields[5].$DB_fields[6].$DB_fields[7].");";*/
 		// https://stackoverflow.com/questions/18171615/why-we-need-to-include-quotation-mark-when-inserting-string-variable-to-mysql-da#:~:text=PHP%20is%20merely%20constructing%20the%20query%20for%20you.&text=which%20is%20invalid%20syntax.,marks%20need%20to%20be%20added.
