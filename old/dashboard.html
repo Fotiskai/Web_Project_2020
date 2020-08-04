@@ -2,7 +2,6 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <meta name="referrer" content="same-origin">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
     <script type="text/javascript" src="dashboard.js" charset="utf-8"></script>
@@ -132,4 +131,13 @@
        </div>
        <button onclick="redirect()">Λειτουργίες Διαχειρηστή</button>           
     </body>
+    
+    <script>
+          var x = document.referrer;
+          if(!x.includes("index.html")){window.location.href="index.html";} 
+    </script>
+    
+    <script type="text/javascript">
+	    function redirect(){window.location.href='admin.html';}
+    </script>
 </html>

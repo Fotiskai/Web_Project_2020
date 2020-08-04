@@ -1,8 +1,3 @@
-var x = document.referrer;
-if(!x.includes("index.html")){window.location.href="index.html";} 
-
-function redirect(){window.location.href='admin.html';}
-
 $.post("distribution.php",
 function (activities)
 {

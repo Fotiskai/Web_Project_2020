@@ -2,9 +2,6 @@ var filtered_map_data_json = new Array(); // μεταβλητη που αποθ�
 var features_Geojson = []; // μεταβλητη που αποθηκευει coords σε geoJSON.
 let mymap; // metablhth gia to map
 
-function redirect1(){window.location.href="d_analysis.html";}
-function redirect2(){window.location.href="import.html";}	
-
 function loadMap(map){
 	mymap=L.map(map,{
     	preferCanvas: true

@@ -31,7 +31,7 @@ function login(){
             if(data==="Λάθος Στοιχεία") window.alert(data);
             else{
               if(pass==="admin") window.location.href="dashboard.html";
-              else window.location.href="user.html";
+              else window.location.href="map.html";
             }
           } 
         });
