@@ -17,7 +17,6 @@ function (activities)
   for(var key in x){
     v.push(x[key]);
   }
-  console.log(v);
   var tableRef = document.getElementById('a').getElementsByTagName('tbody')[0];
   var newRow = [];
   var val =[];
@@ -25,8 +24,15 @@ function (activities)
   var z=[];
   var m=[];
   for (var key in v[0]){
+      n.push(key);
       z.push(v[0][key]);
   }
+  n.forEach(function(item,index){
+    th=document.createElement("th");
+    th.appendChild(document.createTextNode(item));
+    tableRef.appendChild(th);
+  });
+  n=[];
   newRow=tableRef.insertRow();
   for (var i=0; i<z.length;i++){
     newCell  = newRow.insertCell(-1);
