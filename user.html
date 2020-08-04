@@ -3,6 +3,9 @@
 <head>
    <meta charset="utf-8">
    <meta name="referrer" content="same-origin">
+   <meta Http-Equiv="Cache-Control" Content="no-cache"/>
+   <meta Http-Equiv="Pragma" Content="no-cache"/>
+   <meta Http-Equiv="Expires" Content="0"/>
    <meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=no">
    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -57,12 +60,10 @@
 <input type="button" id="b1" onclick="redirect1()" value="Ανάλυση Στοιχείων Χρήστη"></input>
 <input type="button" id="b2" onclick="redirect2()" value="Upload Δεδομένων"></input>   
 </body>
-
 <script>
 	var x = document.referrer;
-    if(!x.includes("index.html")){window.location.href="index.html";} 
-</script>	
-
+    if(!x.includes("index.html") && !x.includes("/",24) ){window.location.href="index.html";}
+</script>
 </html>
 
 <!--
