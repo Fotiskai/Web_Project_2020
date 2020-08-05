@@ -7,7 +7,7 @@ mysqli_set_charset($conn,'utf8');
 
 $i=0;
 
-$sql="SELECT MIN(YEAR(timestampMs)) as minumum, MAX(YEAR(timestampMs)) as maximum FROM data";
+$sql="SELECT MIN(YEAR(act_timestampMs)) as minumum, MAX(YEAR(act_timestampMs)) as maximum FROM data";
 $result=mysqli_query($conn,$sql);
 $result=mysqli_fetch_assoc($result);
 $mindate=$result["minumum"];

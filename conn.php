@@ -31,6 +31,8 @@
 	    $type=null;
 	    $act_timestampMs=null;
 	    $confidence=null;
+	    if(!array_key_exists('activity', $myArr[$i])) continue;
+
 		$timestampMs = (int)$myArr[$i]->timestampMs/1000; // Date object expects the number of milliseconds since the epoch, hence the 1000-fold difference
 		$timestampMs = date('Y-m-d H:i:s',$timestampMs);
 		$latitude = $myArr[$i]->latitudeE7/1e7;

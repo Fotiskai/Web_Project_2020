@@ -2,7 +2,7 @@ heatmapLayer=null;
 
 function minutes_selector(){
   sel=document.getElementById("minutes");
-  for(i=1;i<=60;i++){
+  for(i=0;i<60;i++){
       option=document.createElement("option");
       option.text=i;
       option.value=i;

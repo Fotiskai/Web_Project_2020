@@ -15,10 +15,10 @@ for($i=0;$i<13;$i++){
 	$result=mysqli_query($conn, $sql);
 	$res=mysqli_fetch_assoc($result);
 	$mon_year[$i]=$res["month"]. " " . $res["year"];	
-	$sql="SELECT COUNT(id) as vehicle FROM data WHERE userid='$uid' AND timestampMs <= LAST_DAY(DATE_SUB(CURDATE(), INTERVAL $tmp MONTH)) AND timestampMs > DATE_ADD(DATE_ADD(LAST_DAY(DATE_SUB(CURDATE(), INTERVAL $tmp MONTH)),interval 1 DAY),interval -1 MONTH) AND type IN('IN_VEHICLE','IN_RAIL_VEHICLE','IN_ROAD_VEHICLE','IN_FOUR_WHEELER_VEHICLE','IN_CAR','IN_TWO_WHEELER_VEHICLE','IN_BUS')";
+	$sql="SELECT COUNT(id) as vehicle FROM data WHERE userid='$uid' AND act_timestampMs <= LAST_DAY(DATE_SUB(CURDATE(), INTERVAL $tmp MONTH)) AND act_timestampMs > DATE_ADD(DATE_ADD(LAST_DAY(DATE_SUB(CURDATE(), INTERVAL $tmp MONTH)),interval 1 DAY),interval -1 MONTH) AND type IN('IN_VEHICLE','IN_RAIL_VEHICLE','IN_ROAD_VEHICLE','IN_FOUR_WHEELER_VEHICLE','IN_CAR','IN_TWO_WHEELER_VEHICLE','IN_BUS')";
 	$result=mysqli_query($conn, $sql);
 	$veh_c=mysqli_fetch_assoc($result);	
-	$sql="SELECT COUNT(id) as walk FROM data WHERE userid='$uid' AND timestampMs <= LAST_DAY(DATE_SUB(CURDATE(), INTERVAL $tmp MONTH)) AND timestampMs > DATE_ADD(DATE_ADD(LAST_DAY(DATE_SUB(CURDATE(), INTERVAL $tmp MONTH)),interval 1 DAY),interval -1 MONTH) AND type IN('ON_BICYCLE','ON_FOOT','WALKING','RUNNING')";
+	$sql="SELECT COUNT(id) as walk FROM data WHERE userid='$uid' AND act_timestampMs <= LAST_DAY(DATE_SUB(CURDATE(), INTERVAL $tmp MONTH)) AND act_timestampMs > DATE_ADD(DATE_ADD(LAST_DAY(DATE_SUB(CURDATE(), INTERVAL $tmp MONTH)),interval 1 DAY),interval -1 MONTH) AND type IN('ON_BICYCLE','ON_FOOT','WALKING','RUNNING')";
 	$result=mysqli_query($conn, $sql);
 	$c=mysqli_fetch_assoc($result);
     if($veh_c["vehicle"]==0 and $c["walk"]==0) $lscore[$i]=0;
@@ -27,7 +27,7 @@ for($i=0;$i<13;$i++){
     $tmp-=1;	
 }
 
-$sql="SELECT MIN(timestampMs) as minn, MAX(timestampMs) as maxn FROM data WHERE userid='$uid'";
+$sql="SELECT MIN(act_timestampMs) as minn, MAX(act_timestampMs) as maxn FROM data WHERE userid='$uid'";
 $result = mysqli_query($conn, $sql);
 $res=mysqli_fetch_assoc($result);
 if($res["minn"]=="" and $res["maxn"]==""){

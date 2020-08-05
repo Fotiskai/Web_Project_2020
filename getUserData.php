@@ -61,7 +61,7 @@
 	$hour_per_type = array_fill(0,count($act),0);
 	for($i=0;$i<count($act);$i++){
 		$tmp = $act[$i];
-		$hour_max_entries = "SELECT HOUR(timestampMs) FROM data WHERE type='$tmp' AND userid='$userid' GROUP BY DAY(timestampMs) ORDER BY COUNT(*) DESC LIMIT 1";
+		$hour_max_entries = "SELECT HOUR(act_timestampMs) FROM data WHERE type='$tmp' AND userid='$userid' GROUP BY DAY(act_timestampMs) ORDER BY COUNT(*) DESC LIMIT 1";
 		if($r = mysqli_query($conn,$hour_max_entries)){
 			$res = mysqli_fetch_row($r);
 			if($res==null){
@@ -81,7 +81,7 @@
 	$day_per_type = array_fill(0, count($act), 0);
 	for($i=0;$i<count($act);$i++){
 		$tmp = $act[$i];
-		$day_max_entries = "SELECT DAYNAME(timestampMs) FROM data WHERE type='$tmp' AND userid='$userid' GROUP BY WEEK(timestampMs) ORDER BY COUNT(*) DESC LIMIT 1";
+		$day_max_entries = "SELECT DAYNAME(act_timestampMs) FROM data WHERE type='$tmp' AND userid='$userid' GROUP BY WEEK(act_timestampMs) ORDER BY COUNT(*) DESC LIMIT 1";
 		if($r = mysqli_query($conn,$day_max_entries)){
 			$res = mysqli_fetch_row($r);
 			if($res==null){
@@ -127,7 +127,7 @@
 	//echo $h_all;
 	//echo $min_all;
 
-	$heatmap_sql = "SELECT COUNT(*) as count,latitude,longitude FROM(SELECT latitude,longitude FROM data WHERE YEAR(timestampMs) IN ($y_all) AND MONTHNAME(timestampMs) IN ($m_all) AND DAYNAME(timestampMs) IN ($d_all) AND HOUR(timestampMs) IN ($h_all) AND MINUTE(timestampMs) IN ($min_all) AND type IN ($a_all) AND userid='$userid')filterred_arr GROUP BY filterred_arr.latitude,filterred_arr.longitude";
+	$heatmap_sql = "SELECT COUNT(*) as count,latitude,longitude FROM(SELECT latitude,longitude FROM data WHERE YEAR(act_timestampMs) IN ($y_all) AND MONTHNAME(act_timestampMs) IN ($m_all) AND DAYNAME(act_timestampMs) IN ($d_all) AND HOUR(act_timestampMs) IN ($h_all) AND MINUTE(act_timestampMs) IN ($min_all) AND type IN ($a_all) AND userid='$userid')filterred_arr GROUP BY filterred_arr.latitude,filterred_arr.longitude";
 
 	if($heatmap_res = mysqli_query($conn,$heatmap_sql)){
 		if(mysqli_num_rows($heatmap_res)>0){
