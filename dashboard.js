@@ -11,6 +11,7 @@ function (activities)
   var n =[];
   var v =[];
 
+  console.log(activities);
   x=JSON.parse(activities);
   console.log(x);
 
@@ -200,7 +201,30 @@ function showGraphs()
               var graphTarget = $("#graphCanvas2");
               var barGraph = new Chart(graphTarget, {
                   type: 'bar',
-                  data: chartdata                
+                  data: chartdata,
+                  options: {
+                        scales: {
+                          xAxes: [{
+                            display: false,
+                            barPercentage: 1.3,
+                            ticks: {
+                              max: 3,
+                            }
+                          }, {
+                            display: true,
+                            ticks: {
+                              autoSkip: false,
+                              max: 4,
+                            }
+                          }],
+                          yAxes: [{
+                            ticks: {
+                              beginAtZero: true,
+                              stepSize: 100
+                            }
+                          }]
+                        }
+                    }              
               });
               n=[];
               z=[];
@@ -305,8 +329,6 @@ function showGraphs()
               var barGraph = new Chart(graphTarget, {
                   type: 'bar',
                   data: chartdata
-              });
-              n=[];
-              z=[];                                                                    
+              });                                                                   
         });
 }
