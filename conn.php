@@ -107,9 +107,6 @@
 		$max_conf=null;
 		$max_type=null;
 		$max_time = null;
-		/*
-		$sql .="INSERT INTO data (timestampMs, latitude, longitude, accuracy".$DB_fields[0].$DB_fields[1].$DB_fields[2].$DB_fields[3].") VALUES ('$timestampMs', $latitude, $longitude, $accuracy".$DB_fields[4].$DB_fields[5].$DB_fields[6].$DB_fields[7].");";*/
-		// https://stackoverflow.com/questions/18171615/why-we-need-to-include-quotation-mark-when-inserting-string-variable-to-mysql-da#:~:text=PHP%20is%20merely%20constructing%20the%20query%20for%20you.&text=which%20is%20invalid%20syntax.,marks%20need%20to%20be%20added.
 	}	
 	//echo $sql;
 	$len_str = strlen($sql);
@@ -122,6 +119,7 @@
 	}
     $lastUpload=date('Y-m-d');
 	$sql="UPDATE usercred SET lastUpload='$lastUpload' WHERE userid='$usrid_test'";
+	
 	mysqli_query($conn,$sql);
 	countscore();
 	echo "done";
@@ -142,6 +140,6 @@ function countscore(){
     else if($veh_count["vehicle"]==0) $score=100;
     else $score=round(($walk_count["walk"]/($veh_count["vehicle"]+$walk_count["walk"]))*100,2);
 	$sql="UPDATE usercred SET currentScore=$score WHERE userid='$usrid_test'";
-	mysqli_query($conn,$sql); 
+	mysqli_query($conn,$sql); 	
 }	
 ?>

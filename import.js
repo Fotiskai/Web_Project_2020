@@ -211,15 +211,31 @@ function graph(data,labels){
     		labels:labels,
     		datasets: [{
     			label:'Ποσοστό οικολογικής κίνησης (%)',
-    			data: data
+    			data: data,
+    			backgroundColor:'#1164f4'
     		}]
     	},
-    	options:{}
+		options:{	
+		  scales:{
+		    yAxes:[{
+		      scaleLabel:{
+		        display: true,
+		        labelString: 'Score οικολογικής μετακίνησης (%)'
+		      }
+		    }],
+		    xAxes:[{
+		      scaleLabel:{
+		        display: true,
+		        labelString: 'Μήνας-Έτος'
+		      }
+		    }]
+		  }     
+       }
     });
 }
 
 function leaderboard(current,top3,names,rank){
-	
+
 	document.getElementById("r1").innerHTML="1";
     document.getElementById("r2").innerHTML="2";
     document.getElementById("r3").innerHTML="3";
@@ -232,11 +248,12 @@ function leaderboard(current,top3,names,rank){
     document.getElementById("s2").innerHTML=top3[1] + "%";
     document.getElementById("s3").innerHTML=top3[2] + "%";
     document.getElementById("s4").innerHTML=current + "%";
-   
-/*
+
+   /*
     ranks=["1","2","3",rank];
     top3[3]=current;
 	table=document.getElementById("tb");
+	tableBody=document.createElement("tbody");
     th=document.createElement("th");
 	th.appendChild(document.createTextNode('Rank'));
 	table.appendChild(th);
@@ -260,7 +277,8 @@ function leaderboard(current,top3,names,rank){
         tr.appendChild(td1);
         tr.appendChild(td2);
         tr.appendChild(td3);
-        table.appendChild(tr);
+        tableBody.appendChild(tr);
 	}
-	*/	
+	table.appendChild(tableBody);
+	*/
 }

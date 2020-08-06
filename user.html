@@ -1,100 +1,70 @@
 <!DOCTYPE html>
 <html>
-<head>
-   <meta charset="utf-8">
-   <meta name="referrer" content="same-origin">
-   <meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=no">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
-   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-   crossorigin=""/>
-    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
-   integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
-   crossorigin=""></script>
-   <script src="https://cdn.jsdelivr.net/npm/heatmapjs@2.0.2/heatmap.js"> </script>
-   <script src="https:///cdn.rawgit.com/pa7/heatmap.js/develop/plugins/leaflet-heatmap/leaflet-heatmap.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-   <script src="import.js" charset="utf-8"></script>
-<title>Web 2020</title>
-</head>
-<body onload="show_data()">
-<label>Score οικολογικής μετακίνησης:</label>
-<label id="score"></label>
-<br>
-<br>
-<label>Score Graph:</label>
-<canvas id="myChart" style="width: 500px; height: 100px;"></canvas>
-<br>
-<br>
-<br>
-<label>Περίοδος εγγραφών:</label>
-<label id="period"></label>
-<br>
-<br>
-<label>Ημ/νια τελευταίου upload:</label>
-<label id="date"></label>
-<br>
-<br>
-<table id="tb" style="width:10%; border: 1px solid black;">
-  <tr>
-    <th style="text-align:left">Rank</th>
-    <th style="text-align:left">Username</th>
-    <th style="text-align:left">Score</th>
-  </tr>
-  <tr>
-    <td id="r1"></td>
-    <td id="n1"></td>
-    <td id="s1"></td>
-  </tr>
-  <tr>
-    <td id="r2"></td>
-    <td id="n2"></td>
-    <td id="s2"></td>
-  </tr>
-  <tr>
-    <td id="r3"></td>
-    <td id="n3"></td>
-    <td id="s3"></td>
-  </tr>
-  <tr>
-    <td id="r4"></td>
-    <td id="n4"></td>
-    <td id="s4"></td>
-  </tr>
-</table>
-<input type="button" id="b1" onclick="redirect1()" value="Ανάλυση Στοιχείων Χρήστη"></input>
-<input type="button" id="b2" onclick="redirect2()" value="Upload Δεδομένων"></input>   
-</body>
-<script>
-	var x = document.referrer;
-    if(!x.includes("index.html") && !x.includes("/",24) ){window.location.href="index.html";}
-</script>
-</html>
+	<head>
+	    <meta charset="utf-8">
+	    <meta name="referrer" content="same-origin">
+	    <meta name="viewport" content="width=device-width, initial-scale=1 shrink-to-fit=no">
+	    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">	   
+	    <title>Web 2020</title>
+	</head>
+	<body onload="show_data()" style="background-color: lightyellow">
+		<div class="container">
+             <h1 class="text-center">Απεικόνιση Στοιχείων Χρήστη</h1><br>
+		</div>	
+		<label>Score οικολογικής μετακίνησης:</label>
+		<label id="score"></label>
+		<br>
+		<label>Score Graph:</label>
+		<div class="container">
+		    <canvas id="myChart"></canvas>
+	    </div>
+		<br>
+		<label>Περίοδος εγγραφών:</label>
+		<label id="period"></label>
+		<br>
+		<label>Ημ/νια τελευταίου upload:</label>
+		<label id="date"></label>
+		<br>
+		<label class="d-flex justify-content-center font-weight-bold">Leaderboard:</label>
+		<table class="table table-striped table-hover table-sm w-100" id="tb">
+	      <tr>
+		    <th style="text-align:left">Rank</th>
+		    <th style="text-align:left">Username</th>
+		    <th style="text-align:left">Score</th>
+		  </tr>
+		  <tr>
+		    <td id="r1"></td>
+		    <td id="n1"></td>
+		    <td id="s1"></td>
+		  </tr>
+		  <tr>
+		    <td id="r2"></td>
+		    <td id="n2"></td>
+		    <td id="s2"></td>
+		  </tr>
+		  <tr>
+		    <td id="r3"></td>
+		    <td id="n3"></td>
+		    <td id="s3"></td>
+		  </tr>
+		  <tr>
+		    <td id="r4"></td>
+		    <td id="n4"></td>
+		    <td id="s4"></td>
+		  </tr>
+		</table>
+		<div class="d-flex justify-content-center">
+			<input class="btn btn-secondary" type="button" id="b1" onclick="redirect1()" value="Ανάλυση Στοιχείων Χρήστη">
+			<input class="btn btn-secondary" type="button" id="b2" onclick="redirect2()" value="Upload Δεδομένων">
+	    </div>
+	    <br>
 
-<!--
-  <tr>
-    <th style="text-align:left">Rank</th>
-    <th style="text-align:left">Username</th>
-    <th style="text-align:left">Score</th>
-  </tr>
-  <tr>
-    <td id="r1"></td>
-    <td id="n1"></td>
-    <td id="s1"></td>
-  </tr>
-  <tr>
-    <td id="r2"></td>
-    <td id="n2"></td>
-    <td id="s2"></td>
-  </tr>
-  <tr>
-    <td id="r3"></td>
-    <td id="n3"></td>
-    <td id="s3"></td>
-  </tr>
-  <tr>
-    <td id="r4"></td>
-    <td id="n4"></td>
-    <td id="s4"></td>
-  </tr>
-  -->
+
+	    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+		<script src="import.js"></script>  
+		<!--<script> var x = document.referrer; if(!x.includes("index.html") && !x.includes("/",24) ){window.location.href="index.html";}</script>-->
+	</body>
+</html>

@@ -53,15 +53,13 @@ $result=mysqli_fetch_assoc($result);
 $count=$result["count"];
 $k=ceil(sqrt($count));
 
-for($i=0;$i<$k;$i++){
-	$tmp[$i]=floor($totalact/$k);	
-}
+$tmp=floor($totalact/$k);	
 $start=0;
-$finish=$tmp[0];
+$finish=$tmp;
 $buckets[0]=$start . "-" . $finish;
 for($i=1;$i<$k;$i++){
    $start=$finish+1;
-   $finish=$finish+ $tmp[$i];
+   $finish=$finish + $tmp;
    $buckets[$i]=$start . "-" . $finish;
 }
 if($totalact-$finish!=0){
@@ -140,7 +138,6 @@ for($i=$mindate;$i<=$maxdate;$i++){
     $res=mysqli_fetch_assoc($res);
     $y_count[$i]=$res["yearcount"];	
 }
-
 
 $r = array($dataPoints,$u_r_count,$count_per_month,$count_per_day,$h_count,$y_count);
 echo json_encode($r);
