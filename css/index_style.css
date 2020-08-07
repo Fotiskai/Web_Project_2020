@@ -1,0 +1,126 @@
+body{
+  background-color: lightgrey;
+}
+
+.navbar-toggler{
+  background-color: blue;
+}
+
+.navbar-nav button[value=Register]{
+  background-color: red;
+  border-radius: 1rem;
+  color: black;
+  font-size: 15px;
+  font-weight: bold;
+  margin-right: 100px;
+  margin-bottom: 2px;
+  padding-right: 60px;
+  padding-left: 60px;
+}
+
+.navbar-nav  button[value=Login]{
+  background-color: green;
+  border-radius: 1rem;
+  color: black;
+  font-size: 15px;
+  font-weight: bold;
+  margin-right: 100px;
+  margin-bottom: 2px;
+  padding-right: 60px;
+  padding-left: 60px;
+}
+
+h5{
+  font-size: 20px;
+  font-weight: bold;
+  margin: 90px;
+}
+
+.login-container{
+  width: 320px;
+	height: 380px;
+	background: grey;
+	color: black;
+	top: 75%;
+	left: 50%;
+	position: absolute;
+	transform: translate(-50%,-50%);
+	box-sizing: border-box;
+	padding: 30px 30px;
+  display: none;
+}
+
+
+.login-container form{
+  margin: 0;
+	padding: 0;
+	font-weight: bold;
+}
+
+.login-container input{
+  border-radius: 3rem;
+  width: 100%;
+	margin-bottom: 20px;
+}
+
+.login-container input[value=Login]{
+  background-color: green;
+  border-radius: 3rem;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 0.5rem;
+}
+.F-pass{
+  float: right;
+  padding: 12px;
+}
+
+.register-container{
+  box-sizing: border-box;
+  width: 320px;
+	height: 380px;
+	background: grey;
+	color: black;
+	top: 75%;
+	left: 50%;
+	position: absolute;
+	transform: translate(-50%,-50%);
+	padding: 30px 30px;
+  display: none;
+}
+
+
+.register-container form{
+  margin: 0;
+	padding: 0;
+	font-weight: bold;
+}
+
+.register-container input{
+  border-radius: 3rem;
+  width: 100%;
+	margin-bottom: 20px;
+}
+
+.register-container input[value=Register]{
+  background-color: red;
+  border-radius: 3rem;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 0.5rem;
+
+}
+
+.input{
+  padding-left: 10px;
+}
+
+.cancelbtn{
+  background-color: orange;
+  border-radius: 2rem;
+  float: left;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 0.5rem;
+
+}

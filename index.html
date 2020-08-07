@@ -10,7 +10,7 @@
 	</head>
 	<body>
 		<nav class="nav-bar navbar-expand-sm navbar-dark bg-dark">
-			<a class="navbar-brand" href="#"> Σύστημα συλλογής,διαχείρισης και ανάλυσης πληθοποριστικής(crowdsourced) πληροφορίας</a>
+			<a class="navbar-brand" href="#">Web2020</a>
 			<button class="navbar-toggler float-right" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
 	    	<span class="navbar-toggler-icon"></span>
 	  	    </button>
@@ -18,22 +18,23 @@
 				<div class="navbar-nav float-right ml-auto">
 				<button class="btn btn-success"  onclick="document.getElementById('reg').style.display='block'" type="submit" value="Register">Register</button>
 				<button  class="btn btn-success"  onclick="document.getElementById('log').style.display='block'" type="submit" value="Login">Login</button>
-				</div>	
+				</div>
 			</div>
-		</nav>	
+		</nav>
+		<h5 class="text-center"> Σύστημα συλλογής,διαχείρισης και ανάλυσης πληθοποριστικής (crowdsourced) πληροφορίας</h5>
 		<div class="register-container" id="reg">
 			<form>
-				Username: <input type="text" id="un1" ><br>
-				Password: <input type="password" id="pwd1"><br>
-				E-mail:   <input type="text" id="em"><br>
+				Username: <input class="input" type="text" id="un1" ><br>
+				Password: <input class="input" type="password" id="pwd1"><br>
+				E-mail:   <input class="input" type="text" id="em"><br>
 				<input type="button" onclick="register()" name="f2" value="Register">
 				<button type="button" onclick="document.getElementById('reg').style.display='none'" class="cancelbtn">Cancel</button>
 			</form>
 		</div>
 		<div class="login-container" id="log">
 			<form>
-				Username: <input type="text" id="un" ><br>
-				Password: <input type="password" id="pwd"><br>
+				Username: <input class="input" type="text" id="un" ><br>
+				Password: <input class="input" type="password" id="pwd"><br>
 				<input type="button" onclick="login()" name="f3" value="Login">
 				<button type="button" onclick="document.getElementById('log').style.display='none'" class="cancelbtn">Cancel</button>
 				<a class="F-pass" onclick="remember()" href=""> Forgot-Password? </a>
