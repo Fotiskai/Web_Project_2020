@@ -15,18 +15,18 @@
             <div class="container"> 
                 <h1 class="text-center">Απεικόνιση στοιχείων σε Χάρτη</h1>
             </div>
-            <div class="map" id="mapid" style="height:400px"></div>  
+            <div class="map" id="mapid" style="height:40vh"></div>  
                 <div class="container">
                      <div class="row">
                         <div class="col-sm">
                          <label>Έτος</label><br>
-                         <select id="year" multiple>
+                         <select class="custom-select" style="padding: 0; margin-bottom: 10px;" size="4" id="year" multiple>
                          </select>
-                         <button class="btn btn-info d-flex align-self-end" onClick="selectAll(document.getElementById('year'))">Επιλογή όλων</button> 
+                         <button class="btn btn-info d-flex align-self-end" onClick="selectAll(document.getElementById('year'))">Επιλογή όλων</button>
                         </div> 
                         <div class="col-sm"> 
                          <label>Μήνας</label><br>
-                         <select class="" id="month" multiple>
+                         <select class="custom-select" style="padding: 0; margin-bottom: 10px;" size="4" id="month" multiple>
                          <option value="January">Ιανουάριος</option>
                          <option value="February">Φεβρουάριος</option>
                          <option value="March">Μαρτιος</option>
@@ -44,7 +44,7 @@
                         </div> 
                         <div class="col-sm">    
                          <label>Ημέρα</label><br>
-                         <select id="day" multiple>
+                         <select class="custom-select" style="padding: 0; margin-bottom: 10px;" size="4" id="day" multiple>
                          <option value="Monday">Δευτέρα</option>
                          <option value="Tuesday">Τρίτη</option>
                          <option value="Wednesday">Τετάρτη</option>
@@ -57,7 +57,7 @@
                         </div> 
                         <div class="col-sm">    
                          <label>Ώρα</label><br>
-                         <select id="hour" multiple>
+                         <select class="custom-select" style="padding: 0; margin-bottom: 10px;" size="4" id="hour" multiple>
                          <option value="00">0</option>
                          <option value="01">1</option>
                          <option value="02">2</option>
@@ -87,13 +87,13 @@
                         </div>
                         <div class="col-sm"> 
                          <label>Λεπτά</label><br>     
-                         <select id="minutes" multiple>
+                         <select class="custom-select" style="padding: 0; margin-bottom: 10px;" size="4" id="minutes" multiple>
                          </select>
                          <button class="btn btn-info" onClick="selectAll(document.getElementById('minutes'))">Επιλογή όλων</button>
                         </div>
                         <div class="col-sm">        
-                         <label>Activities</label><br>
-                         <select id="act" multiple>   
+                         <label>Δραστηριότητες</label><br>
+                         <select class="custom-select" style="padding: 0; margin-bottom: 10px;" size="4" id="act" multiple>   
                          </select>
                          <button class="btn btn-info" onClick="selectAll(document.getElementById('act'))">Επιλογή όλων</button>
                         </div> 
@@ -107,14 +107,16 @@
              <div class="container">
                  <h1 class="text-center">Εξαγωγή και Διαγραφή Δεδομένων</h1><br>
              </div> 
-             <div class="container d-flex justify-content-center">     
-                <select  id="exp">
+             <div class="container d-flex justify-content-center">
+               <div class="row d-flex justify-content-center">     
+                <select class="custom-select w-25" style="padding: 0;" id="exp">
                    <option value="CSV">CSV</option>
                    <option value="JSON">JSON</option>
                    <option value="XML">XML</option>
                 </select> 
-                <input class="btn btn-success" type="button" onclick="export_data()" value="Εξαγωγή δεδομένων"><br> 
+                <input class="btn btn-success" style="margin-bottom: 5px; margin-left: 5px;" type="button" onclick="export_data()" value="Εξαγωγή δεδομένων"><br> 
                 <input class="btn btn-danger" type="button" onclick="data_delete()" value="Διαγραφή δεδομένων"><br>
+               </div> 
              </div>  
 
              <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>

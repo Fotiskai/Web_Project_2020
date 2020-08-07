@@ -193,10 +193,16 @@ function show_data(){
        		dataType:"json", 
        		success: function(data) {
        		    console.log(data);
-       			document.getElementById("score").innerHTML=data[0][12] + '%';
-       			graph(data[0],data[1]);
+                document.getElementById("score").innerHTML=data[0][12] + '%';
+                
+                const isZero=data[0].every(item => item === 0);  
+       		    if(!isZero) graph(data[0],data[1]);
+
        			document.getElementById("period").innerHTML=data[2]+ "\t"+ "-" + "\t" +data[3];
-       			document.getElementById("date").innerHTML=data[4];
+       		    
+       		    if(data[4]) document.getElementById("date").innerHTML=data[4];
+       		    else document.getElementById("date").innerHTML= "-";
+
        			leaderboard(data[0][12],data[5],data[6],data[7]);
         	}
 		});
@@ -234,43 +240,31 @@ function graph(data,labels){
     });
 }
 
-function leaderboard(current,top3,names,rank){
-
-	document.getElementById("r1").innerHTML="1";
-    document.getElementById("r2").innerHTML="2";
-    document.getElementById("r3").innerHTML="3";
-    document.getElementById("r4").innerHTML=rank;
-    document.getElementById("n1").innerHTML=names[0];
-    document.getElementById("n2").innerHTML=names[1];
-    document.getElementById("n3").innerHTML=names[2];
-    document.getElementById("n4").innerHTML=names[3];
-    document.getElementById("s1").innerHTML=top3[0] + "%";
-    document.getElementById("s2").innerHTML=top3[1] + "%";
-    document.getElementById("s3").innerHTML=top3[2] + "%";
-    document.getElementById("s4").innerHTML=current + "%";
-
-   /*
+function leaderboard(current,scores,names,rank){
     ranks=["1","2","3",rank];
-    top3[3]=current;
+    scores[3]=current;
+    ranks=ranks.filter((value,index,self)=> self.indexOf(value)===index);
+    names=names.filter((value,index,self)=> self.indexOf(value)===index);
 	table=document.getElementById("tb");
 	tableBody=document.createElement("tbody");
     th=document.createElement("th");
 	th.appendChild(document.createTextNode('Rank'));
-	table.appendChild(th);
+	tableBody.appendChild(th);
 	th=document.createElement("th");
 	th.appendChild(document.createTextNode('Username'));
-	table.appendChild(th);
+	tableBody.appendChild(th);
 	th=document.createElement("th");
 	th.appendChild(document.createTextNode('Score'));
-	table.appendChild(th);
-	for(i=0;i<4;i++){
+	tableBody.appendChild(th);
+	table.appendChild(tableBody);
+	for(i=0;i<names.length;i++){
 		tr=document.createElement("tr");
 		td1=document.createElement("td");
-		td2=document.createElement("td2");
-		td3=document.createElement("td3");
+		td2=document.createElement("td");
+		td3=document.createElement("td");
 		datatd1=document.createTextNode(ranks[i]);
 		datatd2=document.createTextNode(names[i]);
-		datatd3=document.createTextNode(top3[i]);
+		datatd3=document.createTextNode(scores[i] + '%');
 		td1.appendChild(datatd1);
         td2.appendChild(datatd2);
         td3.appendChild(datatd3);
@@ -280,5 +274,4 @@ function leaderboard(current,top3,names,rank){
         tableBody.appendChild(tr);
 	}
 	table.appendChild(tableBody);
-	*/
 }

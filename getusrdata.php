@@ -64,7 +64,7 @@ $username=$temp[0]. " " . mb_substr($temp[1],0,1) . ".";
 array_push($names,$username);
 $sql="SET @rank:=0";
 $result=mysqli_query($conn, $sql);
-$sql="SELECT @rank as ranking FROM (SELECT userid,@rank := @rank + 1 FROM usercred ORDER BY currentScore DESC)sub WHERE sub.userid='$uid'";
+$sql="SELECT ranking FROM (SELECT userid,@rank := @rank + 1 as ranking FROM usercred ORDER BY currentScore DESC)sub WHERE sub.userid='$uid'";
 $result=mysqli_query($conn, $sql);
 $result=mysqli_fetch_assoc($result);
 $usr_rank=$result["ranking"];
