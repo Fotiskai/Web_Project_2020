@@ -73,6 +73,7 @@ function import_files(x){
 			if(dist <= 10){ // filtrarw ta dedomena kai pairnw mono auta p einai katw apo 10km
 				//console.log(i)
 				filtered_data.push(tmp);
+				/*
 				var feature = {
 					type: 'Feature',
 					geometry: {
@@ -81,13 +82,14 @@ function import_files(x){
 					}
 				};
 				features_Geojson.push(feature);
+				*/
 			}
 		}
 		filtered_map_data_json = filtered_data; // pairnw ta filtrarismena data kai ta bazw thn global var wste na ta steilw meta mesw AJAX sthn php
-		var geo_form = { type: 'FeatureCollection', features: features_Geojson };
+		//var geo_form = { type: 'FeatureCollection', features: features_Geojson };
 
-		geo = L.geoJson(geo_form,geo_options).addTo(mymap);
-		mymap.fitBounds(geo.getBounds());
+		//geo = L.geoJson(geo_form,geo_options).addTo(mymap);
+		//mymap.fitBounds(geo.getBounds());
 		console.log('END!');
 		console.log(filtered_map_data_json.length);
 		console.log(filtered_map_data_json);
@@ -95,16 +97,17 @@ function import_files(x){
 		var bounds = [];// pinakas p krataei tis proswrines theseis twn rects.
 		var rect=null;
 		var flag = false;
+		var moveflag= false;
 		group.addTo(mymap);
 		mymap.on('click',function(e){
-			console.log('1st_event:',e.latlng);
+			//console.log('1st_event:',e.latlng);
 			bounds.push(e.latlng);
 			rect = L.rectangle(bounds,{color: 'red',wieght: 2}).on('contextmenu',function(e){
 				bounds = [];
 				this.remove();
 				index = all_rects.indexOf(this);
 				all_rects.splice(index,1);
-				console.log('all_rects_after_del:',all_rects);
+				//console.log('all_rects_after_del:',all_rects);
 			});
 			//console.log(bounds);
 			if(bounds.length%2==0 && flag == true){
@@ -113,19 +116,30 @@ function import_files(x){
 				//group.addLayer(rect);
 				console.log('all rects: ',all_rects);
 				bounds = [];
+				moveflag=true;
 			}
 		}).on('mousemove',function(e){
 			if(bounds.length == 1){
 				flag = true;
+				moveflag=false;
 				xy = [bounds[0],e.latlng];
-				console.log('2st_event:',xy);
+				//console.log('2st_event:',xy);
 				rect.setBounds(xy).addTo(group);
 			}else{
 				flag = false;
+				moveflag=true;
 			}
-			});
-	}
+		});
+		document.body.ontouchend=function(e){if(moveflag===true) e.type; mymap.dragging.enable();}
+		document.body.ontouchmove=function(e){ if(moveflag===false){
+			e.type; 
+		    mymap.dragging.disable();
+		    }
+	    }
+	
 
+	}
+	
 	function cut_distance(lat,lon){
 		//https://www.movable-type.co.uk/scripts/latlong.html
 		var la_const,lo_const,dist;
