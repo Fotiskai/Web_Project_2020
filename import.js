@@ -130,9 +130,9 @@ function import_files(x){
 				moveflag=true;
 			}
 		});
-		document.body.ontouchend=function(e){if(moveflag===true) e.type; mymap.dragging.enable();}
-		document.body.ontouchmove=function(e){ if(moveflag===false){
-			e.type; 
+		document.getElementById('mapid').ontouchend=function(e){if(moveflag===true) e.preventDefault(); mymap.dragging.enable();}
+		document.getElementById('mapid').ontouchmove=function(e){ if(moveflag===false){
+			e.preventDefault(); 
 		    mymap.dragging.disable();
 		    }
 	    }
