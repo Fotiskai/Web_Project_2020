@@ -3,7 +3,7 @@
 <head>     
    <meta charset="utf-8"> 
    <meta name="referrer" content="same-origin">
-   <meta name="viewport" content="width=device-width, initial-scale=1 shrink-to-fit=no">
+   <!-- <meta name="viewport" content="width=device-width, initial-scale=1 shrink-to-fit=no"> -->
    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" 
    integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" 
    crossorigin=""/> 
@@ -52,17 +52,20 @@
     <br>
     <div class="container">
         <div class="d-flex justify-content-center">
-            <input id='sub' class="btn btn-success" type="button" onclick="get_user_options()" value="Υποβολή"> 
+            <input id='submit_btn' class="btn btn-success" type="button" onclick="get_user_options()" value="Υποβολή"> 
         </div>
     </div>
     <br>
     <br>
     <div id='div'></div>
-    <table class="mytable table table-striped table-dark table-hover table-sm" id='table'>
-            <!-- table generation goes here -->
-    </table>
+    <div id="Table-group" class="table-responsive-sm">
+      <table class="mytable table table-striped table-dark" border="1" id='table'>
+             <!-- table generation goes here -->
+      </table>
+    </div>
     <br>
-    <div id="graphp"></div>
+    <div id="graphp" class="text-center"></div>
+    <div id="contain_id" class="container"></div>
 
 
    <!-- Scripts --> 
@@ -73,6 +76,7 @@
    <script src="https:///cdn.rawgit.com/pa7/heatmap.js/develop/plugins/leaflet-heatmap/leaflet-heatmap.js"></script>  
    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/js/bootstrap.min.js" integrity="sha384-XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J" crossorigin="anonymous"></script>
    <script type="text/javascript" src="userDataHandler.js"></script> 
    <script type="text/javascript" src="formhandler.js"></script>
    <script> 
