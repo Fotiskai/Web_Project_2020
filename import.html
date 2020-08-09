@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="referrer" content="same-origin">
-	<meta name="viewport" content="width=device-width, initial-scale=1 shrink-to-fit=no">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
    integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
    crossorigin=""/>
@@ -17,20 +17,16 @@
 	<div class="container">
 		<p class="text-center">Εισαγωγή Δεδομένων μέσω Χάρτη</p>
 	</div>
-	<div class="container">
-		<div class="map" id="mapid"></div>
-			<div class="row">
-				<div class="col-sm">
-					<input accept=".json" type="file" id="Import" name="Import" class="Import btn btn-primary d-flex btn-sm" > <!--To .txt sto accept einai gia to testing -->
+	<div class="map" id="mapid"></div>
+		<div class="btn-group-vertical d-flex flex-column">
+				<input accept=".json" type="file" id="Import" name="Import" class="Import btn btn-primary btn-sm" align="center">
+				<label id='lab' class="btn btn-primary btn-sm" for="Import">Choose a File</label>
+				   <!--To .txt sto accept einai gia to testing -->
 					<!--<label class="custom-file-label" id="import_label" for="Import">Choose a file</label>-->
-				</div>
-				<div class="col-sm">
-					<input type="button" onclick="upload()" value="Submit" class="submit_btn btn btn-primary d-flex btn-sm" name="submit" id="submit">
-				</div>
-			</div>
-	</div>
+			<input type="button" onclick="upload()" value="Submit" class="submit_btn btn btn-primary btn-sm" name="submit" id="submit">
 
-		<button  class="back_to btn btn-info d-flex btn-sm" onclick="window.location.href='user.html';">Επιστροφή στην Αρχική Σελίδα</button>
+			<button  class="back_to btn btn-info btn-sm" onclick="window.location.href='user.html';">Επιστροφή στην Αρχική Σελίδα</button>
+		</div>
 
 	<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
    integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
@@ -49,7 +45,7 @@
 	</script>
 </body>
     <script>
-	   var x = document.referrer;
-       if(!x.includes("user.html")){window.location.href="index.html";}
+	  var x = document.referrer;
+      if(!x.includes("user.html")){window.location.href="index.html";}
     </script>
 </html>

@@ -1,7 +1,7 @@
 mymap = null;
 heatmap = null;
-//var x = document.referrer;
-//if(!x.includes("user.html")){window.location.href="index.html";} 	
+var x = document.referrer;
+if(!x.includes("user.html")){window.location.href="index.html";} 	
 
 // sunarthsh h opoia ekteleitai otan path8ei to btn epilogh olwn kai markarei ola ta items sto select form
 function selectAll(id){
@@ -18,15 +18,8 @@ function get_user_options(){
 	max_heat = null;
 	select_year = $('#year').val();
 	select_month = $('#month').val();
-	//select_day = $('#day').val();
-	//select_hour = $('#hour').val();
-	//select_min = $('#min').val();
-	//select_act = $('#act').val();
-	console.log(select_year);
-	console.log(select_month);
-	//console.log(select_day); || select_day.length==0 || select_hour.length==0 || select_min.length==0 ||select_act.length==0
-	//console.log(select_hour);
-	//console.log(select_act);
+	//console.log(select_year);
+	//console.log(select_month);
 	if(select_year.length==0 || select_month.length==0){
 		window.alert("Παρακαλώ επιλέξτε δραστηριότητες και ημ/νια-ώρα");
 	}else{
@@ -41,13 +34,8 @@ function get_user_options(){
 					document.getElementById('div').innerHTML='';
 					document.getElementById('table').innerHTML='';
 					document.getElementById('graphp').innerHTML='';
-					if(document.getElementById('boot_row')){
-						$('#boot_row').css('height', "0px");
-						document.getElementById('boot_row').innerHTML='';
-					}
-					if(document.getElementById('boot_row1')){
-						$('#boot_row1').css('height', "0px");
-						document.getElementById('boot_row1').innerHTML='';
+					if(document.getElementById('contain_id')){
+						document.getElementById('contain_id').innerHTML='';
 					}
 					if(heatmap!=null){
 						mymap.removeLayer(heatmap);// to bazw wste n ka8arisei to map an den mpei sto heatmap func
@@ -58,9 +46,7 @@ function get_user_options(){
 				}
 				else{
 					//console.log(data);
-					//console.log("there goes data needed for heatmap");
 					results = data.split("|");
-					//console.log(results[2]);
 					percentage = results[0];
 					console.log(percentage);
 					hours = results[1];
@@ -125,6 +111,7 @@ function get_user_options(){
 
 					var node = document.getElementById('div');
 					var newNode = document.createElement('p');
+					newNode.setAttribute('class','text-center');
 					newNode.appendChild(document.createTextNode('TABLE'));
 					node.appendChild(newNode);
 
@@ -480,49 +467,11 @@ function generateGraphs(data,data1,data2){
 	newNode.setAttribute('class','text-center');
 	newNode.appendChild(document.createTextNode('Διαγράμματα'));
 	node.appendChild(newNode);
-/*
-	var div_boot_c = document.createElement('div');
-	div_boot_c.setAttribute('id','boot_cont');
-	div_boot_c.setAttribute('class','container');
-	document.body.appendChild(div_boot_c);
-*/
-	var div_b_q = document.querySelector(".boot_r");
-	//console.log(div_b_q);
-	if(div_b_q==null){
-		var div_boot_row = document.createElement('div');
-		div_boot_row.setAttribute('id','boot_row');
-		div_boot_row.setAttribute('class','boot_r row panel panel-default');
-		document.body.appendChild(div_boot_row);
-	}else{
-		$('#boot_row').css('height', "auto");
-		var div_boot_row = div_b_q;
+
+	if(document.getElementById('contain_id')){
+		document.getElementById('contain_id').innerHTML='';
 	}
-
-	var div_b_q1 = document.querySelector(".boot_r1");
-	//console.log(div_b_q1);
-	if(div_b_q1==null){
-		var div_boot_row1 = document.createElement('div');
-		div_boot_row1.setAttribute('id','boot_row1');
-		div_boot_row1.setAttribute('class','boot_r1 row panel panel-default');
-		document.body.appendChild(div_boot_row1);
-	}else{
-		$('#boot_row1').css('height', "auto");
-		var div_boot_row1 = div_b_q1;
-	}
-
-	var div = document.createElement('div');
-	var div1 = document.createElement('div');
-	var div2 = document.createElement('div');
-
-	div.setAttribute('id','gdiv');
-	div.setAttribute('class','gclass col-sm panel-body');
-	//div.style.cssText = "width:700px;";
-
-	div1.setAttribute('id','gdiv1');
-	div1.setAttribute('class','gclass1 col-sm panel-body');
-
-	div2.setAttribute('id','gdiv2');
-	div2.setAttribute('class','gclass2 col-sm panel-body');
+	var cont = document.getElementById('contain_id');
 
 	var canvas = document.createElement('CANVAS');
 	canvas.setAttribute('id','draw');
@@ -536,22 +485,12 @@ function generateGraphs(data,data1,data2){
 	canvas2.setAttribute('id','draw2');
 	canvas2.setAttribute('class','draw2_c');
 
-	div_boot_row.appendChild(div);
-	div_boot_row.appendChild(div1);
-	div_boot_row1.appendChild(div2);
-
-	div.appendChild(canvas);
-	div1.appendChild(canvas1);
-	div2.appendChild(canvas2);
+	cont.appendChild(canvas);
+	cont.appendChild(canvas1);
+	cont.appendChild(canvas2);
 
 	create_bar_diag(data,'draw');
 	create_bar_diag(data1,'draw1');
 	create_bar_diag(data2,'draw2');
-	/*
-	var node = document.getElementById('para2');
-	var newNode = document.createElement('p');
-	newNode.appendChild(document.createTextNode('MAP'));
-	node.appendChild(newNode);
-	*/
 
 }

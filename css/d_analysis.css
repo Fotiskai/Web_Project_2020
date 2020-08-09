@@ -32,12 +32,14 @@ body{
 		);
 		background-repeat: round;
 }
+
 p {
  	font-family: verdana;
 	font-size: 20px;
 	text-align: center;
 	/*text-shadow: 2px 2px 5px #22D4DD;*/
 }
+
 /*-------------- MAP -----------------*/
 #mapid{
 	height: 600px; 
@@ -47,26 +49,27 @@ p {
 	text-align: top;
 
 }
+/* ----------- Select tags ------------*/
 
 .col-sm select[id=year]{
 	width: 120px;
-	margin-left:10%; 
+	margin-left:14%; 
 	margin-top: 4px;
 }
 
 #month_label{
-	margin-left:10%;
+	margin-left:12%; 
 	margin-top: 5px;
 }
 
 #year_label{
-	margin-left:10%;
+	margin-left:14%;
 	margin-top: 5px;
 }
 
 .col-sm select[id=month]{
 	width: 120px;
-	margin-left:10%; 
+	margin-left:12%; 
 	margin-top: 4px;
 }
 
@@ -80,125 +83,53 @@ p {
 
 .row{
 	/*padding-top: 20%;*/
-	padding-left: 20%;
+	padding-left: 15%;
 }
 #year_btn{
 	text-align: center !important;
 	padding-left: 15px;
-	margin-left: 10%; 
+	margin-left: 14%; 
 	margin-top: 2%;
 	padding-right: 15px;
 }
 
-.month_c{
+#month_btn{
 	text-align: center !important;
 	padding-left: 15px;
-	margin-left: 10%; 
+	margin-left:12%;  
 	margin-top: 2%;
 	padding-right: 15px;
 }
-@media only screen and (min-width: 768px){
-.mytable{
-	width: 70%;
-	margin-right: 15%;
-	margin-left: 15%;
-}
-.gclass{
+
+#submit_btn{
 	position: relative;
-	height: 300px ;
-	width: 300px ;
-	left: -15%;
-	vertical-align: center !important;
-	display: inline-block;
 }
 
-.gclass1{
-	position: relative;
-	height: 400px ;
-	width: 300px ;
-	left: -5%;
-	padding-right: 30px;
-	vertical-align: center !important;
-	display: inline-block;
+.table-responsive-sm{
+  margin-right: 100px;
+  text-align: center;
+  width: 100%;
 }
 
-.gclass2{
-	position: relative;
-	height: 400px !important;
-	width: 800px !important;
-	left: -15%;
-	align-items: left !important;
-	vertical-align: center;
-	display: inline-block;
+#contain_id{
+  margin-top: 50px;
+  width: 50%;
 }
 
-.draw2_c{
-	/*height: 250px;*/
-	width: 100% !important;
+#draw{
+  	margin-bottom: 100px;
 }
 
-.boot_row{
-	height: 400px;
+#draw1{
+	margin-bottom: 100px;
+}
+
+#draw2{
+	margin-bottom: 100px;
 }
 
 .back_to{
 		position: relative;
 		margin-left: 15%;
 		margin-top: -9px;
-	}
-}
-
-@media only screen and (max-width: 768px){
-	.btn-success{
-		margin-right: 14%;
-	}
-	.mytable{
-		align-items: center !important;
-		width: 100% !important;
-	}	
-	.gclass{
-	position: relative;
-	height: 300px ;
-	width: 100% !important;
-	left: -15%;
-	vertical-align: center !important;
-	display: inline-block;
-	}
-
-	.gclass1{
-	position: relative;
-	height: 400px ;
-	width: 100% !important;
-	left: -15%;
-	vertical-align: center !important;
-	display: inline-block;
-	}	
-
-	.gclass2{
-	position: relative;
-	height: 400px !important;
-	width: 100% !important;
-	left: -15%;
-	align-items: left !important;
-	vertical-align: center;
-	display: inline-block;
-	}
-
-	.draw_c{
-	width: 100%;
-	}
-
-	.draw1_c{
-	width: 100%;
-	}
-
-	.draw2_c{
-	width: 100%;
-	}
-
-	.back_to{
-		position: relative;
-		margin-left: 25%;
-		margin-top: -10px;
-	}
 }

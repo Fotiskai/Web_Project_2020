@@ -51,85 +51,62 @@ p {
 	text-align: center;
 
 }
+
+#cont{
+	width: 100%;
+}
 /*--------------CHOOSE FILE BTN-----------------*/
-
-@media only screen and (min-width: 768px){
-	.back_to{
-		position: relative;
-		padding-top: 2px;
-		margin-left: 46%;
-		margin-top: 70px;
-	}
-	.Import{
-		position: relative;
-		text-align: center !important;
-		padding-left: 15px;
-		margin-left: 65%;
-		margin-top: 12px;
-		padding-right: 15px;
-	}
-
-	.submit_btn{
-		position: relative;
-		text-align: left !important;
-		margin-left: 150px;
-		margin-top: 12px;
-		padding-left: 15px;
-		padding-right: 15px;
-		height: 37px;
-	}
+.back_to{
+	position: relative;
+	padding-top: 2px;
+	margin-top: 70px;
+	width: 50% !important;
+	margin-left: 25%;
 }
-/* mobile support */
-@media only screen and (max-width: 320px){
-	.btn-info{
-		margin-left: 15%;
-	}
-	.back_to{
-		padding-top: 6px;
-		padding-bottom: 6px;
-		margin-top: 6px;
-	}
-}
-
-@media only screen and (min-width: 321px) and (max-width: 425px){
-	.btn-info{
-		margin-left: 20%;
-	}
-	.back_to{
-		padding-top: 6px;
-		padding-bottom: 6px;
-		margin-top: 6px;
-		margin-right: 5px;
-	}
-}
-
-@media only screen and (min-width: 425px) and (max-width: 768px){
-	.btn-info{
-		margin-left: 25%;
-	}
-	.back_to{
-		padding-top: 6px;
-		padding-bottom: 6px;
-		margin-top: 6px;
-	}
-}
-
 @media only screen and (max-width: 768px){
 	.Import{
-		text-align: center !important;
-		padding-left: 15px;
-		margin-left: 10%;
-		margin-top: 2%;
-		padding-right: 15px;
-		width: 75%;
+		width: 0.1px;
+		height: 0.1px;
+		opacity: 0;
+		overflow: hidden;
+		position: absolute;
+		z-index: -1;
 	}
+	.Import + label {
+   		position: relative;
+		margin-top: 12px;
+		margin-bottom: 12px;
+		height: 37px;
+		width: 50% !important;
+		margin-left: 25%;
+	}
+}
 
-	.submit_btn{
-		text-align: center !important;
-		padding-left: 2px;
-		margin-left: 44%;
-		margin-right: 20%;
-		margin-top: 2%;
-		padding-right: 2px;
+@media only screen and (min-width: 769px){
+	.Import{
+		width: 0.1px;
+		height: 0.1px;
+		opacity: 0;
+		overflow: hidden;
+		position: absolute;
+		z-index: -1;
+	}	
+	.Import + label {
+   		position: relative;
+		margin-top: 12px;
+		margin-bottom: 12px;
+		height: 37px;
+		width: 50% !important;
+		margin-left: 25%;
 	}
+}
+
+
+.submit_btn{
+	position: relative;
+	margin-top: 12px;
+	margin-bottom: 12px;
+	height: 37px;
+	width: 50% !important;
+	margin-left: 25%;
 }
