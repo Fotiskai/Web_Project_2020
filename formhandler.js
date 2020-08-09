@@ -2,7 +2,7 @@ heatmapLayer=null;
 
 function minutes_selector(){
   sel=document.getElementById("minutes");
-  for(i=0;i<60;i++){
+  for(i=1;i<=60;i++){
       option=document.createElement("option");
       option.text=i;
       option.value=i;
@@ -10,9 +10,8 @@ function minutes_selector(){
   }
 }
 
-function year_n_activites_selector(){
+function years_selector(){
     sel=document.getElementById("year");
-    sel1=document.getElementById("act");
     $.ajax({ 
     type: "POST", 
     url: "selector.php", 
@@ -25,15 +24,28 @@ function year_n_activites_selector(){
         option.value=i;
         sel.add(option);
       }
-      data[2].forEach(function(item,index){
+  }});
+}
+
+function activites_selector(){
+    sel=document.getElementById("year");
+    sel1=document.getElementById("act");
+    $.ajax({ 
+    type: "POST", 
+    url: "selector.php", 
+    dataType:"json",
+    success: function(data){
+    	console.log(data);
+      	data[2].forEach(function(item,index){
         option=document.createElement("option");
         option.text=item;
         option.value=item;
         sel1.add(option);
-      });
+    })
     }
   });
 }
+
 
 
 function selectAll(id){
@@ -67,14 +79,11 @@ function datahandle(){
           url: "getdata.php", 
           data: { act:select, year:select1, month:select2, day:select3, hour:select4, minutes:select5 }, 
           success: function(data) {
-            if(data=='Δεν υπάρχουν εγγραφές') window.alert(data);
-            else{
             res=data.split("|");
             coords=res[0];
             max=res[1];
             res1=eval('(' + coords + ')');
             create_heatMap(res1,max);
-            }
           } 
         });
   }

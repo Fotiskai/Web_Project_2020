@@ -48,7 +48,7 @@ if(mysqli_num_rows($result)>0){
       for($i=0;$i<12;$i++){
           $child=$dom->createElement($keys[$i]);
           $child->appendChild($dom->createCDATASection($values[$i]));
-         $node->appendChild($child);
+          $node->appendChild($child);
       }
       $root->appendChild($node);     	  
     }

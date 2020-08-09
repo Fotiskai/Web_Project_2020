@@ -20,8 +20,7 @@ if(isset($_POST["em"])){
       exit;
     }       	
 	$iv="1234567890123456";
-	$userid=openssl_encrypt($_POST["em"],"AES-256-CBC", $_POST["pwd"],OPENSSL_RAW_DATA,$iv);
-	$userid = base64_encode($userid);
+	$userid=openssl_encrypt($_POST["em"],"AES-256-CBC", $_POST["pwd"],0,$iv);
 	$sql="SELECT userid FROM usercred";
 	$result=mysqli_query($conn,$sql);
 	if(mysqli_num_rows($result)>0){

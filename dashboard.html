@@ -5,115 +5,138 @@
     <meta name="referrer" content="same-origin">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
-    <script type="text/javascript" src="dashboard.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css" integrity="sha384-VCmXjywReHh4PwowAiWNagnWcLhlEJLA5buUprzK8rxFgeH0kww/aWY76TfkUoSX" crossorigin="anonymous">
+    <script src="dashboard.js" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="css/dashboard_style.css">
     <title>Tables</title>
   </head>
   <body>
-      <table id="a" border="1"  align="center">
-          <thead>
-              <tr>
-              </tr>
-          </thead>
-          <tbody>
-            -
-          </tbody>
-      </table>
-      <table id="b" border="1"  align="center">
+    <nav class="nav-bar navbar-expand-sm navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">Web2020</a>
+        <div class="navbar-nav float-right ml-auto">
+          <a class="logout" href="index.html">Log Out</a>
+        </div>
+    </nav>
+    <div class="sidenav sidenav-dark bg-dark">
+      <div class="btn-group-vertical">
+        <button class="btn-Charts btn-dark"  onclick="CFunction()">Charts</button>
+        <button class="btn-Tables btn-dark" onclick="TFunction()">Tables</button>
+        <button class="Admin-set btn-dark" onclick="redirect()">Λειτουργίες Διαχειρηστή</button>
+      </div>
+    </div>
+
+  <div id="Table-group" class="table-responsive-sm">
+    <table class="table table-dark table-striped" id="a" border="1">
         <thead>
           <tr>
+           <th colspan="2">Ποσοστό ανά Δραστηριότητες</th>
+          </tr>
+          <tr>
+            <th>Δραστηριότητες</th>
+            <th>Ποσοστό</th>
           </tr>
         </thead>
         <tbody>
-          -
         </tbody>
-      </table>
-      <table id="c" border="1"  align="center">
-        <thead>
-          <tr>
-            <th>Ιανουάριος</th>
-            <th>Φεβρουάριος</th>
-            <th>Μαρτιος</th>
-            <th>Απρίλης</th>
-            <th>Μάιος</th>
-            <th>Ιούνιος</th>
-            <th>Ιούλιος</th>
-            <th>Αύγουστος</th>
-            <th>Σεμπτέμβρης</th>
-            <th>Οκτόβρης</th>
-            <th>Νοέμβρης</th>
-            <th>Δεκέμβρης</th>
-          </tr>
-        </thead>
-        <tbody>
-          -
-        </tbody>
-      </table>
-      <table id="d" border="1"  align="center">
-        <thead>
-          <tr>
-            <th>Δευτέρα</th>
-            <th>Τρίτη</th>
-            <th>Τετάρτη</th>
-            <th>Πέμπτη</th>
-            <th>Παρασκευή</th>
-            <th>Σάββατο</th>
-            <th>Κυριακή</th>
-          </tr>
-        </thead>
-        <tbody>
-          -
-        </tbody>
-       </table>
-       <table id="e" border="1"  align="center">
-        <thead>
-          <tr>
-            <th>0</th>
-            <th>1</th>
-            <th>2</th>
-            <th>3</th>
-            <th>4</th>
-            <th>5</th>
-            <th>6</th>
-            <th>7</th>
-            <th>8</th>
-            <th>9</th>
-            <th>10</th>
-            <th>11</th>
-            <th>12</th>
-            <th>13</th>
-            <th>14</th>
-            <th>15</th>
-            <th>16</th>
-            <th>17</th>
-            <th>18</th>
-            <th>19</th>
-            <th>20</th>
-            <th>21</th>
-            <th>22</th>
-            <th>23</th>                                                                       
-          </tr>
-        </thead>
-        <tbody>
-          -
-        </tbody>
-       </table>
-       <table id="f" border="1"  align="center">
-        <thead>
-          <tr>
-          </tr>
-        </thead>
-        <tbody>
-          -
-        </tbody>
-       </table> 
-       <div id="chartContainer" style="height: 50px; width: 50%;">
+    </table>
+    <table class="table table-dark table-borded" id="b" border="1">
+      <thead>
+        <tr>
+        <th colspan="2"> Kατανομή Πλήθους Εγγραφών ανά Χρήστη </th>
+        </tr>
+        <tr>
+          <th>Χρήστες</th>
+          <th>Εγγραφές</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+    <table class="table table-dark table-borded" id="c" border="1">
+      <thead>
+        <tr>
+          <th colspan="2"> Kατανομή Πλήθους Εγγραφών ανά Μήνα </th>
+        </tr>
+        <tr>
+          <th>Μήνες</th>
+          <th>Εγγραφές</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+    <table class="table table-dark table-borded" id="d" border="1">
+      <thead>
+        <tr>
+          <th colspan="2"> Kατανομή Πλήθους Εγγραφών ανά Ημέρα της Εβδομάδας </th>
+        </tr>
+        <tr>
+          <th>Ημέρες</th>
+          <th>Εγγραφές</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+     </table>
+     <table class="table table-dark table-borded" id="e" border="1">
+      <thead>
+        <tr>
+          <th colspan="2"> Kατανομή Πλήθους Εγγραφών ανά Ώρα </th>
+        </tr>
+        <tr>
+          <th>Ώρες</th>
+          <th>Εγγραφές</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+     </table>
+     <table class="table table-dark table-borded" id="f" border="1">
+      <thead>
+        <tr>
+          <th colspan="2"> Kατανομή Πλήθους Εγγραφών ανά Έτος </th>
+        </tr>
+        <tr>
+          <th>Χρονιά</th>
+          <th>Εγγραφές</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+     </table>
+  </div>
+  <div class="container" id="chartContainer">
           <canvas id="graphCanvas1"></canvas>
           <canvas id="graphCanvas2"></canvas>
           <canvas id="graphCanvas3"></canvas>
           <canvas id="graphCanvas4"></canvas>
           <canvas id="graphCanvas5"></canvas>
           <canvas id="graphCanvas6"></canvas>
-       </div>
-       <button onclick="redirect()">Λειτουργίες Διαχειρηστή</button>           
+   </div>
+
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/js/bootstrap.min.js" integrity="sha384-XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J" crossorigin="anonymous"></script>
+       <script>
+        function TFunction() {
+         var x = document.getElementById("Table-group");
+         if (x.style.display === "none") {
+           x.style.display = "block";
+         } else {
+           x.style.display = "none";
+         }
+       }
+       </script>
+       <script>
+        function CFunction() {
+          var x = document.getElementById("chartContainer");
+          if (x.style.display === "none") {
+            x.style.display = "block";
+          } else {
+            x.style.display = "none";
+          }
+        }
+      </script>
+      <script>
+
+      </script>
     </body>
 </html>

@@ -226,39 +226,60 @@ function show_data(){
 function graph(data,labels){
     let myChart=document.getElementById("myChart").getContext("2d");
     let barchart=new Chart(myChart,{
-    	type:'bar',
+    	type:'pie',
     	data:{
     		labels:labels,
     		datasets: [{
     			label:'Ποσοστό οικολογικής κίνησης (%)',
     			data: data,
-    			backgroundColor:'#1164f4'
+    			backgroundColor:['#49e2ff', '#fff000', '#111000', '#FF0000',
+                        '#00FF00', '#0000FF', '#00FFFF', '#FF00FF', '#C0C0C0','#808080',
+                        '#800000','#808000','#808000']
     		}]
     	},
-		options:{	
-		  scales:{
-		    yAxes:[{
-		      scaleLabel:{
-		        display: true,
-		        labelString: 'Score οικολογικής μετακίνησης (%)'
-		      }
-		    }],
-		    xAxes:[{
-		      scaleLabel:{
-		        display: true,
-		        labelString: 'Μήνας-Έτος'
-		      }
-		    }]
-		  }     
-       }
+		options:{
+			legend:{
+				display:false
+			},
+			legendCallback: function(chart){
+				var text = [];
+				text.push('<label>Legend:</label>');
+				text.push('<ul class="' + chart.id + '-legend">');
+			    for (var i=0; i<chart.data.datasets[0].data.length;i++) { 
+                    if (chart.data.labels[i] && chart.data.datasets[0].data[i]!=0) { 
+			            text.push('<li><span style="background-color:'+ chart.data.datasets[0].backgroundColor[i] + ';">'+ '&ensp;&ensp;&ensp;' +'</span>&nbsp;');
+			            text.push(chart.data.labels[i]);
+			            text.push('</li>'); 
+			        } 
+                } 
+                text.push('</ul>'); 
+                return text.join(''); 				 
+			},
+			title: {
+	            display: true,
+	            fontSize: 18,
+	            text: 'Score οικολογικής μετακίνησης τους τελευταίους 12 μήνες'
+	         },
+	        tooltips: {
+	            callbacks: {
+	              label: function(tooltipItems, data) {
+	                return data.labels[tooltipItems.index] +
+	                " : " +
+	                data.datasets[tooltipItems.datasetIndex].data[tooltipItems.index] +
+	                ' %';
+	             }
+	          }
+	        }
+		}
     });
+     document.getElementById('legend').innerHTML=barchart.generateLegend();
 }
 
 function leaderboard(current,scores,names,rank){
     ranks=["1","2","3",rank];
     scores[3]=current;
-    ranks=ranks.filter((value,index,self)=> self.indexOf(value)===index);
-    names=names.filter((value,index,self)=> self.indexOf(value)===index);
+    //ranks=ranks.filter((value,index,self)=> self.indexOf(value)===index);
+    //names=names.filter((value,index,self)=> self.indexOf(value)===index);
 	table=document.getElementById("tb");
 	tableBody=document.createElement("tbody");
     th=document.createElement("th");
@@ -273,6 +294,7 @@ function leaderboard(current,scores,names,rank){
 	table.appendChild(tableBody);
 	for(i=0;i<names.length;i++){
 		tr=document.createElement("tr");
+		if(i==names.length-1) tr.setAttribute("style","background-color: #c4c4c4;");
 		td1=document.createElement("td");
 		td2=document.createElement("td");
 		td3=document.createElement("td");

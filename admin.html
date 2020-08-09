@@ -114,8 +114,9 @@
                    <option value="JSON">JSON</option>
                    <option value="XML">XML</option>
                 </select> 
-                <input class="btn btn-success" style="margin-bottom: 5px; margin-left: 5px;" type="button" onclick="export_data()" value="Εξαγωγή δεδομένων"><br> 
-                <input class="btn btn-danger" type="button" onclick="data_delete()" value="Διαγραφή δεδομένων"><br>
+                <input class="btn btn-success" style="margin-bottom: 5px; margin-left: 5px;" type="button" onclick="export_data()" value="Εξαγωγή δεδομένων"><br>
+                <input class="btn btn-danger" type="button" onclick="data_delete()" value="Διαγραφή δεδομένων" style="margin-bottom: 5px; margin-left: 5px;"><br>
+                <a class="btn btn-secondary" type="button" href="dashboard.html">Επιστροφή στο Dashboard</a>
                </div> 
              </div>  
 
@@ -126,7 +127,7 @@
              <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>             
              <script src="formhandler.js"></script>
              <script>var x = document.referrer; if(!x.includes("dashboard.html")){window.location.href="index.html";}</script>
-             <script>window.onload=function(){minutes_selector();year_n_activites_selector();}</script> 
+             <script>window.onload=function(){minutes_selector();years_selector();activites_selector();}</script> 
              <script>create_Map();</script>
         </body>
 </html>

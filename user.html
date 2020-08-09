@@ -17,6 +17,7 @@
 		<label>&nbsp;<u>Score Graph:</u></label>
 		<div class="container">
 		    <canvas id="myChart"></canvas>
+		    <div id="legend"></div>
 	    </div>
 		<br>
 		<label>&nbsp;<u>Περίοδος εγγραφών:</u></label>
@@ -30,10 +31,10 @@
 		</table>
 		<div class="d-flex justify-content-center">
 			<input class="btn btn-success btn-sm" style="" type="button" id="b1" onclick="redirect1()" value="Ανάλυση Στοιχείων Χρήστη">&nbsp;
-			<input class="btn btn-primary btn-sm" type="button" id="b2" onclick="redirect2()" value="Upload Δεδομένων">
+			<input class="btn btn-primary btn-sm" type="button" id="b2" onclick="redirect2()" value="Upload Δεδομένων">&nbsp;
+		    <a class="btn btn-secondary btn-sm " type="button" href="index.html">Log Out</a>
 	    </div>
 	    <br>
-
 
 	    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
