@@ -73,6 +73,7 @@ function import_files(x){
 			if(dist <= 10){ // filtrarw ta dedomena kai pairnw mono auta p einai katw apo 10km
 				//console.log(i)
 				filtered_data.push(tmp);
+				/*
 				var feature = {
 					type: 'Feature',
 					geometry: {
@@ -81,13 +82,14 @@ function import_files(x){
 					}
 				};
 				features_Geojson.push(feature);
+				*/
 			}
 		}
 		filtered_map_data_json = filtered_data; // pairnw ta filtrarismena data kai ta bazw thn global var wste na ta steilw meta mesw AJAX sthn php
-		var geo_form = { type: 'FeatureCollection', features: features_Geojson };
+		//var geo_form = { type: 'FeatureCollection', features: features_Geojson };
 
-		geo = L.geoJson(geo_form,geo_options).addTo(mymap);
-		mymap.fitBounds(geo.getBounds());
+		//geo = L.geoJson(geo_form,geo_options).addTo(mymap);
+		//mymap.fitBounds(geo.getBounds());
 		console.log('END!');
 		console.log(filtered_map_data_json.length);
 		console.log(filtered_map_data_json);
@@ -95,16 +97,17 @@ function import_files(x){
 		var bounds = [];// pinakas p krataei tis proswrines theseis twn rects.
 		var rect=null;
 		var flag = false;
+		var moveflag= false;
 		group.addTo(mymap);
 		mymap.on('click',function(e){
-			console.log('1st_event:',e.latlng);
+			//console.log('1st_event:',e.latlng);
 			bounds.push(e.latlng);
 			rect = L.rectangle(bounds,{color: 'red',wieght: 2}).on('contextmenu',function(e){
 				bounds = [];
 				this.remove();
 				index = all_rects.indexOf(this);
 				all_rects.splice(index,1);
-				console.log('all_rects_after_del:',all_rects);
+				//console.log('all_rects_after_del:',all_rects);
 			});
 			//console.log(bounds);
 			if(bounds.length%2==0 && flag == true){
@@ -113,19 +116,30 @@ function import_files(x){
 				//group.addLayer(rect);
 				console.log('all rects: ',all_rects);
 				bounds = [];
+				moveflag=true;
 			}
 		}).on('mousemove',function(e){
 			if(bounds.length == 1){
 				flag = true;
+				moveflag=false;
 				xy = [bounds[0],e.latlng];
-				console.log('2st_event:',xy);
+				//console.log('2st_event:',xy);
 				rect.setBounds(xy).addTo(group);
 			}else{
 				flag = false;
+				moveflag=true;
 			}
-			});
-	}
+		});
+		document.getElementById('mapid').ontouchend=function(e){if(moveflag===true) e.preventDefault(); mymap.dragging.enable();}
+		document.getElementById('mapid').ontouchmove=function(e){ if(moveflag===false){
+			e.preventDefault(); 
+		    mymap.dragging.disable();
+		    }
+	    }
+	
 
+	}
+	
 	function cut_distance(lat,lon){
 		//https://www.movable-type.co.uk/scripts/latlong.html
 		var la_const,lo_const,dist;
@@ -177,8 +191,7 @@ function upload(){
        		url: "conn.php", 
        		data: { "arr" : JSON.stringify(filtered_map_data_json)}, 
        		success: function(data) { 
-       			console.log('PHP:',data);
-              	//alert("Load to DB!"); 
+       			window.alert("Data loaded");
         	} 
 		});
 	}else{
@@ -193,10 +206,16 @@ function show_data(){
        		dataType:"json", 
        		success: function(data) {
        		    console.log(data);
-       			document.getElementById("score").innerHTML=data[0][12] + '%';
-       			graph(data[0],data[1]);
+                document.getElementById("score").innerHTML=data[0][12] + '%';
+                
+                const isZero=data[0].every(item => item === 0);  
+       		    if(!isZero) graph(data[0],data[1]);
+
        			document.getElementById("period").innerHTML=data[2]+ "\t"+ "-" + "\t" +data[3];
-       			document.getElementById("date").innerHTML=data[4];
+       		    
+       		    if(data[4]) document.getElementById("date").innerHTML=data[4];
+       		    else document.getElementById("date").innerHTML= "-";
+
        			leaderboard(data[0][12],data[5],data[6],data[7]);
         	}
 		});
@@ -206,61 +225,88 @@ function show_data(){
 function graph(data,labels){
     let myChart=document.getElementById("myChart").getContext("2d");
     let barchart=new Chart(myChart,{
-    	type:'bar',
+    	type:'pie',
     	data:{
     		labels:labels,
     		datasets: [{
     			label:'Ποσοστό οικολογικής κίνησης (%)',
-    			data: data
+    			data: data,
+    			backgroundColor:['#49e2ff', '#fff000', '#111000', '#FF0000',
+                        '#00FF00', '#0000FF', '#00FFFF', '#FF00FF', '#C0C0C0','#808080',
+                        '#800000','#808000','#808000']
     		}]
     	},
-    	options:{}
+		options:{
+			legend:{
+				display:false
+			},
+			legendCallback: function(chart){
+				var text = [];
+				text.push('<label>Legend:</label>');
+				text.push('<ul class="' + chart.id + '-legend">');
+			    for (var i=0; i<chart.data.datasets[0].data.length;i++) { 
+                    if (chart.data.labels[i] && chart.data.datasets[0].data[i]!=0) { 
+			            text.push('<li><span style="background-color:'+ chart.data.datasets[0].backgroundColor[i] + ';">'+ '&ensp;&ensp;&ensp;' +'</span>&nbsp;');
+			            text.push(chart.data.labels[i]);
+			            text.push('</li>'); 
+			        } 
+                } 
+                text.push('</ul>'); 
+                return text.join(''); 				 
+			},
+			title: {
+	            display: true,
+	            fontSize: 18,
+	            text: 'Score οικολογικής μετακίνησης τους τελευταίους 12 μήνες'
+	         },
+	        tooltips: {
+	            callbacks: {
+	              label: function(tooltipItems, data) {
+	                return data.labels[tooltipItems.index] +
+	                " : " +
+	                data.datasets[tooltipItems.datasetIndex].data[tooltipItems.index] +
+	                ' %';
+	             }
+	          }
+	        }
+		}
     });
+     document.getElementById('legend').innerHTML=barchart.generateLegend();
 }
 
-function leaderboard(current,top3,names,rank){
-	
-	document.getElementById("r1").innerHTML="1";
-    document.getElementById("r2").innerHTML="2";
-    document.getElementById("r3").innerHTML="3";
-    document.getElementById("r4").innerHTML=rank;
-    document.getElementById("n1").innerHTML=names[0];
-    document.getElementById("n2").innerHTML=names[1];
-    document.getElementById("n3").innerHTML=names[2];
-    document.getElementById("n4").innerHTML=names[3];
-    document.getElementById("s1").innerHTML=top3[0] + "%";
-    document.getElementById("s2").innerHTML=top3[1] + "%";
-    document.getElementById("s3").innerHTML=top3[2] + "%";
-    document.getElementById("s4").innerHTML=current + "%";
-   
-/*
+function leaderboard(current,scores,names,rank){
     ranks=["1","2","3",rank];
-    top3[3]=current;
+    scores[3]=current;
+    //ranks=ranks.filter((value,index,self)=> self.indexOf(value)===index);
+    //names=names.filter((value,index,self)=> self.indexOf(value)===index);
 	table=document.getElementById("tb");
+	tableBody=document.createElement("tbody");
     th=document.createElement("th");
 	th.appendChild(document.createTextNode('Rank'));
-	table.appendChild(th);
+	tableBody.appendChild(th);
 	th=document.createElement("th");
 	th.appendChild(document.createTextNode('Username'));
-	table.appendChild(th);
+	tableBody.appendChild(th);
 	th=document.createElement("th");
 	th.appendChild(document.createTextNode('Score'));
-	table.appendChild(th);
-	for(i=0;i<4;i++){
+	tableBody.appendChild(th);
+	table.appendChild(tableBody);
+	for(i=0;i<names.length;i++){
 		tr=document.createElement("tr");
+		if(i==names.length-1) tr.setAttribute("style","background-color: #c4c4c4;");
 		td1=document.createElement("td");
-		td2=document.createElement("td2");
-		td3=document.createElement("td3");
+		td2=document.createElement("td");
+		td3=document.createElement("td");
 		datatd1=document.createTextNode(ranks[i]);
 		datatd2=document.createTextNode(names[i]);
-		datatd3=document.createTextNode(top3[i]);
+		datatd3=document.createTextNode(scores[i] + '%');
 		td1.appendChild(datatd1);
         td2.appendChild(datatd2);
         td3.appendChild(datatd3);
         tr.appendChild(td1);
         tr.appendChild(td2);
         tr.appendChild(td3);
-        table.appendChild(tr);
+        tableBody.appendChild(tr);
 	}
-	*/	
+	table.appendChild(tableBody);
 }

@@ -1,195 +1,87 @@
 <!DOCTYPE html> 
 <html> 
-<head> 
-  <style type="text/css">
-    table, th, td {
-        border: 1px solid black;
-        border-collapse: collapse;
-    }
-    th, td {
-        padding: 5px;
-        text-align: left;
-    }     
-  </style>
-  <meta charset="utf-8"> 
-  <meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=no"> 
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" 
+<head>     
+   <meta charset="utf-8"> 
+   <meta name="referrer" content="same-origin">
+   <meta name="viewport" content="width=device-width, initial-scale=1 shrink-to-fit=no">
+   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" 
    integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" 
    crossorigin=""/> 
-    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" 
-   integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" 
-   crossorigin=""></script> 
-    <script src="https://cdn.jsdelivr.net/npm/heatmapjs@2.0.2/heatmap.js"> </script> 
-    <script src="https:///cdn.rawgit.com/pa7/heatmap.js/develop/plugins/leaflet-heatmap/leaflet-heatmap.js"></script>  
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
-  <script type="text/javascript" src="userDataHandler.js"></script> 
-  <script type="text/javascript" src="formhandler.js"></script> 
+   <!-- CSS -->
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css" integrity="sha384-VCmXjywReHh4PwowAiWNagnWcLhlEJLA5buUprzK8rxFgeH0kww/aWY76TfkUoSX" crossorigin="anonymous">
+   <link rel="stylesheet" href="css/d_analysis.css">  
+
 <title>Web 2020</title> 
 </head> 
-<body> 
-    <script> 
+<body id='body'>  
+    <div class="container">  
+        <p class="text-center">Ανάλυση Στοιχείων</p>
+    </div> 
+   <!-- <div id='para2'></div> den xreiazetai telika -->
+    <div  class="map" id="mapid"></div>
+    <br> 
+    <button  class="back_to btn btn-info d-flex btn-sm" onclick="window.location.href='user.html';">Επιστροφή στην Αρχική Σελίδα</button>
+    <div class="container d-flex justify-content-center">
+        <div class="row">
+            <div class="col-sm">
+                <label id="year_label">Έτος</label><br> 
+                <select id="year" multiple> 
+                </select>
+                <button id="year_btn" class="btn btn-info d-flex btn-sm" onClick="selectAll(document.getElementById('year'))">Επιλογή όλων</button>
+            </div> 
+            <div class="col-sm">
+                <label id="month_label">Μήνας</label><br> 
+                <select id="month" multiple> 
+                    <option value="January">Ιανουάριος</option> 
+                    <option value="February">Φεβρουάριος</option> 
+                    <option value="March">Μαρτιος</option> 
+                    <option value="April">Απρίλης</option> 
+                    <option value="May">Μάιος</option> 
+                    <option value="June">Ιούνιος</option> 
+                    <option value="July">Ιούλιος</option> 
+                    <option value="August">Αύγουστος</option> 
+                    <option value="September">Σεμπτέμβρης</option> 
+                    <option value="October">Οκτόβρης</option> 
+                    <option value="November">Νοέμβρης</option> 
+                    <option value="December">Δεκέμβρης</option> 
+                </select> 
+                <button id="month_btn" class="btn btn-info d-flex btn-sm month_c" onClick="selectAll(document.getElementById('month'))">Επιλογή όλων</button> 
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="container">
+        <div class="d-flex justify-content-center">
+            <input id='sub' class="btn btn-success" type="button" onclick="get_user_options()" value="Υποβολή"> 
+        </div>
+    </div>
+    <br>
+    <br>
+    <div id='div'></div>
+    <table class="mytable table table-striped table-dark table-hover table-sm" id='table'>
+            <!-- table generation goes here -->
+    </table>
+    <br>
+    <div id="graphp"></div>
+
+
+   <!-- Scripts --> 
+   <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" 
+   integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" 
+   crossorigin=""></script> 
+   <script src="https://cdn.jsdelivr.net/npm/heatmapjs@2.0.2/heatmap.js"> </script> 
+   <script src="https:///cdn.rawgit.com/pa7/heatmap.js/develop/plugins/leaflet-heatmap/leaflet-heatmap.js"></script>  
+   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+   <script type="text/javascript" src="userDataHandler.js"></script> 
+   <script type="text/javascript" src="formhandler.js"></script>
+   <script> 
         window.onload=function(){ 
-        year_n_activites_selector();
+        years_selector();
         } 
-     </script>   
-     <p>Ανάλυση Στοιχείων</p> 
-     <br> 
- 
-     <label>Έτος</label><br> 
-     <select id="year" multiple> 
-     <!-- 
-        <option value="all">Όλα</option> 
-     --> 
-     </select>
-     <button onClick="selectAll(document.getElementById('year'))">Επιλογή όλων</button> 
-     <br> 
-     <br> 
-     <label>Μήνας</label><br> 
-     <select id="month" multiple> 
-     <option value="January">Ιανουάριος</option> 
-     <option value="February">Φεβρουάριος</option> 
-     <option value="March">Μαρτιος</option> 
-     <option value="April">Απρίλης</option> 
-     <option value="May">Μάιος</option> 
-     <option value="June">Ιούνιος</option> 
-     <option value="July">Ιούλιος</option> 
-     <option value="August">Αύγουστος</option> 
-     <option value="September">Σεμπτέμβρης</option> 
-     <option value="October">Οκτόβρης</option> 
-     <option value="November">Νοέμβρης</option> 
-     <option value="December">Δεκέμβρης</option> 
-     </select> 
-     <button onClick="selectAll(document.getElementById('month'))">Επιλογή όλων</button> 
-     <br> 
-     <br>      
-     <label>Ημέρα</label><br> 
-     <select id="day" multiple> 
-     <option value="Monday">Δευτέρα</option> 
-     <option value="Tuesday">Τρίτη</option> 
-     <option value="Wednesday">Τετάρτη</option> 
-     <option value="Thursday">Πέμπτη</option> 
-     <option value="Friday">Παρασκευή</option> 
-     <option value="Saturday">Σάββατο</option> 
-     <option value="Sunday">Κυριακή</option> 
-     </select> 
-     <button onClick="selectAll(document.getElementById('day'))">Επιλογή όλων</button> 
-     <br> 
-     <br>       
-     <label>Ώρα</label><br> 
-     <select id="hour" multiple> 
-     <option value="00">0</option> 
-     <option value="01">1</option> 
-     <option value="02">2</option> 
-     <option value="03">3</option> 
-     <option value="04">4</option> 
-     <option value="05">5</option> 
-     <option value="06">6</option> 
-     <option value="07">7</option> 
-     <option value="08">8</option> 
-     <option value="09">9</option> 
-     <option value="10">10</option> 
-     <option value="11">11</option> 
-     <option value="12">12</option> 
-     <option value="13">13</option> 
-     <option value="14">14</option> 
-     <option value="15">15</option> 
-     <option value="16">16</option> 
-     <option value="17">17</option> 
-     <option value="18">18</option> 
-     <option value="19">19</option> 
-     <option value="20">20</option> 
-     <option value="21">21</option> 
-     <option value="22">22</option> 
-     <option value="23">23</option>      
-     </select> 
-     <button onClick="selectAll(document.getElementById('hour'))">Επιλογή όλων</button> 
-     <br> 
-     <br>      
-     <label>Λεπτά</label><br> 
-     <select id="min" multiple> 
-     <option value="00">0</option> 
-     <option value="01">1</option> 
-     <option value="02">2</option> 
-     <option value="03">3</option> 
-     <option value="04">4</option> 
-     <option value="05">5</option> 
-     <option value="06">6</option> 
-     <option value="07">7</option> 
-     <option value="08">8</option> 
-     <option value="09">9</option> 
-     <option value="10">10</option> 
-     <option value="11">11</option> 
-     <option value="12">12</option> 
-     <option value="13">13</option> 
-     <option value="14">14</option> 
-     <option value="15">15</option> 
-     <option value="16">16</option> 
-     <option value="17">17</option> 
-     <option value="18">18</option> 
-     <option value="19">19</option> 
-     <option value="20">20</option> 
-     <option value="21">21</option> 
-     <option value="22">22</option> 
-     <option value="23">23</option>  
-     <option value="24">24</option> 
-     <option value="25">25</option> 
-     <option value="26">26</option> 
-     <option value="27">27</option> 
-     <option value="28">28</option> 
-     <option value="29">29</option> 
-     <option value="30">30</option> 
-     <option value="31">31</option> 
-     <option value="32">32</option> 
-     <option value="33">33</option> 
-     <option value="34">34</option> 
-     <option value="35">35</option> 
-     <option value="36">36</option> 
-     <option value="37">37</option> 
-     <option value="38">38</option> 
-     <option value="39">39</option> 
-     <option value="40">40</option> 
-     <option value="41">41</option> 
-     <option value="42">42</option> 
-     <option value="43">43</option> 
-     <option value="44">44</option> 
-     <option value="45">45</option> 
-     <option value="46">46</option> 
-     <option value="47">47</option>   
-     <option value="48">48</option> 
-     <option value="49">49</option> 
-     <option value="50">50</option> 
-     <option value="51">51</option> 
-     <option value="52">52</option> 
-     <option value="53">53</option> 
-     <option value="54">54</option> 
-     <option value="55">55</option> 
-     <option value="56">56</option> 
-     <option value="57">57</option> 
-     <option value="58">58</option> 
-     <option value="59">59</option>   
-     </select> 
-     <button onClick="selectAll(document.getElementById('min'))">Επιλογή όλων</button> 
-     <br> 
-     <br> 
-     <label>Activity/Activities</label><br> 
-     <select name="activity/activities" id="act" multiple>      
-     </select> 
-     <button onClick="selectAll(document.getElementById('act'))">Επιλογή όλων</button> 
-     <br> 
-     <input type="button" onclick="get_user_options()" value="Υποβολή"> 
-     <br>
-     <br>
-     <div id='div'></div>
-     <table id='table'>
-        <!-- table generation goes here -->
-     </table>
-     <br>
-     <br>
-     <div id='gdiv'></div>
-     <div id='para2'></div>
-     <div id="mapid" style="height: 800px; width: 700px;"></div>
-     <br>
-     <br>
+   </script>
+   <script type="text/javascript">
+        loadMap(document.getElementById('mapid'));
+   </script>
 </body> 
 </html>

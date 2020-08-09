@@ -10,9 +10,8 @@ function minutes_selector(){
   }
 }
 
-function year_n_activites_selector(){
+function years_selector(){
     sel=document.getElementById("year");
-    sel1=document.getElementById("act");
     $.ajax({ 
     type: "POST", 
     url: "selector.php", 
@@ -25,15 +24,28 @@ function year_n_activites_selector(){
         option.value=i;
         sel.add(option);
       }
-      data[2].forEach(function(item,index){
+  }});
+}
+
+function activites_selector(){
+    sel=document.getElementById("year");
+    sel1=document.getElementById("act");
+    $.ajax({ 
+    type: "POST", 
+    url: "selector.php", 
+    dataType:"json",
+    success: function(data){
+    	console.log(data);
+      	data[2].forEach(function(item,index){
         option=document.createElement("option");
         option.text=item;
         option.value=item;
         sel1.add(option);
-      });
+    })
     }
   });
 }
+
 
 
 function selectAll(id){

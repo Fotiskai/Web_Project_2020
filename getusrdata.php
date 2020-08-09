@@ -15,10 +15,10 @@ for($i=0;$i<13;$i++){
 	$result=mysqli_query($conn, $sql);
 	$res=mysqli_fetch_assoc($result);
 	$mon_year[$i]=$res["month"]. " " . $res["year"];	
-	$sql="SELECT COUNT(id) as vehicle FROM data WHERE userid='$uid' AND timestampMs <= LAST_DAY(DATE_SUB(CURDATE(), INTERVAL $tmp MONTH)) AND timestampMs > DATE_ADD(DATE_ADD(LAST_DAY(DATE_SUB(CURDATE(), INTERVAL $tmp MONTH)),interval 1 DAY),interval -1 MONTH) AND type IN('IN_VEHICLE','IN_RAIL_VEHICLE','IN_ROAD_VEHICLE','IN_FOUR_WHEELER_VEHICLE','IN_CAR','IN_TWO_WHEELER_VEHICLE','IN_BUS')";
+	$sql="SELECT COUNT(*) as vehicle FROM data WHERE userid='$uid' AND act_timestampMs <= LAST_DAY(DATE_SUB(CURDATE(), INTERVAL $tmp MONTH)) AND act_timestampMs >= DATE_ADD(DATE_ADD(LAST_DAY(DATE_SUB(CURDATE(), INTERVAL $tmp MONTH)),interval 1 DAY),interval -1 MONTH) AND type IN('IN_VEHICLE','IN_RAIL_VEHICLE','IN_ROAD_VEHICLE','IN_FOUR_WHEELER_VEHICLE','IN_CAR','IN_TWO_WHEELER_VEHICLE','IN_BUS')";
 	$result=mysqli_query($conn, $sql);
 	$veh_c=mysqli_fetch_assoc($result);	
-	$sql="SELECT COUNT(id) as walk FROM data WHERE userid='$uid' AND timestampMs <= LAST_DAY(DATE_SUB(CURDATE(), INTERVAL $tmp MONTH)) AND timestampMs > DATE_ADD(DATE_ADD(LAST_DAY(DATE_SUB(CURDATE(), INTERVAL $tmp MONTH)),interval 1 DAY),interval -1 MONTH) AND type IN('ON_BICYCLE','ON_FOOT','WALKING','RUNNING')";
+	$sql="SELECT COUNT(*) as walk FROM data WHERE userid='$uid' AND act_timestampMs <= LAST_DAY(DATE_SUB(CURDATE(), INTERVAL $tmp MONTH)) AND act_timestampMs > DATE_ADD(DATE_ADD(LAST_DAY(DATE_SUB(CURDATE(), INTERVAL $tmp MONTH)),interval 1 DAY),interval -1 MONTH) AND type IN('ON_BICYCLE','ON_FOOT','WALKING','RUNNING')";
 	$result=mysqli_query($conn, $sql);
 	$c=mysqli_fetch_assoc($result);
     if($veh_c["vehicle"]==0 and $c["walk"]==0) $lscore[$i]=0;
@@ -27,7 +27,7 @@ for($i=0;$i<13;$i++){
     $tmp-=1;	
 }
 
-$sql="SELECT MIN(timestampMs) as minn, MAX(timestampMs) as maxn FROM data WHERE userid='$uid'";
+$sql="SELECT MIN(act_timestampMs) as minn, MAX(act_timestampMs) as maxn FROM data WHERE userid='$uid'";
 $result = mysqli_query($conn, $sql);
 $res=mysqli_fetch_assoc($result);
 if($res["minn"]=="" and $res["maxn"]==""){
@@ -64,7 +64,7 @@ $username=$temp[0]. " " . mb_substr($temp[1],0,1) . ".";
 array_push($names,$username);
 $sql="SET @rank:=0";
 $result=mysqli_query($conn, $sql);
-$sql="SELECT @rank as ranking FROM (SELECT userid,@rank := @rank + 1 FROM usercred ORDER BY currentScore DESC)sub WHERE sub.userid='$uid'";
+$sql="SELECT ranking FROM (SELECT userid,@rank := @rank + 1 as ranking FROM usercred ORDER BY currentScore DESC)sub WHERE sub.userid='$uid'";
 $result=mysqli_query($conn, $sql);
 $result=mysqli_fetch_assoc($result);
 $usr_rank=$result["ranking"];

@@ -1,0 +1,102 @@
+body{
+  background-color: lightgrey;
+}
+
+.logout{
+  margin-right: 50px;
+}
+
+.nav-bar{
+  top: 0%;
+  position: fixed;
+  overflow: auto;
+  width: 100%;
+}
+.sidenav{
+  height: 100%;
+  width: 150px;
+  position: fixed;
+  top: 40px;
+  left: 0;
+  overflow: auto;
+}
+
+.btn-Charts{
+  background-color: blue;
+  border-radius: 3rem;
+  font-size: 20px;
+  font-style: italic;
+  margin-bottom: 20px;
+  margin-left: 20px;
+  margin-top: 20px;
+  padding: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+  width: 70%;
+}
+
+
+.btn-Tables{
+  background-color: blue;
+  border-radius: 3rem;
+  font-size: 20px;
+  font-style: italic;
+  margin-bottom: 20px;
+  margin-left: 20px;
+  margin-top: 20px;
+  padding: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+  width: 70%;
+}
+
+.Admin-set{
+  background-color: blue;
+  border-radius: 3rem;
+  font-size: 20px;
+  font-style: italic;
+  margin-bottom: 20px;
+  margin-left: 2px;
+  margin-top: 20px;
+}
+
+.table-responsive-sm{
+  margin-top: 100px;
+  margin-left: 200px;
+  margin-right: 100px;
+  text-align: center;
+  width: auto;
+}
+
+#a,#b,#c,#d,#e,#f{
+  margin-bottom: 50px;
+}
+
+.container{
+  margin-top: 50px;
+  width: 50%;
+}
+
+#graphCanvas1{
+  margin-bottom: 100px;
+}
+
+#graphCanvas2{
+  margin-bottom: 100px;
+}
+
+#graphCanvas3{
+  margin-bottom: 100px;
+}
+
+#graphCanvas4{
+  margin-bottom: 100px;
+}
+
+#graphCanvas5{
+  margin-bottom: 100px;
+}
+
+#graphCanvas6{
+  margin-bottom: 100px;
+}

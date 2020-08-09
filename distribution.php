@@ -47,24 +47,40 @@ foreach($percent as $value){
 	$i+=1;
 }
 
-$sql="SELECT username,userid FROM usercred";
+$sql="SELECT COUNT(DISTINCT(userid)) as count FROM data ";
 $result=mysqli_query($conn,$sql);
-if(mysqli_num_rows($result) > 0){
-    while($row = mysqli_fetch_assoc($result)) {
-    	  $uid=$row["userid"];
-    	  $username=$row["username"];
-          $sql="SELECT COUNT(*) as usercount FROM data WHERE userid='$uid'";
-          $res=mysqli_query($conn,$sql);
-          $res=mysqli_fetch_assoc($res);
-          $u_r_count[$username]=$res["usercount"];
-          
-    }
+$result=mysqli_fetch_assoc($result);
+$count=$result["count"];
+$k=ceil(sqrt($count));
+
+$tmp=floor($totalact/$k);	
+$start=0;
+$finish=$tmp;
+$buckets[0]=$start . "-" . $finish;
+for($i=1;$i<$k;$i++){
+   $start=$finish+1;
+   $finish=$finish + $tmp;
+   $buckets[$i]=$start . "-" . $finish;
+}
+if($totalact-$finish!=0){
+$last=($finish+1) ."-". ($finish+($totalact-$finish));
+array_push($buckets,$last);
 }
 
-arsort($u_r_count);
-
+for($i=0;$i<$k;$i++){
+	$key=$buckets[$i];
+	$split=explode('-',$buckets[$i]);
+	$sql="SELECT COUNT(DISTINCT(userid)) as usercount FROM data HAVING COUNT(DISTINCT(userid)) BETWEEN $split[0] AND $split[1]";
+    $res=mysqli_query($conn,$sql);
+    if(mysqli_num_rows($res) > 0){
+        while($row = mysqli_fetch_assoc($res)) {
+        	$u_r_count[$key]=$row["usercount"];
+        }
+    }
+}
+       
 for($i=1;$i<=12;$i++){
-    $sql="SELECT COUNT(*) as monthcount FROM data WHERE MONTH(timestampMs)='$i'";
+    $sql="SELECT COUNT(*) as monthcount FROM data WHERE MONTH(act_timestampMs)='$i'";
     $res=mysqli_query($conn,$sql);
     $res=mysqli_fetch_assoc($res);
     $m_count[$i]=$res["monthcount"];  	
@@ -87,7 +103,7 @@ $count_per_month=array(
 
 $tmp_array=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
 for($i=0;$i<7;$i++){
-    $sql="SELECT COUNT(*) as daycount FROM data WHERE DAYNAME(timestampMs)='$tmp_array[$i]'";
+    $sql="SELECT COUNT(*) as daycount FROM data WHERE DAYNAME(act_timestampMs)='$tmp_array[$i]'";
     $res=mysqli_query($conn,$sql);
     $res=mysqli_fetch_assoc($res);
     $d_count[$i]=$res["daycount"];    	
@@ -104,28 +120,28 @@ $count_per_day=array(
 );
 
 for($i=0;$i<=23;$i++){
-    $sql="SELECT COUNT(*) as hourcount FROM data WHERE HOUR(timestampMs)='$i'";
+    $sql="SELECT COUNT(*) as hourcount FROM data WHERE HOUR(act_timestampMs)='$i'";
     $res=mysqli_query($conn,$sql);
     $res=mysqli_fetch_assoc($res);
     $h_count[$i]=$res["hourcount"];    	
 }
 
-$sql="SELECT MIN(YEAR(timestampMs)) as minumum, MAX(YEAR(timestampMs)) as maximum FROM data";
+$sql="SELECT MIN(YEAR(act_timestampMs)) as minumum, MAX(YEAR(act_timestampMs)) as maximum FROM data";
 $result=mysqli_query($conn,$sql);
 $result=mysqli_fetch_assoc($result);
 $mindate=$result["minumum"];
 $maxdate=$result["maximum"];
 
 for($i=$mindate;$i<=$maxdate;$i++){
-    $sql="SELECT COUNT(*) as yearcount FROM data WHERE YEAR(timestampMs)='$i'";
+    $sql="SELECT COUNT(*) as yearcount FROM data WHERE YEAR(act_timestampMs)='$i'";
     $res=mysqli_query($conn,$sql);
     $res=mysqli_fetch_assoc($res);
     $y_count[$i]=$res["yearcount"];	
 }
 
-
 $r = array($dataPoints,$u_r_count,$count_per_month,$count_per_day,$h_count,$y_count);
 echo json_encode($r);
+
 mysqli_close($conn);
 
 ?>

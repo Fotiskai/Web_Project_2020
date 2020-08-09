@@ -21,7 +21,7 @@ $h="'".implode("','",$hour)."'";
 $min="'".implode("','",$minutes)."'";
 $a="'".implode("','",$activ)."'";
 
-$sql="SELECT heading,velocity,accuracy,verticalAccuracy,longitude,latitude,altitude,timestampMs,type,confidence,act_timestampMs,userid FROM data WHERE YEAR(timestampMs) IN ($y) AND MONTHNAME(timestampMs) IN ($m) AND DAYNAME(timestampMs) IN ($d) AND HOUR(timestampMs) IN ($h) AND MINUTE(timestampMs) IN ($min) AND type IN ($a)";
+$sql="SELECT heading,velocity,accuracy,verticalAccuracy,longitude,latitude,altitude,timestampMs,type,confidence,act_timestampMs,userid FROM data WHERE YEAR(act_timestampMs) IN ($y) AND MONTHNAME(act_timestampMs) IN ($m) AND DAYNAME(act_timestampMs) IN ($d) AND HOUR(act_timestampMs) IN ($h) AND MINUTE(act_timestampMs) IN ($min) AND type IN ($a)";
 $result = mysqli_query($conn, $sql);
 if(mysqli_num_rows($result)>0){
   	while($row = mysqli_fetch_assoc($result)){	
@@ -40,6 +40,9 @@ if(mysqli_num_rows($result)>0){
       $list[$count]=[$heading,$type,$confidence,$act_timestampMs,$verticalAccuracy,$velocity,$accuracy,$longitude,$latitude,$altitude,$timestampMs,$userid];
       $count+=1;
   	  }	  
+}else{
+	echo 'Δεν βρέθηκαν εγγραφές';
+	exit;
 }
 
 if($_POST["type"]=="CSV"){
