@@ -191,8 +191,7 @@ function upload(){
        		url: "conn.php", 
        		data: { "arr" : JSON.stringify(filtered_map_data_json)}, 
        		success: function(data) { 
-       			console.log('PHP:',data);
-              	//alert("Load to DB!"); 
+       			window.alert("Data loaded");
         	} 
 		});
 	}else{

@@ -378,7 +378,9 @@ function showGraphs()
                       {
                           backgroundColor: ['#49e2ff', '#fff000', '#111000', '#FF0000',
                           '#00FF00', '#0000FF', '#00FFFF', '#FF00FF', '#C0C0C0','#808080',
-                          '#800000','#808000', '#008000','#800080', '#008080',' #000080'],
+                          '#800000','#808000', '#008000','#800080', '#008080',' #000080',
+                          '#ff6384','#36a2eb','#cc65fe','#ffce56','#f0f8ff','#adff2f',
+                          '#483d8B','#663399'],
                           borderColor: '#000000',
                           hoverBackgroundColor: '#CCCCCC',
                           hoverBorderColor: '#666666',

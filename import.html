@@ -13,20 +13,23 @@
 
    <title>Web 2020</title>
 </head>
-<body>	
+<body>
 	<div class="container">
 		<p class="text-center">Εισαγωγή Δεδομένων μέσω Χάρτη</p>
 	</div>
-	<div class="map" id="mapid"></div>
-		<div class="row">
-			<div class="col-sm">
-				<input accept=".json" type="file" id="Import" name="Import" class="Import btn btn-primary d-flex btn-sm" > <!--To .txt sto accept einai gia to testing -->
-				<!--<label class="custom-file-label" id="import_label" for="Import">Choose a file</label>-->
+	<div class="container">
+		<div class="map" id="mapid"></div>
+			<div class="row">
+				<div class="col-sm">
+					<input accept=".json" type="file" id="Import" name="Import" class="Import btn btn-primary d-flex btn-sm" > <!--To .txt sto accept einai gia to testing -->
+					<!--<label class="custom-file-label" id="import_label" for="Import">Choose a file</label>-->
+				</div>
+				<div class="col-sm">
+					<input type="button" onclick="upload()" value="Submit" class="submit_btn btn btn-primary d-flex btn-sm" name="submit" id="submit">
+				</div>
 			</div>
-			<div class="col-sm">
-				<input type="button" onclick="upload()" value="Submit" class="submit_btn btn btn-primary d-flex btn-sm" name="submit" id="submit">
-			</div>
-		</div>
+	</div>
+
 		<button  class="back_to btn btn-info d-flex btn-sm" onclick="window.location.href='user.html';">Επιστροφή στην Αρχική Σελίδα</button>
 
 	<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
@@ -47,6 +50,6 @@
 </body>
     <script>
 	   var x = document.referrer;
-       if(!x.includes("user.html")){window.location.href="index.html";} 
-    </script>	
+       if(!x.includes("user.html")){window.location.href="index.html";}
+    </script>
 </html>
