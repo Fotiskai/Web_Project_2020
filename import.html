@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" dir="ltr">
 <head>
 	<meta charset="utf-8">
 	<meta name="referrer" content="same-origin">
@@ -19,10 +19,8 @@
 	</div>
 	<div class="map" id="mapid"></div>
 		<div class="btn-group-vertical d-flex flex-column">
-				<input accept=".json" type="file" id="Import" name="Import" class="Import btn btn-primary btn-sm" align="center">
+				<input accept=".json" type="file" id="Import" name="Import" class="Import btn btn-primary btn-sm">
 				<label id='lab' class="btn btn-primary btn-sm" for="Import">Choose a File</label>
-				   <!--To .txt sto accept einai gia to testing -->
-					<!--<label class="custom-file-label" id="import_label" for="Import">Choose a file</label>-->
 			<input type="button" onclick="upload()" value="Submit" class="submit_btn btn btn-primary btn-sm" name="submit" id="submit">
 
 			<button  class="back_to btn btn-info btn-sm" onclick="window.location.href='user.html';">Επιστροφή στην Αρχική Σελίδα</button>
@@ -32,10 +30,10 @@
    integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
    crossorigin=""></script>
    <script src="https://cdn.jsdelivr.net/npm/heatmapjs@2.0.2/heatmap.js"> </script>
-   <script src="https:///cdn.rawgit.com/pa7/heatmap.js/develop/plugins/leaflet-heatmap/leaflet-heatmap.js"></script>
+   <script src="https://cdn.rawgit.com/pa7/heatmap.js/develop/plugins/leaflet-heatmap/leaflet-heatmap.js"></script> 
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<!-- JS -->
-   <script src="import.js" charset="utf-8"></script>
+   <script src="import.js"></script>
    <script>
 		loadMap(document.getElementById('mapid')); // sunarthsh pou emfanizei to map
 	</script>
@@ -43,9 +41,9 @@
 	<script>
 		document.getElementById('Import').addEventListener('change', function(){import_files(document.getElementById('Import'))}, false);
 	</script>
+	<script>
+		var x = document.referrer;
+    	if(!x.includes("user.html")){window.location.href="index.html";}
+	</script>
 </body>
-    <script>
-	  var x = document.referrer;
-      if(!x.includes("user.html")){window.location.href="index.html";}
-    </script>
 </html>
