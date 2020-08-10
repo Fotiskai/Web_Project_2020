@@ -7,76 +7,74 @@ function redirect(){window.location.href='admin.html';}
 $.post("distribution.php",
 function (activities)
 {
-  var parse_php_array =[];
-  var name_key =[];
-  var php_arr_to_js_arr =[];
+  var parse_php_array =[];//kanoume parse to ton php array apo distribution.php
+  var name_key =[];//ka8e pinakas exei keys
+  var php_arr_to_js_arr =[];// store ton php array se js array
 
-  parse_php_array=JSON.parse(activities);
+  parse_php_array=JSON.parse(activities);//prwta ton kanoume json parse ton php array gia na ton epekserastoume sthn sunexeia me js
   console.log(parse_php_array);
 
   for(var key in parse_php_array){
     php_arr_to_js_arr.push(parse_php_array[key]);
   }
+  //Tag to id tou 1ou pinaka
   var tableRef = document.getElementById('a').getElementsByTagName('tbody')[0];
   var newRow = [];
-
-
   var js_arr_vals=[];
+
   for (var key in php_arr_to_js_arr[0]){
       name_key.push(key);
       js_arr_vals.push(php_arr_to_js_arr[0][key]);
   }
 
-  var i=0;
-
+  var i=0;//counter
+  // Apo thn 8esh 0 tou js array pairnoume ta dedomena gia ton 1o pinaka
   for (var key in php_arr_to_js_arr[0]){
 
     td=document.createElement("td");
     td.appendChild(document.createTextNode(key));
-    tableRef.appendChild(td);
+    tableRef.appendChild(td);//store keys
     td=document.createElement("td");
     td.appendChild(document.createTextNode(js_arr_vals[i]+'%'));
-    tableRef.appendChild(td);
+    tableRef.appendChild(td);//store values
     newRow=tableRef.insertRow();
     i++;
   }
 
+  // Apo thn 8esh 1 tou js array pairnoume ta dedomena gia ton 2o pinaka
    var tableRef = document.getElementById('b').getElementsByTagName('tbody')[0];
-   var newRow = [];
+   newRow = [];
+   js_arr_vals=[];
+   name_key=[];//ton ka8arizoume gia na ton ksanaxrhsimopoihsoume
 
-
-   var js_arr_vals=[];
-
-   var   name_key=[];
   for (var key in php_arr_to_js_arr[1]){
       name_key.push(key);
       js_arr_vals.push(php_arr_to_js_arr[1][key]);
   }
-  var i=0;
+  i=0;
   name_key.forEach(function(item,index){
     td=document.createElement("td");
     td.appendChild(document.createTextNode(js_arr_vals[i]));
-    tableRef.appendChild(td);
+    tableRef.appendChild(td);//values
     td=document.createElement("td");
     td.appendChild(document.createTextNode(item));
-    tableRef.appendChild(td);
+    tableRef.appendChild(td);//keys (items)
     newRow=tableRef.insertRow();
     i++;
   });
 
-
+  // Apo thn 8esh 2 tou js array pairnoume ta dedomena gia ton 3o pinaka
   var tableRef = document.getElementById('c').getElementsByTagName('tbody')[0];
-  var newRow = [];
+  newRow = [];
+  js_arr_vals=[];
+  name_key=[];
 
-  var js_arr_vals=[];
-
-  var name_key=[];
   for (var key in php_arr_to_js_arr[2]){
     name_key.push(key);
     js_arr_vals.push(php_arr_to_js_arr[2][key]);
   }
 
-  var i=0;
+  i=0;
   name_key.forEach(function(item,index){
     td=document.createElement("td");
     td.appendChild(document.createTextNode(item));
@@ -88,19 +86,18 @@ function (activities)
     i++;
   });
 
-
+ // Apo thn 8esh 3 tou js array pairnoume ta dedomena gia ton 4o pinaka
   var tableRef = document.getElementById('d').getElementsByTagName('tbody')[0];
-  var newRow = [];
+  newRow = [];
+  js_arr_vals=[];
+  name_key=[];
 
-
-  var js_arr_vals=[];
-
-  var name_key=[];
   for (var key in php_arr_to_js_arr[3]){
     name_key.push(key);
     js_arr_vals.push(php_arr_to_js_arr[3][key]);
   }
-  var i=0;
+
+  i=0;
   name_key.forEach(function(item,index){
     td=document.createElement("td");
     td.appendChild(document.createTextNode(item));
@@ -112,19 +109,18 @@ function (activities)
     i++;
   });
 
-
+  // Apo thn 8esh 4 tou js array pairnoume ta dedomena gia ton 5o pinaka
   var tableRef = document.getElementById('e').getElementsByTagName('tbody')[0];
-  var newRow = [];
+  newRow = [];
+  js_arr_vals=[];
+  name_key=[];
 
-
-  var js_arr_vals=[];
-
-  var name_key=[];
   for (var key in php_arr_to_js_arr[4]){
     name_key.push(key);
     js_arr_vals.push(php_arr_to_js_arr[4][key]);
   }
-  var i=0;
+
+  i=0;
   name_key.forEach(function(item,index){
     td=document.createElement("td");
     td.appendChild(document.createTextNode(item));
@@ -136,17 +132,18 @@ function (activities)
     i++;
   });
 
+  // Apo thn 8esh 5 tou js array pairnoume ta dedomena gia ton 6o pinaka
   var tableRef = document.getElementById('f').getElementsByTagName('tbody')[0];
-  var newRow = [];
+  newRow = [];
+  js_arr_vals=[];
+  name_key=[];
 
-  var js_arr_vals=[];
-
-  var name_key=[];
   for (var key in php_arr_to_js_arr[5]){
     name_key.push(key);
     js_arr_vals.push(php_arr_to_js_arr[5][key]);
   }
-  var i=0;
+
+  i=0;
   name_key.forEach(function(item,index){
     td=document.createElement("td");
     td.appendChild(document.createTextNode(item));

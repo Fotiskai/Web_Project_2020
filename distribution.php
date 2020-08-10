@@ -28,21 +28,14 @@ if (mysqli_num_rows($result) > 0) {
     	$cnt=$row["count"];
     	$percent[$i]=round(($cnt/$totalact)*100,2);
     	$i+=1;
-		/*
-		if($row['type'] != 'EXITING_VEHICLE' &&  $row['type'] != 'IN_BUS' && $row['type'] != 'IN_CAR' && $row['type'] != 'IN_FOUR_WHEELER_VEHICLE' && $row['type'] != 'IN_ROAD_VEHICLE' && $row['type'] != 'IN_RAIL_VEHICLE'
-		&& $row['type'] != 'WALKING' && $row['type'] != 'UNKNOWN' && $row['type'] != 'TILTING' && $row['type'] != 'STILL' && $row['type'] != 'RUNNING' && $row['type'] != 'ON_FOOT'
-		&& $row['type'] != 'ON_BICYCLE' && $row['type'] != 'IN_VEHICLE' && $row['type'] != 'IN_TWO_WHEELER_VEHICLE'){
-			echo $row['type'];
-		}
-		*/
     }
 }else{
     echo "0 results";
 }
 
 $i=0;
-foreach($percent as $value){
-	$key=$type[$i];	
+foreach($percent as $value){//afora ta pososta gia tis drasthrithtes olwn twn xristwn
+	$key=$type[$i];
 	$dataPoints[$key]=$value;
 	$i+=1;
 }
@@ -53,7 +46,7 @@ $result=mysqli_fetch_assoc($result);
 $count=$result["count"];
 $k=ceil(sqrt($count));
 
-$tmp=floor($totalact/$k);	
+$tmp=floor($totalact/$k);
 $start=0;
 $finish=$tmp;
 $buckets[0]=$start . "-" . $finish;
@@ -78,15 +71,15 @@ for($i=0;$i<$k;$i++){
         }
     }
 }
-       
-for($i=1;$i<=12;$i++){
+
+for($i=1;$i<=12;$i++){//fetch data from act_timestampMs pou afora tous mhnes
     $sql="SELECT COUNT(*) as monthcount FROM data WHERE MONTH(act_timestampMs)='$i'";
     $res=mysqli_query($conn,$sql);
     $res=mysqli_fetch_assoc($res);
-    $m_count[$i]=$res["monthcount"];  	
+    $m_count[$i]=$res["monthcount"];
 }
 
-$count_per_month=array(
+$count_per_month=array(//store gia ka8e mhna poses eggrafes exoume
 "Ιανουάριος" => $m_count[1],
 "Φεβρουάριος" => $m_count[2],
 "Μάρτιος" => $m_count[3],
@@ -102,14 +95,14 @@ $count_per_month=array(
 );
 
 $tmp_array=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
-for($i=0;$i<7;$i++){
+for($i=0;$i<7;$i++){ //fetch data from act_timestampMs pou afora tis hmeres
     $sql="SELECT COUNT(*) as daycount FROM data WHERE DAYNAME(act_timestampMs)='$tmp_array[$i]'";
     $res=mysqli_query($conn,$sql);
     $res=mysqli_fetch_assoc($res);
-    $d_count[$i]=$res["daycount"];    	
+    $d_count[$i]=$res["daycount"];
 }
 
-$count_per_day=array(
+$count_per_day=array(//store gia ka8e mera poses eggrafes exoume
 "Δευτέρα" => $d_count[0],
 "Τρίτη" => $d_count[1],
 "Τετάρτη" => $d_count[2],
@@ -119,27 +112,27 @@ $count_per_day=array(
 "Κυριακή" => $d_count[6],
 );
 
-for($i=0;$i<=23;$i++){
+for($i=0;$i<=23;$i++){//store ton arim8o twn wrwn
     $sql="SELECT COUNT(*) as hourcount FROM data WHERE HOUR(act_timestampMs)='$i'";
     $res=mysqli_query($conn,$sql);
     $res=mysqli_fetch_assoc($res);
-    $h_count[$i]=$res["hourcount"];    	
+    $h_count[$i]=$res["hourcount"];
 }
 
-$sql="SELECT MIN(YEAR(act_timestampMs)) as minumum, MAX(YEAR(act_timestampMs)) as maximum FROM data";
+$sql="SELECT MIN(YEAR(act_timestampMs)) as minumum, MAX(YEAR(act_timestampMs)) as maximum FROM data";//brisoume to range ton hmeromhniwn min,max
 $result=mysqli_query($conn,$sql);
 $result=mysqli_fetch_assoc($result);
 $mindate=$result["minumum"];
 $maxdate=$result["maximum"];
 
 for($i=$mindate;$i<=$maxdate;$i++){
-    $sql="SELECT COUNT(*) as yearcount FROM data WHERE YEAR(act_timestampMs)='$i'";
+    $sql="SELECT COUNT(*) as yearcount FROM data WHERE YEAR(act_timestampMs)='$i'";//
     $res=mysqli_query($conn,$sql);
     $res=mysqli_fetch_assoc($res);
-    $y_count[$i]=$res["yearcount"];	
+    $y_count[$i]=$res["yearcount"];
 }
 
-$r = array($dataPoints,$u_r_count,$count_per_month,$count_per_day,$h_count,$y_count);
+$r = array($dataPoints,$u_r_count,$count_per_month,$count_per_day,$h_count,$y_count);//store all the data in a single array;
 echo json_encode($r);
 
 mysqli_close($conn);
