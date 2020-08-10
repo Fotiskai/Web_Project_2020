@@ -1,20 +1,21 @@
 filtered_map_data_json = new Array(); // μεταβλητη που αποθηκευει μονο τα δεδομενα που αφορουν Πατρα, απο το json file.
-features_Geojson = []; // μεταβλητη που αποθηκευει coords σε geoJSON.
-all_rects = []; // pinakas pou krataei ola ta rects .
+//features_Geojson = []; // μεταβλητη που αποθηκευει coords σε geoJSON.
+all_rects = []; // πινακας που αποθηκευω ολα τα ορθογωνια
 mymap=null; // metablhth gia to map
-geo=null;
+//geo=null;
+re_entry_data=null; // μτβλ που κοιταει για το οταν ο χρηστης εισαγει δεδομενα για δευτερη φορα να αντικαταστησει τα παλια με τα καινουργια
 group = L.layerGroup();
 
 function redirect1(){window.location.href="d_analysis.html";}
 function redirect2(){window.location.href="import.html";}
-
+/*
 var geo_options = {pointToLayer: function(feature, latlng){
 					return new L.CircleMarker(latlng, {
 						radius: 1,
     					color: '#3388ff'
 					});
 				}};	
-
+*/
 function loadMap(map){
 	mymap=L.map(map,{
     	preferCanvas: true
@@ -26,18 +27,18 @@ function loadMap(map){
 }
 
 function import_files(x){
-	if(geo!=null){
+	if(re_entry_data!=null){
 		// init variables
 		//console.log('all_rects',all_rects);
 		//console.log('group',group);
 		//console.log('geo',geo);
 		filtered_map_data_json =[] ;// μεταβλητη που αποθηκευει μονο τα δεδομενα που αφορουν Πατρα, απο το json file.
-		features_Geojson = []; // μεταβλητη που αποθηκευει coords σε geoJSON.
+		//features_Geojson = []; // μεταβλητη που αποθηκευει coords σε geoJSON.
 		all_rects = []; // pinakas pou krataei ola ta rects .
 		mymap.off('click'); // kleinw ta events wste na mhn kanoun trigger twice logo tou prohgoumenou import
 		group.clearLayers();
-		geo.clearLayers(); // ka8arizw to group p exw apo8ukeumeno ta layers apo to geo
-		geo=null;
+		//geo.clearLayers(); // ka8arizw to group p exw apo8ukeumeno ta layers apo to geo
+		re_entry_data=null;
 		//console.log('all_rects',all_rects);
 		//console.log('group',group);
 		//console.log('geo',geo);
@@ -61,17 +62,14 @@ function import_files(x){
 		len = json_data_arr.locations.length;
 		console.log("JSON data: ",json_data_arr);
 		console.log("JSON length: ",len);
-		for(i=0;i<len;i++){ // mikro sample gia na einai pio elenxomenh h katastash
-			// stou fwth balteto kanonika i=0 < len stou mike afhste to etsi.
+		for(i=0;i<len;i++){ 
 			var tmp;
 			tmp = json_data_arr.locations[i];
 			var lat = tmp.latitudeE7/1e7;
 			var long = tmp.longitudeE7/1e7;
 			
 			var dist = cut_distance(lat, long);
-			//console.log('dist is:',dist);
 			if(dist <= 10){ // filtrarw ta dedomena kai pairnw mono auta p einai katw apo 10km
-				//console.log(i)
 				filtered_data.push(tmp);
 				/*
 				var feature = {
@@ -87,7 +85,8 @@ function import_files(x){
 		}
 		filtered_map_data_json = filtered_data; // pairnw ta filtrarismena data kai ta bazw thn global var wste na ta steilw meta mesw AJAX sthn php
 		//var geo_form = { type: 'FeatureCollection', features: features_Geojson };
-
+		re_entry_data = 'data'; // βαζω τιμη στην μτβλ geo ωστε αν ο χρηστης ξανα εισαγει δεδομενα πριν κανει submit 
+		//τα παλια δεδομενα να αντικαταστηθουν απο τα νεα αντι να προστεθουν στα παλια.
 		//geo = L.geoJson(geo_form,geo_options).addTo(mymap);
 		//mymap.fitBounds(geo.getBounds());
 		console.log('END!');
@@ -99,31 +98,30 @@ function import_files(x){
 		var flag = false;
 		var moveflag= false;
 		group.addTo(mymap);
-		mymap.on('click',function(e){
-			//console.log('1st_event:',e.latlng);
+		mymap.on('click',function(e){// event που ενεργοποιειται οταν ο χρηστης κλικαρει στον χαρτη
 			bounds.push(e.latlng);
+			// δημιουργω ενα ορθογωνιο με τα lantitude , longitude που βρισκονται στον πινακα bounds
+			// και εισαγω και ενα ακομα event το οποιο κοιταει αν ο χρηστης ειναι μεσα στο ορθογωνιο και αν ναι τοτε αν πατησει δεξι κλικ το διαγραφει
 			rect = L.rectangle(bounds,{color: 'red',wieght: 2}).on('contextmenu',function(e){
 				bounds = [];
 				this.remove();
 				index = all_rects.indexOf(this);
-				all_rects.splice(index,1);
-				//console.log('all_rects_after_del:',all_rects);
+				all_rects.splice(index,1); // αφαιρω το ορθογωνιο απο τον πινακα
 			});
-			//console.log(bounds);
+			// αν υπαρχουν πολλαπασια του 2 θεσεις στον πινακα bounds και το flag εχει την τιμη true τοτε προσθετω 
+			//το ορθογωνιο που δημιουργηθηκε στον πινακα που κραταω ολα τα ορθογωνια
 			if(bounds.length%2==0 && flag == true){
-				//all_bounds.push(bounds);
 				all_rects.push(rect);
-				//group.addLayer(rect);
 				console.log('all rects: ',all_rects);
 				bounds = [];
 				moveflag=true;
 			}
-		}).on('mousemove',function(e){
+		}).on('mousemove',function(e){ // αφου πατησω κλικ μετα καθως κουναω το ποντικι δημιουργειται το ορθογωνιο προσωρινα στην θεση που δειχνει το ποντικι
+			// και οταν πατησει ο χρηστης παλι κλικ τοτε το ορθογωνιο δημιουγειται 'μονιμα' στις συντεταγμενες που ορισε ο χρηστης
 			if(bounds.length == 1){
-				flag = true;
+				flag = true; // σημαια που δηλωνει οτι εχει δημιουγηθει και το δευτρο συνολο συντεταγμενων που χρειαζεται ωστε να δημιουργηθει το ορθογωνιο
 				moveflag=false;
 				xy = [bounds[0],e.latlng];
-				//console.log('2st_event:',xy);
 				rect.setBounds(xy).addTo(group);
 			}else{
 				flag = false;
@@ -162,15 +160,16 @@ function import_files(x){
 }
 
 function upload(){
-	if(all_rects.length >0){
-		var final_processed_data=[];
+	if(all_rects.length >0){ // αν υπαρχουν ορθογωνια στον χαρτη
+		var final_processed_data=[]; // πινακας που περιεχει τα τελικα δεδομενα αφου 
+		//εχουν διαγραφτει τα δεδομενα που βρισκονται μεσα στα ορθογωνια
 		var idx = [];
 		for(r in all_rects){
 			var rect = all_rects[r];
 			var latlng = rect._latlngs[0];
 			var x = [latlng[0].lng, latlng[1].lng, latlng[2].lng, latlng[3].lng];
 			var y = [latlng[0].lat, latlng[1].lat, latlng[2].lat, latlng[3].lat ];
-			console.log('[+]x:',x,"y:",y);
+			//console.log('[+]x:',x,"y:",y);
 			for(var i=0;i<filtered_map_data_json.length;i++){
 				var lat = filtered_map_data_json[i].latitudeE7/1e7;
 				var lng = filtered_map_data_json[i].longitudeE7/1e7;
@@ -181,7 +180,6 @@ function upload(){
 			for(var i=idx.length-1;i>=0;i--){
 				filtered_map_data_json.splice(idx[i],1);
 			}
-			//console.log('size after rect:',filtered_map_data_json.length);
 		}
 		console.log('final:',filtered_map_data_json);
 	}

@@ -16,10 +16,8 @@ function get_user_options(){
 	reg_per_act = null;
 	heat_arr = null;
 	max_heat = null;
-	select_year = $('#year').val();
-	select_month = $('#month').val();
-	//console.log(select_year);
-	//console.log(select_month);
+	select_year = $('#year').val(); // παιρνω τις τιμες που διαλεξα απο τα πεδιο year
+	select_month = $('#month').val(); // παιρνω τις τιμες που διαλεξα απο τα πεδιο month
 	if(select_year.length==0 || select_month.length==0){
 		window.alert("Παρακαλώ επιλέξτε δραστηριότητες και ημ/νια-ώρα");
 	}else{
@@ -41,33 +39,23 @@ function get_user_options(){
 						mymap.removeLayer(heatmap);// to bazw wste n ka8arisei to map an den mpei sto heatmap func
 						heatmap = null;
 					}
-					//console.log(window.location);
-					//$('document').load('index.html');
 				}
 				else{
-					//console.log(data);
-					results = data.split("|");
+					results = data.split("|"); // διαχωριζω τα δεδομενα που παιρνω απο το getUserData.php αρχειο
 					percentage = results[0];
-					console.log(percentage);
 					hours = results[1];
 					days = results[2];
 					hours_counts = results[5];
 					days_counts = results[6];
-					//console.log(results[5]);
-					//console.log(results[4]);
-					if(results[3]!='null' && results[4]!='null'){
-						console.log('in if');
+					if(results[3]!='null' && results[4]!='null'){ // αν δεν ειναι null τοτε παει να πει οτι υπαρχουν δεδομενα για την δημιουργια του heatmap οποτε
+						//θα πρεπει να σβησω τα δεδομενα π εχουν δημιουργηθει απο πριν
 						heat_arr = results[3];
 						heat_arr = eval('('+ heat_arr +')');
 						max_heat = results[4];
 						document.getElementById('div').innerHTML='';
 						document.getElementById('table').innerHTML='';
 						document.getElementById('graphp').innerHTML='';
-						//document.getElementById('para2').innerHTML='';
 					}
-					//console.log(heat_arr);
-					//console.log(max_heat);
-					//reg_per_act = data;
 					reg_per_act = JSON.parse(percentage);
 					reg_per_hour = JSON.parse(hours);
 					reg_per_day = JSON.parse(days);
@@ -98,15 +86,13 @@ function get_user_options(){
 
 						}
 					}
-					console.log(reg_per_act);
-					if(heatmap!=null){
+					if(heatmap!=null){ // αν το heatmap layer δεν ειναι null τοτε διεαγραψε τα δεδομενα που υπαρχουν στα html tags
+						// και καθαρισε και το layer
 						document.getElementById('div').innerHTML='';
 						document.getElementById('table').innerHTML='';
 						document.getElementById('graphp').innerHTML='';
-						//document.getElementById('para2').innerHTML='';
 						mymap.removeLayer(heatmap);// to bazw wste n ka8arisei to map an den mpei sto heatmap func
 						heatmap = null;
-						//console.log(heatmap);
 					}
 
 					var node = document.getElementById('div');
@@ -116,14 +102,11 @@ function get_user_options(){
 					node.appendChild(newNode);
 
 					let table = document.querySelector("table");
+					//συναρτηση ου δημιουργει τον πινακα δυναμικα
 					generateTable(table,reg_per_act,reg_per_hour,reg_per_day,reg_per_hour_counts,reg_per_day_counts);
+					// συναρτηση που δημιουργει τα γραφηματα δυναμικα
 					generateGraphs(reg_per_act,reg_per_hour,reg_per_day);
 					// ------------------  HEATMAP -----------------------------------
-					//if(mymap==null){
-					//	loadMap(document.getElementById('mapid'));
-					//}
-					//console.log(heat_arr);
-					//console.log(max_heat);
 					if(heat_arr!=null && max_heat!=null)
 						create_heatmap(heat_arr,max_heat);
 					else{
@@ -141,28 +124,24 @@ function loadMap(map){
 	});
 	let tiles=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
 	mymap.addLayer(tiles);
-	//mymap.dragging.disable();
 	mymap.setView([38.2462420, 21.7350847],13);
 }
 
 function create_heatmap(coords,maxFreq){
 	if(heatmap!=null) mymap.removeLayer(heatmap);
 	data = {max: maxFreq, data:coords};
-	//console.log(data);
 	cfg = {"radius": 40, "maxOpacity": 0.8, "scaleRadius": false, "useLocalExtrema": false, latField: 'lat', lngField: 'lng', valueField: 'count' };
 	heatmap = new HeatmapOverlay(cfg);
 	mymap.addLayer(heatmap);
 	heatmap.setData(data);
 }
 
-// functions for table generation
 function generateTable(table,data,data1,data2,data3,data4){
 
 	let headers = ['','Ποσοστό(%)','Ωρα με τις περισσότερες εγγραφες(24-hour form),Εγγραφές','Μέρα με τις περισσότερες εγγραφες, Εγγραφές']; // cols
 	let thead = table.createTHead();
 	let row = thead.insertRow();
 
-	//console.log(data);
 	for(i=0;i<headers.length;i++){
 		let tr = document.createElement("tr");
 		let thr = document.createElement("th");
@@ -188,7 +167,6 @@ function generateTable(table,data,data1,data2,data3,data4){
 			let txtc1 = document.createTextNode(data1[key]+' ('+data3[key]+')');
 
 			//days
-
 			let thc2 = document.createElement("td");
 			let txtc2 = document.createTextNode(data2[key]+' ('+data4[key]+')');
 
@@ -220,14 +198,14 @@ function create_bar_diag(data,canvas){
 	for(let key in data){
 		str = key.replace(/_/g," ");
 		keys[i] = str;
-		if(canvas=='draw2'){
+		if(canvas=='draw2'){// αν το διαγραμμα ειναι αυτο με τις μερες τοτε μπες εδω
 			dataset[i] = getKeyByValue(days,data[key]);
 		}else{
 			dataset[i] = data[key];
 		}
 		i+=1;
 	}
-	console.log(dataset);
+	
 	if(canvas == 'draw'){
 		var set = {
 		labels: keys,

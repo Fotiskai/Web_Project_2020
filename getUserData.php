@@ -10,7 +10,7 @@
 	$all_data_heat = null;
 	$max_freq = null;
 	$flag = false; // shmaia h opoio deixnei an o heatmap exei data gia to sugkekrimeno timestamp
-	$types = null;
+	$types = null; // μτβλ η οποια αποθηκευει ολα αυτα τα activities για τα οποια υπαρχουν δεδομένα στον χρονο / μηνα π εισαγε ο χρηστης 
 
 	$conn=mysqli_connect($servername,$username,$password,$DB);
 	if (!$conn){
@@ -18,23 +18,17 @@
 	}
 	mysqli_set_charset($conn,'utf8'); // gia upostiri3h ths ellhnikhs glwssas
 
-	$userid = $_SESSION["uid"]; //file_get_contents('userid.txt');
-	//echo $userid;
-	//echo "\n";
+	$userid = $_SESSION["uid"];
+
 	$year = $_POST['year'];
 	$month = $_POST['month'];
-	//$day = $_POST['day'];
-	//$hour = $_POST['hour'];
-	//$min  = $_POST['mins'];
-	//$act = $_POST['act'];
-	//
+	
 	$y_all="'".implode("','",$year)."'";
 	$m_all = "'".implode("','",$month)."'";
 
 	// pairnw ola ta entries gia ton sugkekrimeno user
 	$all_entries = "SELECT COUNT(*) FROM data WHERE type!='' AND userid='$userid' AND YEAR(act_timestampMs) IN ($y_all) AND MONTHNAME(act_timestampMs) IN ($m_all)";
-	//echo $all_entries;
-	//echo "\n";
+	
 	if($all_entries_res = mysqli_query($conn, $all_entries)){
 		$res = mysqli_fetch_row($all_entries_res);
 		$all_entries_val = $res[0];
@@ -43,7 +37,7 @@
       		exit; 
 		}
 	}
-	//echo $all_entries_val;
+	
 	$type_sql = "SELECT DISTINCT type FROM data WHERE userid='$userid' AND YEAR(act_timestampMs) IN ($y_all) AND MONTHNAME(act_timestampMs) IN ($m_all)";
 	if($type_res = mysqli_query($conn,$type_sql)){
 		$idx = 0;
@@ -59,7 +53,7 @@
 	}
 
 	$sql_select = '';
-	$data_per_type = array_fill(0,count($types),0);
+	$data_per_type = array_fill(0,count($types),0); // πινακας που αποθηκευει τα ποσοστα για το καθε activity αμεσως μετα την εκτελεση του query
 	for($i=0;$i<count($types);$i++){
 		$tmp = $types[$i];
 		$sql_select = "SELECT COUNT(*) FROM data WHERE type='$tmp' AND userid='$userid' AND YEAR(act_timestampMs) IN ($y_all) AND MONTHNAME(act_timestampMs) IN ($m_all)";
@@ -69,14 +63,14 @@
 		}
 	}
 
-	$result=[]; // pososta
+	$result=[]; // πινακας που αποθηκευει σε μορφη key->value τα ποσοστα ωστε να ειναι ετοιμα για αποστολη
 	for($i=0;$i<count($data_per_type);$i++){
 		$result[$types[$i]] = $data_per_type[$i];
 	}
 	
 	$hour_max_entries = '';
-	$hour_per_type = array_fill(0,count($types),0);
-	$hour_per_type_count = array_fill(0, count($types), 0);
+	$hour_per_type = array_fill(0,count($types),0); // πινακας που αποθηκευει την ωρα με τις περισσοτερες εγγραφες για το καθε activity αμεσως μετα την εκτελεση του query με βαση χρονο/μηνα
+	$hour_per_type_count = array_fill(0, count($types), 0);// πινακας που αποθηκευει τον αριθμο των εγγραφων που εγιναν εκεινη την ωρα
 	for($i=0;$i<count($types);$i++){
 		$tmp = $types[$i];
 		$hour_max_entries = "SELECT HOUR(act_timestampMs), COUNT(*) as count  FROM data WHERE type='$tmp' AND userid='$userid' AND YEAR(act_timestampMs) IN ($y_all) AND MONTHNAME(act_timestampMs) IN ($m_all) GROUP BY HOUR(act_timestampMs) ORDER BY COUNT(*) DESC LIMIT 1";
@@ -92,22 +86,16 @@
 		}
 	}
 
-	$result_hours = []; // wres
+	$result_hours = []; // πινακες που αποθηκευουν σε μορφη key->value τις ωρες/αριθμο εγγραφων ωστε να ειναι ετοιμα για αποστολη
 	$result_hours_count = [];
 	for($i=0;$i<count($hour_per_type);$i++){
 		$result_hours[$types[$i]] = $hour_per_type[$i];
 		$result_hours_count[$types[$i]] = $hour_per_type_count[$i];
 	}
-	/*
-	//language query
-	$lang = "SET @@lc_time_names = 'el_GR'";
-	if(mysqli_query($conn,$lang)){
-		//pass
-	}*/
 
 	$day_max_entries = '';
-	$day_per_type = array_fill(0, count($types), 0);
-	$day_per_type_count = array_fill(0, count($types), 0);
+	$day_per_type = array_fill(0, count($types), 0); // πινακας που αποθηκευει την μερα με τις περισσοτερες εγγραφες για το καθε activity αμεσως μετα την εκτελεση του query με βαση χρονο/μηνα
+	$day_per_type_count = array_fill(0, count($types), 0); // πινακας που αποθηκευει τον αριθμο των εγγραφων που εγιναν εκεινη την μερα
 	for($i=0;$i<count($types);$i++){
 		$tmp = $types[$i];
 		$day_max_entries = "SELECT DAYNAME(act_timestampMs) AS day, COUNT(*) AS count FROM data WHERE type='$tmp' AND userid='$userid' AND YEAR(act_timestampMs) IN ($y_all) AND MONTHNAME(act_timestampMs) IN ($m_all) GROUP BY DAY(act_timestampMs) ORDER BY COUNT(*) DESC LIMIT 1";
@@ -123,13 +111,14 @@
 		}
 	}
 
-	$result_days = []; // meres
+	$result_days = []; // πινακες που αποθηκευουν σε μορφη key->value τις μερες/αριθμο εγγραφων ωστε να ειναι ετοιμα για αποστολη
 	$result_days_count = [];
 	for($i=0;$i<count($day_per_type);$i++){
 		$result_days[$types[$i]] = $day_per_type[$i];
 		$result_days_count[$types[$i]] = $day_per_type_count[$i];
 	}
 
+	// μετατρεπω τα δεδομενα σε json obj και τα εισάγω στον πινακα all_data που περιεχει ολα τα απαραιτητα δεδομενα 
 	$counts = json_encode($result);
 	$hours = json_encode($result_hours);
 	$days = json_encode($result_days);
@@ -140,31 +129,13 @@
 	$all_data[2] = $days;
 	$all_data[3] = $h_count;
 	$all_data[4] = $d_count;
-	/*
-	$lang = "SET @@lc_time_names = 'en_US'"; // reset sto default
-	if(mysqli_query($conn,$lang)){
-		//pass
-	}*/
 	
 	// ------------------------------------ HEATMAP -------------------------------------------------
 	$latitude = [];
 	$longitude = [];
-	$freq_arr = [];
+	$freq_arr = []; // πινακς με τις συνχοτητες εμφανισης των συγκεκριμενων latitude longitude
 	$idx = 0;
-	$max_freq = 0;
-	/*
-	$y_all="'".implode("','",$year)."'";
-	$m_all="'".implode("','",$month)."'";
-	$d_all="'".implode("','",$day)."'";
-	$h_all="'".implode("','",$hour)."'";
-	$min_all="'".implode("','",$min)."'";
-	$a_all="'".implode("','",$act)."'";
-	*/
-	//echo $y_all;
-	//echo $m_all;
-	//echo $d_all;
-	//echo $h_all;
-	//echo $min_all;
+	$max_freq = 0; // μαξ θερμη τιμη 
 
 	$heatmap_sql = "SELECT COUNT(*) as count,latitude,longitude FROM(SELECT latitude,longitude FROM data WHERE YEAR(act_timestampMs) IN ($y_all) AND MONTHNAME(act_timestampMs) IN ($m_all) AND userid='$userid')filterred_arr GROUP BY filterred_arr.latitude,filterred_arr.longitude";
 
