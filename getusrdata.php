@@ -8,8 +8,10 @@ mysqli_set_charset($conn,'utf8');
 $sql="SET lc_time_names = 'el_GR'";
 mysqli_query($conn, $sql);
 
-$uid=$_SESSION["uid"];
+$uid=$_SESSION["uid"]; //userid συνδεδεμένου χρήστη 
 $tmp=12;
+
+/*---------------------------------------------Εύρεση οικολογικού score για του τελευταίους 12 μήνες-------------------------------------------------*/
 for($i=0;$i<13;$i++){
 	$sql="SELECT MONTHNAME(DATE_SUB(curdate(), INTERVAL $tmp MONTH)) as month ,YEAR(DATE_SUB(curdate(), INTERVAL $tmp MONTH)) as year";
 	$result=mysqli_query($conn, $sql);
@@ -27,6 +29,7 @@ for($i=0;$i<13;$i++){
     $tmp-=1;	
 }
 
+/*----------------------------Εύρεση περιόδου εγγραφών----------------------------------------------*/
 $sql="SELECT MIN(act_timestampMs) as minn, MAX(act_timestampMs) as maxn FROM data WHERE userid='$uid'";
 $result = mysqli_query($conn, $sql);
 $res=mysqli_fetch_assoc($result);
@@ -41,12 +44,14 @@ if($res["minn"]=="" and $res["maxn"]==""){
 }
 
 
+/*----------Εύρεση ημ/νίας τελευταίου upload---------------------------*/
 $sql="SELECT lastUpload,username FROM usercred WHERE userid='$uid'";
 $result=mysqli_query($conn, $sql);
 $data=mysqli_fetch_assoc($result);
 $lastdate=$data["lastUpload"];
 $i=0;
 
+/*-------------------Εύρεση top3 με βάση το οικολογικό score---------------------*/
 $sql="SELECT currentScore,username FROM usercred ORDER BY currentScore DESC LIMIT 3";
 $result=mysqli_query($conn, $sql);
 if(mysqli_num_rows($result)>0){
@@ -54,17 +59,17 @@ if(mysqli_num_rows($result)>0){
     	$scores[$i]=$row["currentScore"];
     	$names[$i]=$row["username"];
     	$temp=preg_split("/[\s]/",$names[$i]);
-    	$names[$i]=$temp[0]. " " . mb_substr($temp[1],0,1);
+    	$names[$i]=$temp[0]. " " . mb_substr($temp[1],0,1); //συντετμημένο top3 χρηστών
     	$names[$i].=".";
     	$i+=1;
 	}
 }
 $temp=preg_split("/[\s]/",$data["username"]);
-$username=$temp[0]. " " . mb_substr($temp[1],0,1) . ".";
+$username=$temp[0]. " " . mb_substr($temp[1],0,1) . "."; //συντετμημένο όνομα συνδεδεμένου χρήστη
 array_push($names,$username);
 $sql="SET @rank:=0";
 $result=mysqli_query($conn, $sql);
-$sql="SELECT ranking FROM (SELECT userid,@rank := @rank + 1 as ranking FROM usercred ORDER BY currentScore DESC)sub WHERE sub.userid='$uid'";
+$sql="SELECT ranking FROM (SELECT userid,@rank := @rank + 1 as ranking FROM usercred ORDER BY currentScore DESC)sub WHERE sub.userid='$uid'"; //εύρεση κατάταξης συνδεδεμένου χρήστη 
 $result=mysqli_query($conn, $sql);
 $result=mysqli_fetch_assoc($result);
 $usr_rank=$result["ranking"];

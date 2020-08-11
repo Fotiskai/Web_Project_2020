@@ -1,6 +1,6 @@
 heatmapLayer=null;
 
-function minutes_selector(){
+function minutes_selector(){   //δημιουργία html select για λεπτά
   sel=document.getElementById("minutes");
   for(i=1;i<=60;i++){
       option=document.createElement("option");
@@ -10,7 +10,7 @@ function minutes_selector(){
   }
 }
 
-function years_selector(){
+function years_selector(){ //δημιουργία html select για χρόνια
     sel=document.getElementById("year");
     $.ajax({ 
     type: "POST", 
@@ -27,8 +27,7 @@ function years_selector(){
   }});
 }
 
-function activites_selector(){
-    sel=document.getElementById("year");
+function activites_selector(){ //δημιουργία html select για δραστηριότητες
     sel1=document.getElementById("act");
     $.ajax({ 
     type: "POST", 
@@ -48,7 +47,7 @@ function activites_selector(){
 
 
 
-function selectAll(id){
+function selectAll(id){ //υλοποίηση κουμπιού επιλογή όλων
   options = id.getElementsByTagName('option');
   console.log(options);
   for(i=0;i<options.length;i++){
@@ -56,7 +55,7 @@ function selectAll(id){
   }
 }
 
-function datahandle(){
+function datahandle(){     //αποστολή επιλογών χρήστη σε php script για την δημιουργία heatmap
   select=$('#act').val();
   select1=$('#year').val();
   select2=$('#month').val();
@@ -89,7 +88,7 @@ function datahandle(){
   }
 }
 
-function create_Map(){
+function create_Map(){                                        //δημιουργία αρχικού χάρτη
     mymap=L.map('mapid',{
       preferCanvas: true
   });
@@ -98,7 +97,7 @@ function create_Map(){
   mymap.setView([38.2462420, 21.7350847],13);
 }
 
-function create_heatMap(coords,max){
+function create_heatMap(coords,max){                           //δημιουργία heatmap layer
   if(heatmapLayer!=null) mymap.removeLayer(heatmapLayer);
   testData={max: max, data: res1};
   console.log(testData);
@@ -108,7 +107,7 @@ function create_heatMap(coords,max){
   heatmapLayer.setData(testData);
 }
 
-function data_delete(){
+function data_delete(){                                     //διαγραφή δεδομένων από την βάση
   result = confirm("Διαγραφή Δεδομένων?");
   if(result){
         $.ajax({ 
@@ -121,7 +120,7 @@ function data_delete(){
 }
 }
 
-function export_data(){
+function export_data(){                              //εξαγωγή δεδομένων με βάση τις επιλογές του χρήστη
   select=$('#act').val();
   select1=$('#year').val();
   select2=$('#month').val();

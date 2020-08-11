@@ -4,9 +4,11 @@ if (!$conn) {
   die("Connection failed: " . mysqli_connect_error());
 }
 mysqli_set_charset($conn,'utf8');
-$arg_list=[];
+
 $keys=["heading","activity.type","activity.confidence","activity.timestampMs","verticalAccuracy","velocity","accuracy","longitude","latitude","altitude","timestampMs","userid"];
 
+
+/*-----Αρχικοποίηση XML αρχείου-------*/
 $dom=new DOMDocument('1.0','utf-8');
 $dom->formatOutput=true;
 $root=$dom->createElement('data');
@@ -27,6 +29,7 @@ $h="'".implode("','",$hour)."'";
 $min="'".implode("','",$minutes)."'";
 $a="'".implode("','",$activ)."'";
 
+/*-----Εισαγωγή δεδομένων στο XML αρχείο-------*/
 $sql="SELECT heading,velocity,accuracy,verticalAccuracy,longitude,latitude,altitude,timestampMs,type,confidence,act_timestampMs,userid FROM data WHERE YEAR(act_timestampMs) IN ($y) AND MONTHNAME(act_timestampMs) IN ($m) AND DAYNAME(act_timestampMs) IN ($d) AND HOUR(act_timestampMs) IN ($h) AND MINUTE(act_timestampMs) IN ($min) AND type IN ($a)";
 $result = mysqli_query($conn, $sql);
 if(mysqli_num_rows($result)>0){
@@ -56,7 +59,7 @@ if(mysqli_num_rows($result)>0){
   echo 'Δεν βρέθηκαν εγγραφές';
   exit;
 }
-$dom->save('export.xml');
+$dom->save('export.xml'); //εξαγωγή σε αρχείο
 echo 'Εξαγωγή Ολοκληρώθηκε';
 mysqli_close($conn);
 ?>

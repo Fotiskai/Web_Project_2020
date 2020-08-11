@@ -5,7 +5,6 @@ if (!$conn) {
 }
 mysqli_set_charset($conn,'utf8');
 $count=0;
-$list[0]=[];
 
 $year=$_POST["year"];
 $month=$_POST["month"];
@@ -21,6 +20,7 @@ $h="'".implode("','",$hour)."'";
 $min="'".implode("','",$minutes)."'";
 $a="'".implode("','",$activ)."'";
 
+/*--------------------------Αποθήκευση δεδομένων από την βάση σε μια λίστα-----------------------------*/
 $sql="SELECT heading,velocity,accuracy,verticalAccuracy,longitude,latitude,altitude,timestampMs,type,confidence,act_timestampMs,userid FROM data WHERE YEAR(act_timestampMs) IN ($y) AND MONTHNAME(act_timestampMs) IN ($m) AND DAYNAME(act_timestampMs) IN ($d) AND HOUR(act_timestampMs) IN ($h) AND MINUTE(act_timestampMs) IN ($min) AND type IN ($a)";
 $result = mysqli_query($conn, $sql);
 if(mysqli_num_rows($result)>0){
@@ -45,14 +45,14 @@ if(mysqli_num_rows($result)>0){
 	exit;
 }
 
-if($_POST["type"]=="CSV"){
+if($_POST["type"]=="CSV"){     //δημιουργία CSV αρχείου
 	$fp=fopen('export.csv','w');
     fwrite($fp,"heading|activity.type|activity.confidence|activity.timestampMs|verticalAccuracy|velocity|accuracy|longitude|latitude|altitude|timestampMs|userid"."\n");	
     foreach($list as $data){
 	    fputcsv($fp, $data);
     }
 }
-if($_POST["type"]=="JSON"){
+if($_POST["type"]=="JSON"){   //δημιουργία JSON αρχείου
 	$fp=fopen('export.json','w');
     $export_json="[". "\n";
     foreach($list as $data){

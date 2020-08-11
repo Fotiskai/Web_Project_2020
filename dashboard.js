@@ -238,6 +238,7 @@ function showGraphs()
                           borderColor: '#000000',
                           hoverBackgroundColor: '#CCCCCC',
                           hoverBorderColor: '#666666',
+                          barPercentage: 1.30,
                           data: js_arr_vals
                       }
                   ]
@@ -263,18 +264,17 @@ function showGraphs()
                           }
                         },
                         scales: {
-					      xAxes: [{
-					        display: false,
-					        barPercentage: 1.30,
-					      }, {
-					        display: true,
-					      }],
-					      yAxes: [{
-					        ticks: {
-					          beginAtZero:true
-					        }
-					      }]
-						}
+      					      xAxes: [{
+      					        display: false,
+      					      }, {
+      					        display: true,
+      					      }],
+      					      yAxes: [{
+      					        ticks: {
+      					          beginAtZero:true
+      					        }
+      					      }]
+          			    }
                 }
 
               });

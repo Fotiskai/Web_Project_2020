@@ -1,6 +1,5 @@
 <?php
 $dat="[";
-$idd=[];
 $lat=[];
 $long=[];
 $c_arr=[];
@@ -30,6 +29,7 @@ $a="'".implode("','",$activ)."'";
 
 //echo $y. "\n" .$m. "\n".  $d. "\n" .$h. "\n".  $a;
 
+/*-----------------------------------------------Εύρεση συντεταγμένων και συχνότητας τους από την ΒΔ------------------------------------*/
 $sql="SELECT COUNT(*) as count,latitude,longitude FROM(SELECT latitude,longitude FROM data WHERE YEAR(act_timestampMs) IN ($y) AND MONTHNAME(act_timestampMs) IN ($m) AND DAYNAME(act_timestampMs) IN ($d) AND HOUR(act_timestampMs) IN ($h) AND MINUTE(act_timestampMs) IN ($min) AND type IN ($a))sub GROUP BY sub.latitude,sub.longitude";
 $result = mysqli_query($conn, $sql);
   if(mysqli_num_rows($result)>0){
@@ -44,8 +44,9 @@ $result = mysqli_query($conn, $sql);
       exit;
     }    
 
+
 foreach($c_arr as $value){
-  if($value>$max) $max=$value;
+  if($value>$max) $max=$value; //Εύρεση μέγιστης συχνότητας
 }
 
 
