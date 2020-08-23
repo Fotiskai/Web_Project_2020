@@ -126,7 +126,7 @@ function countscore(){
     $sql="SELECT COUNT(DISTINCT(id)) as walk FROM data WHERE MONTH(timestampMs) = MONTH(CURRENT_DATE()) AND YEAR(timestampMs) = YEAR(CURRENT_DATE()) AND type IN('ON_BICYCLE','ON_FOOT','WALKING','RUNNING')";
     $result=mysqli_query($conn,$sql);
     $walk_count=mysqli_fetch_assoc($result);
-    if($veh_count["vehicle"]==0 and $walk_count["walk"]==0) $score=0;
+    if($veh_c["walk"]==0) $score=0;
     else if($veh_count["vehicle"]==0) $score=100;
     else $score=round(($walk_count["walk"]/($veh_count["vehicle"]+$walk_count["walk"]))*100,2);
 	$sql="UPDATE usercred SET currentScore=$score WHERE userid='$usrid_test'";
