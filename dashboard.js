@@ -155,8 +155,6 @@ function (activities)
     i++;
   });
 
-
-
 });
 
 $("#chartContainer").ready(function () {
@@ -271,7 +269,8 @@ function showGraphs()
       					      }],
       					      yAxes: [{
       					        ticks: {
-      					          beginAtZero:true
+      					          beginAtZero:true,
+                          stepSize:1
       					        }
       					      }]
           			    }

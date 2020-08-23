@@ -10,9 +10,6 @@
 	}
 mysqli_set_charset($conn,'utf8');
 
-$type=[];
-$percent=[];
-$i=0;
 
 $sql="SELECT COUNT(*) as total FROM data WHERE type !=''";
 $result=mysqli_query($conn,$sql);
@@ -24,21 +21,15 @@ $result = mysqli_query($conn, $sql);
 if (mysqli_num_rows($result) > 0) {
      // output data of each row
     while($row = mysqli_fetch_assoc($result)) {
-    	$type[$i]=$row["type"];
+    	$type=$row["type"];
     	$cnt=$row["count"];
-    	$percent[$i]=round(($cnt/$totalact)*100,2);
-    	$i+=1;
+    	$percent=round(($cnt/$totalact)*100,2);
+    	$dataPoints[$type]=$percent;
     }
 }else{
     echo "0 results";
 }
 
-$i=0;
-foreach($percent as $value){//afora ta pososta gia tis drasthrithtes olwn twn xristwn
-	$key=$type[$i];
-	$dataPoints[$key]=$value;
-	$i+=1;
-}
 
 $sql="SELECT COUNT(DISTINCT(userid)) as count FROM data ";
 $result=mysqli_query($conn,$sql);
@@ -63,14 +54,13 @@ array_push($buckets,$last);
 for($i=0;$i<$k;$i++){
 	$key=$buckets[$i];
 	$split=explode('-',$buckets[$i]);
-	$sql="SELECT COUNT(DISTINCT(userid)) as usercount FROM data HAVING COUNT(DISTINCT(userid)) BETWEEN $split[0] AND $split[1]";
+	$sql="SELECT COUNT(*) as usercount FROM (SELECT DISTINCT(userid) FROM data GROUP BY userid HAVING COUNT(*) BETWEEN $split[0] AND $split[1] )sub";
     $res=mysqli_query($conn,$sql);
-    if(mysqli_num_rows($res) > 0){
-        while($row = mysqli_fetch_assoc($res)) {
-        	$u_r_count[$key]=$row["usercount"];
-        }
-    }
+    $row = mysqli_fetch_assoc($res);
+    if ($row["usercount"]==0) break;
+    $u_r_count[$key]=$row["usercount"];
 }
+
 
 for($i=1;$i<=12;$i++){//fetch data from act_timestampMs pou afora tous mhnes
     $sql="SELECT COUNT(*) as monthcount FROM data WHERE MONTH(act_timestampMs)='$i'";
