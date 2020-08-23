@@ -58,7 +58,7 @@ for($i=0;$i<$k;$i++){
 	$sql="SELECT COUNT(*) as usercount FROM (SELECT DISTINCT(userid) FROM data GROUP BY userid HAVING COUNT(*) BETWEEN $split[0] AND $split[1] )sub";
     $res=mysqli_query($conn,$sql);
     $row = mysqli_fetch_assoc($res);
-    if ($row["usercount"]==0) break;
+    if ($row["usercount"]==0) continue;
     $u_r_count[$key]=$row["usercount"];
 }
 
