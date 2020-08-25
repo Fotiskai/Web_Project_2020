@@ -7,8 +7,8 @@ if (!$conn) {
 $sql="DELETE FROM data"; //διαγραφή δεδομένων τοποθεσίας
 mysqli_query($conn,$sql);
 
-//$sql="DELETE FROM usercred"; //διαγραφή χρηστών
-//mysqli_query($conn,$sql);
+$sql="DELETE FROM usercred"; //διαγραφή χρηστών
+mysqli_query($conn,$sql);
 echo'Τα δεδομένα διεγράφτηκαν';
 
 mysqli_close($conn);

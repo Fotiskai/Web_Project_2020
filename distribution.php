@@ -34,7 +34,7 @@ if (mysqli_num_rows($result) > 0) {
 //$result=mysqli_query($conn,$sql);
 //$result=mysqli_fetch_assoc($result);
 //$count=$result["count"];
-$k=ceil(sqrt($totalact/10000)); // πλήθος κουβάδων (√αριθμός χρηστών)
+$k=ceil(sqrt($totalact/10000)); // πλήθος κουβάδων
 $tmp=floor($totalact/$k);
 $start=0;
 $finish=$tmp;
