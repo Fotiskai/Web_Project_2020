@@ -55,7 +55,7 @@ array_push($buckets,$last);
 for($i=0;$i<$k;$i++){
 	$key=$buckets[$i];
 	$split=explode('-',$buckets[$i]);
-	$sql="SELECT COUNT(*) as usercount FROM (SELECT DISTINCT(userid) FROM data GROUP BY userid HAVING COUNT(*) BETWEEN $split[0] AND $split[1] )sub";
+	$sql="SELECT COUNT(*) as usercount FROM (SELECT DISTINCT * FROM data GROUP BY userid HAVING COUNT(*) BETWEEN $split[0] AND $split[1] )sub";
     $res=mysqli_query($conn,$sql);
     $row = mysqli_fetch_assoc($res);
     if ($row["usercount"]==0) continue;
