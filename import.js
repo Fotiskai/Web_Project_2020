@@ -227,7 +227,7 @@ function graph(data,labels){                                           //δημ�
     	data:{
     		labels:labels,
     		datasets: [{
-    			label:'Ποσοστό οικολογικής κίνησης (%)',
+    			label:'Score οικολογικής μετακίνησης (%)',
     			data: data,
     			pointBorderColor:['#49e2ff', '#fff000', '#111000', '#FF0000',
                         '#00FF00', '#0000FF', '#00FFFF', '#FF00FF', '#C0C0C0','#808080',

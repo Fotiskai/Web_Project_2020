@@ -30,11 +30,11 @@ if (mysqli_num_rows($result) > 0) {
 }
 
 /*Κατανομή πλήθους εγγραφών ανα χρήστη (πλήθος χρηστών-κουβάς εγγραφών)*/
-$sql="SELECT COUNT(DISTINCT(userid)) as count FROM data ";
-$result=mysqli_query($conn,$sql);
-$result=mysqli_fetch_assoc($result);
-$count=$result["count"];
-$k=ceil(sqrt($count)); // πλήθος κουβάδων (√αριθμός χρηστών)
+//$sql="SELECT COUNT(DISTINCT(userid)) as count FROM data ";
+//$result=mysqli_query($conn,$sql);
+//$result=mysqli_fetch_assoc($result);
+//$count=$result["count"];
+$k=ceil(sqrt($totalact/10000)); // πλήθος κουβάδων (√αριθμός χρηστών)
 $tmp=floor($totalact/$k);
 $start=0;
 $finish=$tmp;
