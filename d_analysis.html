@@ -1,88 +1,87 @@
 <!DOCTYPE html> 
-<html lang="en" dir="ltr"> 
-<head>     
-   <meta charset="utf-8"> 
-   <meta name="referrer" content="same-origin">
-   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" 
-   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" 
-   crossorigin=""/> 
-   <!-- CSS -->
-   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css" integrity="sha384-VCmXjywReHh4PwowAiWNagnWcLhlEJLA5buUprzK8rxFgeH0kww/aWY76TfkUoSX" crossorigin="anonymous">
-   <link rel="stylesheet" href="css/d_analysis.css">  
+<html> 
+  <head>     
+     <meta charset="utf-8"> 
+     <meta name="referrer" content="same-origin">
+     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" 
+     integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" 
+     crossorigin=""/> 
+     <!-- CSS -->
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css" integrity="sha384-VCmXjywReHh4PwowAiWNagnWcLhlEJLA5buUprzK8rxFgeH0kww/aWY76TfkUoSX" crossorigin="anonymous">
+     <link rel="stylesheet" href="css/d_analysis.css">  
+     <title>Web 2020</title> 
+  </head> 
+  <body id='body'>  
+      <div class="container">  
+          <p class="text-center">Ανάλυση Στοιχείων</p>
+      </div>
+      <div  class="map" id="mapid"></div>
+      <br> 
+      <button  class="back_to btn btn-info d-flex btn-sm" onclick="window.location.href='user.html';">Επιστροφή στην Αρχική Σελίδα</button>
+      <div class="container d-flex justify-content-center">
+          <div class="row">
+              <div class="col-sm">
+                  <label id="year_label">Έτος</label><br> 
+                  <select id="year" multiple> 
+                  </select>
+                  <button id="year_btn" class="btn btn-info d-flex btn-sm" onClick="selectAll(document.getElementById('year'))">Επιλογή όλων</button>
+              </div> 
+              <div class="col-sm">
+                  <label id="month_label">Μήνας</label><br> 
+                  <select id="month" multiple> 
+                      <option value="January">Ιανουάριος</option> 
+                      <option value="February">Φεβρουάριος</option> 
+                      <option value="March">Μαρτιος</option> 
+                      <option value="April">Απρίλης</option> 
+                      <option value="May">Μάιος</option> 
+                      <option value="June">Ιούνιος</option> 
+                      <option value="July">Ιούλιος</option> 
+                      <option value="August">Αύγουστος</option> 
+                      <option value="September">Σεμπτέμβρης</option> 
+                      <option value="October">Οκτόβρης</option> 
+                      <option value="November">Νοέμβρης</option> 
+                      <option value="December">Δεκέμβρης</option> 
+                  </select> 
+                  <button id="month_btn" class="btn btn-info d-flex btn-sm month_c" onClick="selectAll(document.getElementById('month'))">Επιλογή όλων</button> 
+              </div>
+          </div>
+      </div>
+      <br>
+      <div class="container">
+          <div class="d-flex justify-content-center">
+              <input id='submit_btn' class="btn btn-success" type="button" onclick="get_user_options()" value="Υποβολή"> 
+          </div>
+      </div>
+      <br>
+      <br>
+      <div id='div'></div>
+      <div id="Table-group" class="table-responsive-sm">
+        	<table class="mytable table table-striped table-dark" id='table'>
+               <!-- table generation goes here -->
+        	</table>
+      </div>
+      <br>
+      <div id="graphp" class="text-center"></div>
+      <div id="contain_id" class="container"></div>
 
-<title>Web 2020</title> 
-</head> 
-<body id='body'>  
-    <div class="container">  
-        <p class="text-center">Ανάλυση Στοιχείων</p>
-    </div>
-    <div  class="map" id="mapid"></div>
-    <br> 
-    <button  class="back_to btn btn-info d-flex btn-sm" onclick="window.location.href='user.html';">Επιστροφή στην Αρχική Σελίδα</button>
-    <div class="container d-flex justify-content-center">
-        <div class="row">
-            <div class="col-sm">
-                <label id="year_label">Έτος</label><br> 
-                <select id="year" multiple> 
-                </select>
-                <button id="year_btn" class="btn btn-info d-flex btn-sm" onClick="selectAll(document.getElementById('year'))">Επιλογή όλων</button>
-            </div> 
-            <div class="col-sm">
-                <label id="month_label">Μήνας</label><br> 
-                <select id="month" multiple> 
-                    <option value="January">Ιανουάριος</option> 
-                    <option value="February">Φεβρουάριος</option> 
-                    <option value="March">Μαρτιος</option> 
-                    <option value="April">Απρίλης</option> 
-                    <option value="May">Μάιος</option> 
-                    <option value="June">Ιούνιος</option> 
-                    <option value="July">Ιούλιος</option> 
-                    <option value="August">Αύγουστος</option> 
-                    <option value="September">Σεμπτέμβρης</option> 
-                    <option value="October">Οκτόβρης</option> 
-                    <option value="November">Νοέμβρης</option> 
-                    <option value="December">Δεκέμβρης</option> 
-                </select> 
-                <button id="month_btn" class="btn btn-info d-flex btn-sm month_c" onClick="selectAll(document.getElementById('month'))">Επιλογή όλων</button> 
-            </div>
-        </div>
-    </div>
-    <br>
-    <div class="container">
-        <div class="d-flex justify-content-center">
-            <input id='submit_btn' class="btn btn-success" type="button" onclick="get_user_options()" value="Υποβολή"> 
-        </div>
-    </div>
-    <br>
-    <br>
-    <div id='div'></div>
-    <div id="Table-group" class="table-responsive-sm">
-      	<table class="mytable table table-striped table-dark" id='table'>
-             <!-- table generation goes here -->
-      	</table>
-    </div>
-    <br>
-    <div id="graphp" class="text-center"></div>
-    <div id="contain_id" class="container"></div>
-
-   <!-- Scripts --> 
-   <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" 
-   integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" 
-   crossorigin=""></script> 
-   <script src="https://cdn.jsdelivr.net/npm/heatmapjs@2.0.2/heatmap.js"> </script> 
-   <script src="https://cdn.rawgit.com/pa7/heatmap.js/develop/plugins/leaflet-heatmap/leaflet-heatmap.js"></script>   
-   <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
-   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
-   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/js/bootstrap.min.js" integrity="sha384-XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J" crossorigin="anonymous"></script>
-   <script src="userDataHandler.js"></script> 
-   <script src="formhandler.js"></script>
-   <script> 
-        window.onload=function(){ 
-        years_selector();
-        } 
-   </script>
-   <script>
-        loadMap(document.getElementById('mapid'));
-   </script>
-</body> 
+     <!-- Scripts --> 
+     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" 
+     integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" 
+     crossorigin=""></script> 
+     <script src="https://cdn.jsdelivr.net/npm/heatmapjs@2.0.2/heatmap.js"> </script> 
+     <script src="https://cdn.rawgit.com/pa7/heatmap.js/develop/plugins/leaflet-heatmap/leaflet-heatmap.js"></script>   
+     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/js/bootstrap.min.js" integrity="sha384-XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J" crossorigin="anonymous"></script>
+     <script src="userDataHandler.js"></script> 
+     <script src="formhandler.js"></script>
+     <script> 
+          window.onload=function(){ 
+          years_selector();
+          } 
+     </script>
+     <script>
+          loadMap(document.getElementById('mapid'));
+     </script>
+  </body> 
 </html>
