@@ -2,7 +2,7 @@ heatmapLayer=null;
 
 function minutes_selector(){   //δημιουργία html select για λεπτά
   sel=document.getElementById("minutes");
-  for(i=1;i<=60;i++){
+  for(i=0;i<=59;i++){
       option=document.createElement("option");
       option.text=i;
       option.value=i;
@@ -78,7 +78,7 @@ function datahandle(){     //αποστολή επιλογών χρήστη σε
           url: "getdata.php", 
           data: { act:select, year:select1, month:select2, day:select3, hour:select4, minutes:select5 }, 
           success: function(data) {
-          	if(data=="Δεν υπάρχουν εγγραφές") window.alert("Δεν υπάρχουν εγγραφές"); return;
+          	if(data=="Δεν υπάρχουν εγγραφές") {window.alert("Δεν υπάρχουν εγγραφές"); return;}
             res=data.split("|");
             coords=res[0];
             max=res[1];

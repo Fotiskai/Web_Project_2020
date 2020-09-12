@@ -39,5 +39,5 @@ function login(){
 }
 
 function remember(){
-  window.alert('Απλά μην το ξεχνάς');
+  window.alert('Μη υλοποιημένο');
 }

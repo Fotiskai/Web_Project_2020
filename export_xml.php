@@ -35,13 +35,23 @@ $result = mysqli_query($conn, $sql);
 if(mysqli_num_rows($result)>0){
   	while($row = mysqli_fetch_assoc($result)){
       $node=$dom->createElement('location');
-      $heading=$row["heading"];
-      $verticalAccuracy=$row["verticalAccuracy"];      
-      $velocity=$row["velocity"];
+
+      if (is_null($row["heading"])) $heading="";
+      else  $heading=$row["heading"];
+
+      if (is_null($row["verticalAccuracy"])) $verticalAccuracy="";
+      else  $verticalAccuracy=$row["verticalAccuracy"];
+
+      if (is_null($row["velocity"])) $velocity="";
+      else  $velocity=$row["velocity"];
+      
       $accuracy=$row["accuracy"];
       $longitude=$row["longitude"]*1e7;
-      $latitude=$row["latitude"]*1e7;      
-      $altitude=$row["altitude"];
+      $latitude=$row["latitude"]*1e7; 
+
+      if (is_null($row["altitude"])) $altitude="";
+      else  $altitude=$row["altitude"];
+
       $timestampMs=strtotime($row["timestampMs"])*1000;
       $userid=$row["userid"];
       $type=$row["type"];

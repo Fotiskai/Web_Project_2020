@@ -120,10 +120,10 @@
 function countscore(){
 	global $conn;
 	global $usrid_test;
-    $sql="SELECT COUNT(DISTINCT(id)) as vehicle FROM data WHERE MONTH(timestampMs) = MONTH(CURRENT_DATE()) AND YEAR(timestampMs) = YEAR(CURRENT_DATE()) AND type IN('IN_VEHICLE','IN_RAIL_VEHICLE','IN_ROAD_VEHICLE','IN_FOUR_WHEELER_VEHICLE','IN_CAR','IN_TWO_WHEELER_VEHICLE','IN_BUS')";
+    $sql="SELECT COUNT(*) as vehicle FROM data WHERE MONTH(timestampMs) = MONTH(CURRENT_DATE()) AND YEAR(timestampMs) = YEAR(CURRENT_DATE()) AND type IN('IN_VEHICLE','IN_RAIL_VEHICLE','IN_ROAD_VEHICLE','IN_FOUR_WHEELER_VEHICLE','IN_CAR','IN_TWO_WHEELER_VEHICLE','IN_BUS','TILTING','STILL')";
     $result=mysqli_query($conn,$sql);
     $veh_count=mysqli_fetch_assoc($result);
-    $sql="SELECT COUNT(DISTINCT(id)) as walk FROM data WHERE MONTH(timestampMs) = MONTH(CURRENT_DATE()) AND YEAR(timestampMs) = YEAR(CURRENT_DATE()) AND type IN('ON_BICYCLE','ON_FOOT','WALKING','RUNNING')";
+    $sql="SELECT COUNT(*) as walk FROM data WHERE MONTH(timestampMs) = MONTH(CURRENT_DATE()) AND YEAR(timestampMs) = YEAR(CURRENT_DATE()) AND type IN('ON_BICYCLE','ON_FOOT','WALKING','RUNNING','EXITING_VEHICLE','STILL','TILTING')";
     $result=mysqli_query($conn,$sql);
     $walk_count=mysqli_fetch_assoc($result);
     if($veh_c["walk"]==0) $score=0;
