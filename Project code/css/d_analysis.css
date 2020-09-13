@@ -1,0 +1,135 @@
+body{
+	background-color: #ffffff;
+	padding: 0;
+	margin: 0 0 0 auto;
+	min-height: 100vh;
+	width: 100%;
+	background-image: linear-gradient(
+		45deg,
+		rgba(141,159,177,0.2) 40%,
+		transparent 10%,
+		rgba(181,116,255,0.35) 50%,
+		transparent 100%
+		),
+		linear-gradient(
+			-45deg,
+			rgba(141,159,177,0.2) 40%,
+			transparent 10%,
+			rgba(62,85,255,0.4) 50%,
+			transparent 100%
+		),
+		linear-gradient(
+			135deg,
+			rgba(141,159,157,0.33) 33%,
+			transparent 20%
+		),
+		linear-gradient(
+			45deg,
+			rgba(138,159,154,0.35) 65%,
+			transparent 20%,
+			transparent 15%,
+			rgba(141,159,157,0.66) 46%
+		);
+		background-repeat: round;
+}
+
+p {
+ 	font-family: verdana;
+	font-size: 20px;
+	text-align: center;
+	/*text-shadow: 2px 2px 5px #22D4DD;*/
+}
+
+/*-------------- MAP -----------------*/
+#mapid{
+	height: 600px; 
+	width: 80%;
+	border-style: solid;
+	margin: auto;
+	text-align: top;
+
+}
+/* ----------- Select tags ------------*/
+
+.col-sm select[id=year]{
+	width: 120px;
+	margin-left:14%; 
+	margin-top: 4px;
+}
+
+#month_label{
+	margin-left:12%; 
+	margin-top: 5px;
+}
+
+#year_label{
+	margin-left:14%;
+	margin-top: 5px;
+}
+
+.col-sm select[id=month]{
+	width: 120px;
+	margin-left:12%; 
+	margin-top: 4px;
+}
+
+.col-sm + .btn + .btn-info select[id=year]{
+	position: absolute;
+}
+
+.col-sm + .btn + .btn-info select[id=month]{
+	position: absolute;
+}
+
+.row{
+	/*padding-top: 20%;*/
+	padding-left: 15%;
+}
+#year_btn{
+	text-align: center !important;
+	padding-left: 15px;
+	margin-left: 14%; 
+	margin-top: 2%;
+	padding-right: 15px;
+}
+
+#month_btn{
+	text-align: center !important;
+	padding-left: 15px;
+	margin-left:12%;  
+	margin-top: 2%;
+	padding-right: 15px;
+}
+
+#submit_btn{
+	position: relative;
+}
+
+.table-responsive-sm{
+  margin-right: 100px;
+  text-align: center;
+  width: 100%;
+}
+
+#contain_id{
+  margin-top: 50px;
+  width: 50%;
+}
+
+#draw{
+  	margin-bottom: 100px;
+}
+
+#draw1{
+	margin-bottom: 100px;
+}
+
+#draw2{
+	margin-bottom: 100px;
+}
+
+.back_to{
+		position: relative;
+		margin-left: 15%;
+		margin-top: -9px;
+}
