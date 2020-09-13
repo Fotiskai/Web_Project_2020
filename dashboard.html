@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
     <meta name="referrer" content="same-origin">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css" integrity="sha384-VCmXjywReHh4PwowAiWNagnWcLhlEJLA5buUprzK8rxFgeH0kww/aWY76TfkUoSX" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="css/dashboard_style.css">
+
     <title>Web 2020</title>
   </head>
   <body>
@@ -110,29 +110,29 @@
           <canvas id="graphCanvas5"></canvas>
           <canvas id="graphCanvas6"></canvas>
    </div>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/js/bootstrap.min.js" integrity="sha384-XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J" crossorigin="anonymous"></script>
-        <script src="dashboard.js"></script>
-       <script>
-        function TFunction() {
-         var x = document.getElementById("Table-group");
-         if (x.style.display === "none") {
-           x.style.display = "block";
-         } else {
-           x.style.display = "none";
-         }
-       }
-       </script>
-       <script>
-        function CFunction() {
-          var x = document.getElementById("chartContainer");
-          if (x.style.display === "none") {
-            x.style.display = "block";
-          } else {
-            x.style.display = "none";
-          }
-        }
-      </script>
-    </body>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>   
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/js/bootstrap.min.js" integrity="sha384-XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J" crossorigin="anonymous"></script>
+   <script src="dashboard.js"></script>
+   <script>
+	        function TFunction() {
+	         var x = document.getElementById("Table-group");
+	         if (x.style.display === "none") {
+	           x.style.display = "block";
+	         } else {
+	           x.style.display = "none";
+	         }
+	       }
+    </script>
+    <script>
+	        function CFunction() {
+	          var x = document.getElementById("chartContainer");
+	          if (x.style.display === "none") {
+	            x.style.display = "block";
+	          } else {
+	            x.style.display = "none";
+	          }
+	        }
+     </script>
+  </body>
 </html>

@@ -69,7 +69,7 @@ function datahandle(){     //αποστολή επιλογών χρήστη σε
   else{
           $.ajax({ 
           type: "POST", 
-          url: "getdata.php", 
+          url: "get_heatmap_data.php", 
           data: { act:select, year:select1, month:select2, day:select3, hour:select4, minutes:select5 }, 
           success: function(data) {
           	if(data=="Δεν υπάρχουν εγγραφές") {window.alert("Δεν υπάρχουν εγγραφές"); return;}

@@ -5,7 +5,7 @@ function register(){
         if(user!==null && user!=="", pass!==null && pass!=="", email!==null && email!==""){
           $.ajax({
           type: "POST",
-          url: "dbh.php",
+          url: "login_register.php",
           data: { "un":user, "pwd":pass, "em":email },
           success: function(data) {
             window.alert(data);
@@ -23,7 +23,7 @@ function login(){
         if(user!==null && user!=="", pass!==null && pass!==""){
           $.ajax({
           type: "POST",
-          url: "dbh.php",
+          url: "login_register.php",
           data: { "un":user, "pwd":pass },
           success: function(data) {
             if(data==="Λάθος Στοιχεία") window.alert(data);

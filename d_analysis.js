@@ -24,7 +24,7 @@ function get_user_options(){
 		console.log('Load from DB!');
 		$.ajax({
 			type: "POST",
-			url: "getUserData.php",
+			url: "d_analysis.php",
 			data: { year:select_year, month:select_month},
 			success: function(data){
 				if(data=='Δεν υπάρχουν εγγραφές'){

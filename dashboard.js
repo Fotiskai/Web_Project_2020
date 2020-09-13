@@ -4,7 +4,7 @@ if((!docRef.includes("index.html") && !docRef.includes("/",24))){window.location
 
 function redirect(){window.location.href='admin.html';}
 
-$.post("distribution.php",
+$.post("dashboard.php",
 function (activities)
 {
   var parse_php_array =[];//kanoume parse to ton php array apo distribution.php
@@ -155,28 +155,16 @@ function (activities)
     i++;
   });
 
+  $("#chartContainer").ready(function () {
+    showGraphs(php_arr_to_js_arr);
+  });
+
 });
 
-$("#chartContainer").ready(function () {
-  showGraphs();
-});
-
-function showGraphs()
+function showGraphs(php_arr_to_js_arr)
 {
-        $.post("distribution.php",
-        function (activities)
-        {
-
-          var parse_php_array =[];
-          var name_key =[];
-          var php_arr_to_js_arr =[];
-          var js_arr_vals= [];
-          parse_php_array=JSON.parse(activities);
-
-
-         for(var key in parse_php_array){
-            php_arr_to_js_arr.push(parse_php_array[key]);
-         }
+	     var name_key =[];
+	     var js_arr_vals= [];
          for (var key in php_arr_to_js_arr[0]){
             name_key.push(key);
             js_arr_vals.push(php_arr_to_js_arr[0][key]);
@@ -448,7 +436,4 @@ function showGraphs()
                         }
                       }
               });
-              name_key=[];
-              js_arr_vals=[];
-        });
 }
