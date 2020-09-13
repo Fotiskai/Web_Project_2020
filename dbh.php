@@ -47,6 +47,7 @@ else{
   if(mysqli_num_rows($result1)>0){
   	while($row = mysqli_fetch_assoc($result1)){
   		if ($_POST["un"]==$row["Username"] && $password==$row["Password"]){ //σύνδεση διαχειρηστή
+        session_destroy();
   			exit;
   		}
   	}
