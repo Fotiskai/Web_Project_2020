@@ -47,7 +47,7 @@ function import_files(x){
 		fr.onload = receive;
 		fr.readAsText(file);
 	}else{
-		window.alert('No file found!');
+		window.alert('Δεν βρέθηκε αρχείο.');
 		return ;
 	}
 
@@ -89,6 +89,7 @@ function import_files(x){
 		console.log('END!');
 		console.log(filtered_map_data_json.length);
 		console.log(filtered_map_data_json);
+		window.alert('Τα δεδομένα φορτώθηκαν στον χάρτη.');
 		// --------------- EVENTS ----------------------
 		var bounds = [];// pinakas p krataei tis proswrines theseis twn rects.
 		var rect=null;
@@ -186,10 +187,10 @@ function upload(){
        		url: "import.php", 
        		data: { "arr" : JSON.stringify(filtered_map_data_json)}, 
        		success: function(data) { 
-       			window.alert("Data loaded");
+       			window.alert("Τα δεδομένα ανέβηκαν επιτυχώς.");
         	} 
 		});
 	}else{
-		window.alert('No data found!');
+		window.alert('Δεν βρέθηκαν δεδομένα για ανέβασμα.');
 	}
 }
