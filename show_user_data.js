@@ -109,6 +109,8 @@ function leaderboard(current,scores,names,rank){                                
 		datatd1=document.createTextNode(ranks[i]);
 		datatd2=document.createTextNode(names[i]);
 		if (scores[i]=="-") datatd3=document.createTextNode(scores[i]);
+		else if (typeof(scores[i])=="undefined") datatd3=document.createTextNode(scores[i-1]+ '%');
+		else if (scores[i]==null) datatd3=document.createTextNode("-");
 		else datatd3=document.createTextNode(scores[i] + '%');
 		td1.appendChild(datatd1);
         td2.appendChild(datatd2);
