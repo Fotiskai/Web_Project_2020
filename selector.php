@@ -33,15 +33,8 @@ else{                                                                           
 	$result=mysqli_fetch_assoc($result);
 	$mindate=$result["minumum"];
 	$maxdate=$result["maximum"];
+	$type="";
 
-	$sql="SELECT DISTINCT type FROM data WHERE type!='' AND userid='$uid'";
-	$result=mysqli_query($conn,$sql);
-	if(mysqli_num_rows($result) > 0){
-	    while($row = mysqli_fetch_assoc($result)) {
-	          $type[$i]=$row["type"];
-	          $i+=1;         
-	    }
-	}
 }
 
 $out=[$mindate,$maxdate,$type];
