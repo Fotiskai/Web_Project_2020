@@ -98,7 +98,7 @@
 	$day_per_type_count = array_fill(0, count($types), 0); // πινακας που αποθηκευει τον αριθμο των εγγραφων που εγιναν εκεινη την μερα
 	for($i=0;$i<count($types);$i++){
 		$tmp = $types[$i];
-		$day_max_entries = "SELECT DAYNAME(act_timestampMs) AS day, COUNT(*) AS count FROM data WHERE type='$tmp' AND userid='$userid' AND YEAR(act_timestampMs) IN ($y_all) AND MONTHNAME(act_timestampMs) IN ($m_all) GROUP BY DAY(act_timestampMs) ORDER BY COUNT(*) DESC LIMIT 1";
+		$day_max_entries = "SELECT DAYNAME(act_timestampMs) AS day, COUNT(*) AS count FROM data WHERE type='$tmp' AND userid='$userid' AND YEAR(act_timestampMs) IN ($y_all) AND MONTHNAME(act_timestampMs) IN ($m_all) GROUP BY DAYNAME(act_timestampMs) ORDER BY COUNT(*) DESC LIMIT 1";
 		if($r = mysqli_query($conn,$day_max_entries)){
 			$res = mysqli_fetch_assoc($r);
 			if($res['day']==null){
@@ -137,7 +137,7 @@
 	$idx = 0;
 	$max_freq = 0; // μαξ θερμη τιμη 
 
-	$heatmap_sql = "SELECT COUNT(*) as count,latitude,longitude FROM(SELECT latitude,longitude FROM data WHERE YEAR(act_timestampMs) IN ($y_all) AND MONTHNAME(act_timestampMs) IN ($m_all) AND userid='$userid')filterred_arr GROUP BY filterred_arr.latitude,filterred_arr.longitude";
+	$heatmap_sql = "SELECT COUNT(*) as count,latitude,longitude FROM data WHERE YEAR(act_timestampMs) IN ($y_all) AND MONTHNAME(act_timestampMs) IN ($m_all) AND userid='$userid' GROUP BY latitude,longitude";
 
 	if($heatmap_res = mysqli_query($conn,$heatmap_sql)){
 		if(mysqli_num_rows($heatmap_res)>0){

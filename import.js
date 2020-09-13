@@ -204,17 +204,18 @@ function show_data(){          //απεικόνηση στοιχείων χρή�
        		dataType:"json", 
        		success: function(data) {
        		    console.log(data);
-                document.getElementById("score").innerHTML=data[0][12] + '%';
-                
-                const isZero=data[0].every(item => item === 0);  
-       		    if(!isZero) graph(data[0],data[1]);
 
-       			document.getElementById("period").innerHTML=data[2]+ "\t"+ "-" + "\t" +data[3];
-       		    
-       		    if(data[4]) document.getElementById("date").innerHTML=data[4];
-       		    else document.getElementById("date").innerHTML= "-";
-
-       			leaderboard(data[0][12],data[5],data[6],data[7]);
+                document.getElementById("period").innerHTML=data[2]+ "\t"+ "-" + "\t" +data[3];
+                if (typeof(data[0])!="string"){                                                       //είσοδος χρήστη με δεδομένα
+	                document.getElementById("score").innerHTML=data[0][12] + '%';
+	                graph(data[0],data[1]);
+	       		    document.getElementById("date").innerHTML=data[4];
+       			    leaderboard(data[0][12],data[5],data[6],data[7]);
+                }else{                                                                               //είσοδος χρήστη χωρίς δεδομένα
+                	document.getElementById("score").innerHTML=data[0];
+                	document.getElementById("date").innerHTML= "-";
+                	leaderboard(data[0],data[5],data[6],data[7]);
+                }
         	}
 		});
 
@@ -284,8 +285,6 @@ function graph(data,labels){                                           //δημ�
 function leaderboard(current,scores,names,rank){                                 //δημιουργία leaderboard
     ranks=["1","2","3",rank];
     scores[3]=current;
-    //ranks=ranks.filter((value,index,self)=> self.indexOf(value)===index);
-    //names=names.filter((value,index,self)=> self.indexOf(value)===index);
 	table=document.getElementById("tb");
 	tableBody=document.createElement("tbody");
     th=document.createElement("th");
@@ -306,7 +305,8 @@ function leaderboard(current,scores,names,rank){                                
 		td3=document.createElement("td");
 		datatd1=document.createTextNode(ranks[i]);
 		datatd2=document.createTextNode(names[i]);
-		datatd3=document.createTextNode(scores[i] + '%');
+		if (scores[i]=="-") datatd3=document.createTextNode(scores[i]);
+		else datatd3=document.createTextNode(scores[i] + '%');
 		td1.appendChild(datatd1);
         td2.appendChild(datatd2);
         td3.appendChild(datatd3);

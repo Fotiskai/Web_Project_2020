@@ -14,7 +14,6 @@ if(isset($_POST["em"])){
     }
     $username=$_POST["un"];
     $check=preg_match('/^\S+\s\S+$/',$username); //έλεγχος για κενό στο username
-    //^[Α-Ωά-ώA-Za-z-]+[\s][Α-Ωά-ώA-Za-z-]+$ πιο αυστηρό αλλα δεν δουλεύει
     if(!$check){
       echo 'Εισάγετε σωστή μορφή ονόματος χρήστη';
       exit;

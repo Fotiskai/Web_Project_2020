@@ -24,27 +24,21 @@ function years_selector(){ //δημιουργία html select για χρόνι�
         option.value=i;
         sel.add(option);
       }
+      activities_selector(data[2]);
   }});
 }
 
-function activites_selector(){ //δημιουργία html select για δραστηριότητες
+function activities_selector(data){ //δημιουργία html select για δραστηριότητες
     sel1=document.getElementById("act");
-    $.ajax({ 
-    type: "POST", 
-    url: "selector.php", 
-    dataType:"json",
-    success: function(data){
-    	console.log(data);
-      	data[2].forEach(function(item,index){
+    if (sel1==null) return;
+    console.log(data);
+    data.forEach(function(item,index){
         option=document.createElement("option");
         option.text=item;
         option.value=item;
         sel1.add(option);
     })
-    }
-  });
 }
-
 
 
 function selectAll(id){ //υλοποίηση κουμπιού επιλογή όλων

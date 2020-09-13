@@ -8,25 +8,36 @@ mysqli_set_charset($conn,'utf8');
 $sql="SET lc_time_names = 'el_GR'";
 mysqli_query($conn, $sql);
 
-$uid=$_SESSION["uid"]; //userid συνδεδεμένου χρήστη 
-$tmp=12;
+$uid=$_SESSION["uid"]; //userid συνδεδεμένου χρήστη
 
-/*---------------------------------------------Εύρεση οικολογικού score για του τελευταίους 12 μήνες-------------------------------------------------*/
-for($i=0;$i<13;$i++){
-	$sql="SELECT MONTHNAME(DATE_SUB(curdate(), INTERVAL $tmp MONTH)) as month ,YEAR(DATE_SUB(curdate(), INTERVAL $tmp MONTH)) as year";
-	$result=mysqli_query($conn, $sql);
-	$res=mysqli_fetch_assoc($result);
-	$mon_year[$i]=$res["month"]. " " . $res["year"];	
-	$sql="SELECT COUNT(*) as vehicle FROM data WHERE userid='$uid' AND act_timestampMs <= LAST_DAY(DATE_SUB(CURDATE(), INTERVAL $tmp MONTH)) AND act_timestampMs >= DATE_ADD(DATE_ADD(LAST_DAY(DATE_SUB(CURDATE(), INTERVAL $tmp MONTH)),interval 1 DAY),interval -1 MONTH) AND type IN('IN_VEHICLE','IN_RAIL_VEHICLE','IN_ROAD_VEHICLE','IN_FOUR_WHEELER_VEHICLE','IN_CAR','IN_TWO_WHEELER_VEHICLE','IN_BUS','TILTING','STILL')";
-	$result=mysqli_query($conn, $sql);
-	$veh_c=mysqli_fetch_assoc($result);	
-	$sql="SELECT COUNT(*) as walk FROM data WHERE userid='$uid' AND act_timestampMs <= LAST_DAY(DATE_SUB(CURDATE(), INTERVAL $tmp MONTH)) AND act_timestampMs > DATE_ADD(DATE_ADD(LAST_DAY(DATE_SUB(CURDATE(), INTERVAL $tmp MONTH)),interval 1 DAY),interval -1 MONTH) AND type IN('ON_BICYCLE','ON_FOOT','WALKING','RUNNING','EXITING_VEHICLE','STILL','TILTING')";
-	$result=mysqli_query($conn, $sql);
-	$c=mysqli_fetch_assoc($result);
-    if($c["walk"]==0) $lscore[$i]=0;
-    elseif($veh_c["vehicle"]==0) $lscore[$i]=100;
-    else $lscore[$i]=round(($c["walk"]/($veh_c["vehicle"]+$c["walk"]))*100,2);
-    $tmp-=1;	
+$sql="SELECT COUNT(*) as count FROM data WHERE userid='$uid'"; 
+$result=mysqli_query($conn, $sql);
+$c=mysqli_fetch_assoc($result);
+ 
+if ($c["count"]==0){      //έλεγχος αν δεν έχει δεδομένα ο χρήστης
+    $lscore="-";
+    $mon_year="";
+}
+else
+{
+    $tmp=12;
+    /*---------------------------------------------Εύρεση οικολογικού score για του τελευταίους 12 μήνες-------------------------------------------------*/
+    for($i=0;$i<13;$i++){
+    	$sql="SELECT MONTHNAME(DATE_SUB(curdate(), INTERVAL $tmp MONTH)) as month ,YEAR(DATE_SUB(curdate(), INTERVAL $tmp MONTH)) as year";
+    	$result=mysqli_query($conn, $sql);
+    	$res=mysqli_fetch_assoc($result);
+    	$mon_year[$i]=$res["month"]. " " . $res["year"];	
+    	$sql="SELECT COUNT(*) as vehicle FROM data WHERE userid='$uid' AND act_timestampMs <= LAST_DAY(DATE_SUB(CURDATE(), INTERVAL $tmp MONTH)) AND act_timestampMs >= DATE_ADD(DATE_ADD(LAST_DAY(DATE_SUB(CURDATE(), INTERVAL $tmp MONTH)),interval 1 DAY),interval -1 MONTH) AND type IN('IN_VEHICLE','IN_RAIL_VEHICLE','IN_ROAD_VEHICLE','IN_FOUR_WHEELER_VEHICLE','IN_CAR','IN_TWO_WHEELER_VEHICLE','IN_BUS')";
+    	$result=mysqli_query($conn, $sql);
+    	$veh_c=mysqli_fetch_assoc($result);	
+    	$sql="SELECT COUNT(*) as walk FROM data WHERE userid='$uid' AND act_timestampMs <= LAST_DAY(DATE_SUB(CURDATE(), INTERVAL $tmp MONTH)) AND act_timestampMs > DATE_ADD(DATE_ADD(LAST_DAY(DATE_SUB(CURDATE(), INTERVAL $tmp MONTH)),interval 1 DAY),interval -1 MONTH) AND type IN('ON_BICYCLE','ON_FOOT','WALKING','RUNNING')";
+    	$result=mysqli_query($conn, $sql);
+    	$c=mysqli_fetch_assoc($result);
+        if($c["walk"]==0) $lscore[$i]=0;
+        elseif($veh_c["vehicle"]==0) $lscore[$i]=100;
+        else $lscore[$i]=round(($c["walk"]/($veh_c["vehicle"]+$c["walk"]))*100,2);
+        $tmp-=1;	
+    }
 }
 
 /*----------------------------Εύρεση περιόδου εγγραφών----------------------------------------------*/
@@ -76,6 +87,7 @@ $usr_rank=$result["ranking"];
 
 $out=[$lscore,$mon_year,$mindate,$maxdate,$lastdate,$scores,$names,$usr_rank];
 echo json_encode($out);
+
 $sql="SET lc_time_names = 'en_US'";
 mysqli_query($conn, $sql);
 mysqli_close($conn);
