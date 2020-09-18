@@ -137,7 +137,7 @@ function import_files(x){
 	}
 	
 	function cut_distance(lat,lon){
-		//https://www.movable-type.co.uk/scripts/latlong.html
+		
 		var la_const,lo_const,dist;
 		la_const = 38.230462; // latitude pou to dinei sthn ekfwnhsh
 		lo_const = 21.753150; // longitude pou to dinei sthn ekfwnhsh
