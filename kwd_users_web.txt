@@ -1,0 +1,6 @@
+username		Password		Mail
+Αντώνης	Αντωνόπουλος	Az!963852741		antonis@mail.com
+Βασίλης Βασιλόπουλος	Az!963852742		bill@mail.com
+Γεώργιος Γεωργόπουλος	Az!963852743		geo@mail.com
+Διονήσης Διονισόπουλος	Az!963852744		dio@gmail.com
+Ελένη Ελενοπούλου	Az!963852745		helen@hmail.com

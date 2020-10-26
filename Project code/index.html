@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="referrer" content="same-origin">
+		<meta name="viewport" content="width=device-width, initial-scale=1 shrink-to-fit=no">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css" integrity="sha384-VCmXjywReHh4PwowAiWNagnWcLhlEJLA5buUprzK8rxFgeH0kww/aWY76TfkUoSX" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="css/index_style.css">
+	    <title>Web 2020</title>
+	</head>
+	<body>
+		<nav class="nav-bar navbar-expand-sm navbar-dark bg-dark">
+			<a class="navbar-brand" href="#">Αρχική Σελίδα</a>
+			<button class="navbar-toggler float-right" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+	    	<span class="navbar-toggler-icon"></span>
+	  	    </button>
+			<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+				<div class="navbar-nav float-right ml-auto">
+				<button class="btn btn-success"  onclick="document.getElementById('reg').style.display='block'; document.getElementById('log').style.display='none'" type="submit" value="Register">Register</button>
+				<button class="btn btn-success"  onclick="document.getElementById('log').style.display='block'; document.getElementById('reg').style.display='none'" type="submit" value="Login">Login</button>
+				</div>
+			</div>
+		</nav>
+		<h5 class="text-center"> Σύστημα συλλογής,διαχείρισης και ανάλυσης πληθοποριστικής (crowdsourced) πληροφορίας</h5>
+		<div class="register-container" id="reg">
+			<form>
+				Username: <input type="text" id="un1" ><br>
+				Password: <input type="password" id="pwd1"><br>
+				E-mail:   <input type="text" id="em"><br>
+				<input type="button" onclick="register()" name="f2" value="Register">
+				<button type="button" onclick="document.getElementById('reg').style.display='none'" class="cancelbtn">Cancel</button>
+			</form>
+		</div>
+		<div class="login-container" id="log">
+			<form>
+				Username: <input type="text" id="un" ><br>
+				Password: <input type="password" id="pwd"><br>
+				<input type="button" onclick="login()" name="f3" value="Login">
+				<button type="button" onclick="document.getElementById('log').style.display='none'" class="cancelbtn">Cancel</button>
+				<a class="F-pass" onclick="remember()" href=""> Forgot-Password? </a>
+			</form>
+		</div>
+
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="login_register_handler.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/js/bootstrap.min.js" integrity="sha384-XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J" crossorigin="anonymous"></script>
+	</body>
+</html>
